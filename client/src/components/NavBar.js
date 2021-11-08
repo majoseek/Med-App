@@ -8,13 +8,14 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-
+import Button from "@mui/material/Button";
+import { makeStyles } from "@mui/styles";
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha("#dd3f31", 0.15),
+    backgroundColor: alpha("#c5174d", 0.15),
     "&:hover": {
-        backgroundColor: alpha("#dd3f31", 0.25),
+        backgroundColor: alpha("#c5174d", 0.25),
     },
     marginLeft: 0,
     width: "100%",
@@ -50,32 +51,75 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         },
     },
 }));
-
+const useStyles = makeStyles({
+    button: {
+        paddingLeft: 1,
+        paddingRight: 1,
+        backgroundColor: "#202731",
+    },
+    icon: {
+        backgroundColor: "#202731",
+    },
+});
 export default function NavBar() {
+    const classes = useStyles();
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" sx={{ bgcolor: "#dd3f31" }}>
-                <Toolbar>
+                <Toolbar sx={{ justifyContent: "space-between" }}>
                     <IconButton
                         size="large"
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
-                        sx={{ mr: 2 }}
+                        sx={{ display: { xs: "block", sm: "none" }, mr: 2 }}
+                        className={classes.icon}
                     >
-                        <MenuIcon />
+                        <MenuIcon htmlColor="#202731" />
                     </IconButton>
                     <Typography
                         variant="h6"
                         noWrap
                         component="div"
                         sx={{
-                            flexGrow: 1,
                             display: { xs: "none", sm: "block" },
                         }}
                     >
-                        MUI
+                        Logo_Nazwa
                     </Typography>
+                    <Button
+                        variant="contained"
+                        size="large"
+                        className={classes.button}
+                        style={{ backgroundColor: "#202731" }}
+                        sx={{
+                            display: { xs: "none", sm: "block" },
+                        }}
+                    >
+                        Home
+                    </Button>
+                    <Button
+                        variant="contained"
+                        size="large"
+                        className={classes.button}
+                        style={{ backgroundColor: "#202731" }}
+                        sx={{
+                            display: { xs: "none", sm: "block" },
+                        }}
+                    >
+                        About
+                    </Button>
+                    <Button
+                        variant="contained"
+                        size="large"
+                        className={classes.button}
+                        style={{ backgroundColor: "#202731" }}
+                        sx={{
+                            display: { xs: "none", sm: "block" },
+                        }}
+                    >
+                        Contact
+                    </Button>
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />

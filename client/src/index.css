@@ -7,12 +7,13 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 body {
-    overflow-y: hidden !important;
-    overflow-x: hidden !important;
     background-color: #202731;
     background-size: cover;
     background-size: contain;
     background-position: right;
+}
+* {
+    margin: 0;
 }
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
