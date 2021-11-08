@@ -7,6 +7,7 @@ import NavCard from "./components/NavCard";
 import { Grid } from "@mui/material";
 import { useRef } from "react";
 import WaveDivider from "./components/WaveDivider";
+import Footer from "./components/Footer";
 
 const useStyles = makeStyles({
     root: {
@@ -28,12 +29,13 @@ function App() {
             <Layer1 className={classes.layer} />
             <Header click_arrow={() => scrollToDiv(second_layout)} />
             <WaveDivider />
+            <div style={{ display: "block", marginBottom: "100vh" }}></div>{" "}
+            {/** divide wave from NavCards*/}
             <Grid
                 container
                 ref={second_layout}
                 columnSpacing={{ xs: 3, sm: 6, md: 12 }}
                 justifyContent="center"
-                marginTop="110vh"
             >
                 <Grid item>
                     <NavCard header_text="doctor" />
@@ -43,6 +45,7 @@ function App() {
                     <NavCard header_text="patient" />
                 </Grid>
             </Grid>
+            <Footer />
         </div>
     );
 }
