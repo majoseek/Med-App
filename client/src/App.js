@@ -8,6 +8,7 @@ import { Grid } from "@mui/material";
 import { useRef } from "react";
 import WaveDivider from "./components/WaveDivider";
 import Footer from "./components/Footer";
+import "./components/style.css";
 
 const useStyles = makeStyles({
     root: {

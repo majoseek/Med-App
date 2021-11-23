@@ -21,15 +21,12 @@ export default function Header(props) {
                 alignItems: "center",
                 marginBottom: "20vh",
             }}
+            onClick={props.click_arrow}
         >
-            <Typography
-                variant="h4"
-                className={classes.header_label}
-                onClick={props.click_arrow}
-            >
+            <Typography variant="h4" className={classes.header_label}>
                 Get Started
             </Typography>
-            <IconButton size="large" onClick={props.click_arrow}>
+            <IconButton size="large">
                 <ArrowDownwardIcon htmlColor="white" />
             </IconButton>
         </Box>
