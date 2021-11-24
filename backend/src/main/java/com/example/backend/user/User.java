@@ -2,18 +2,23 @@ package com.example.backend.user;
 
 import com.example.backend.doctor.Doctor;
 import com.example.backend.patient.Patient;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "PAP_USER", schema = "WKOLODZ2")
+@DynamicUpdate
 public class User {
     private Long id;
     private String email;
     private String password;
     private String role;
+    @JsonManagedReference
     private Doctor doctorById;
+    @JsonManagedReference
     private Patient patientById;
 
     @Id
@@ -71,7 +76,8 @@ public class User {
         return Objects.hash(id, email, password, role);
     }
 
-    @OneToOne(mappedBy = "userByUserId")
+    @OneToOne(mappedBy = "userByUserId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     public Doctor getDoctorById() {
         return doctorById;
     }
@@ -80,7 +86,8 @@ public class User {
         this.doctorById = doctorById;
     }
 
-    @OneToOne(mappedBy = "userByUserId")
+    @OneToOne(mappedBy = "userByUserId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     public Patient getPatientById() {
         return patientById;
     }

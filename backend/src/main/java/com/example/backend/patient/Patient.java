@@ -5,6 +5,7 @@ import com.example.backend.illness.IllnessMap;
 import com.example.backend.prescription.Prescription;
 import com.example.backend.user.User;
 import com.example.backend.visit.Visit;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -18,6 +19,7 @@ public class Patient {
     private String surname;
     private String pesel;
     private Collection<IllnessMap> illnessMapsByUserId;
+    @JsonBackReference
     private User userByUserId;
     private Collection<Prescription> prescriptsByUserId;
     private Collection<Visit> visitsByUserId;
@@ -85,6 +87,7 @@ public class Patient {
     }
 
     @OneToOne
+    @MapsId
     @JoinColumn(name = "PAP_USER_ID", referencedColumnName = "ID", nullable = false)
     public User getUserByUserId() {
         return userByUserId;
