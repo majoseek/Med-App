@@ -6,15 +6,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-body {
-    background-color: #202731;
-    background-size: cover;
-    background-size: contain;
-    background-position: right;
-}
-* {
-    margin: 0;
-}
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
