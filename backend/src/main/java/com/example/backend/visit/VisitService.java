@@ -31,4 +31,17 @@ public class VisitService {
         final Visit updatedVisit = repository.save(visit);
         return ResponseEntity.ok(updatedVisit).getBody();
     }
+
+    public Visit save(Visit newVisit) {
+        return repository.save(newVisit);
+    }
+
+    public boolean delete(Long visitId) {
+        if(repository.existsById(visitId)) {
+            repository.deleteById(visitId);
+            return true;
+        }
+        else
+            return false;
+    }
 }

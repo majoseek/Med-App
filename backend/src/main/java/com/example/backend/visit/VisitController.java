@@ -30,8 +30,21 @@ public class VisitController {
         return service.getDoctorVisits(doctorId);
     }
 
-    @PutMapping("/.../{visitId}")
+    @PutMapping("/.../{visitId}") // czy nie powinno byc void
     public Visit updateVisitDate(@PathVariable Long visitId, @RequestBody Date newDate) {
         return service.updateVisitDate(visitId, newDate);
+    }
+
+    @PostMapping("/...") // czy nie powinno byc void
+    public Visit createVisit(@RequestBody Visit newVisit) {
+        return service.save(newVisit);
+    }
+
+    @DeleteMapping("/.../{visitId}")
+    public void deleteVisit(
+            @PathVariable Long visitId) throws ResourceNotFoundException {
+        var isDeleted= service.delete(visitId);
+        if(!isDeleted)
+            throw new ResourceNotFoundException("Could not find prescription with id: " + visitId);
     }
 }

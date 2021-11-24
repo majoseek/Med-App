@@ -19,4 +19,17 @@ public class PrescriptionService {
         return ResponseEntity.ok(repository.findAllByPatientByPatientUserId(patientId)).getBody();
     }
 
+    public Prescription save(Prescription newPrescription) {
+        return repository.save(newPrescription);
+    }
+
+    public boolean delete(Long prescriptionId){
+        if(repository.existsById(prescriptionId)) {
+            repository.deleteById(prescriptionId);
+            return true;
+        }
+        else
+            return false;
+    }
+
 }

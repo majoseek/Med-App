@@ -5,10 +5,10 @@ import com.example.backend.patient.Patient;
 import com.example.backend.visit.Visit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +25,18 @@ public class PrescriptionController {
     @GetMapping("/smth/{patientId}") //???
     public List<Prescription> getPatientPrescription(@PathVariable Long patientId) {
         return service.getPatientPrescription(patientId);
+    }
+
+    @PostMapping("/...")
+    public Prescription createPrescription(Prescription newPrescription) {
+        return service.save(newPrescription);
+    }
+
+    @DeleteMapping("/.../{prescriptionId}")
+    public void deletePrescription(
+            @PathVariable Long prescriptionId) throws ResourceNotFoundException {
+        var isDeleted= service.delete(prescriptionId);
+        if(!isDeleted)
+            throw new ResourceNotFoundException("Could not find prescription with id: " + prescriptionId);
     }
 }
