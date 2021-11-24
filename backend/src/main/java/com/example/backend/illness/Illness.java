@@ -14,7 +14,7 @@ public class Illness {
     @Id
     @Column(name = "ID", nullable = false)
     @SequenceGenerator(name = "ILLNESS", sequenceName = "ILLNESS_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ILLNES")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ILLNESS")
     public Long getId() {
         return id;
     }
