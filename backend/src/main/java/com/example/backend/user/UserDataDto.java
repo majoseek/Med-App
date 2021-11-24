@@ -1,12 +1,8 @@
 package com.example.backend.user;
 
-import com.example.backend.exceptions.InvalidRole;
-import com.example.backend.patient.Patient;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
-public class UsersData {
+public class UserDataDto {
     abstract static class UserData {
         private String email;
         private String password;

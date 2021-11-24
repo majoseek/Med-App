@@ -1,7 +1,6 @@
 package com.example.backend.user;
 
 import com.example.backend.doctor.Doctor;
-import com.example.backend.doctor.DoctorRepository;
 import com.example.backend.exceptions.EmailAlreadyUsed;
 import com.example.backend.exceptions.InvalidCredentials;
 import com.example.backend.exceptions.InvalidRole;
@@ -10,10 +9,8 @@ import com.example.backend.patient.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import javax.transaction.Transactional;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -64,21 +61,21 @@ public class UserService {
         return newUser;
     }
 
-    public UsersData.UserData getUserData(Long id) throws UserNotFound, InvalidRole {
+    public UserDataDto.UserData getUserData(Long id) throws UserNotFound, InvalidRole {
         final User user = userRepository.findById(id).orElseThrow(() -> new UserNotFound(String.format("User with id=%d does not exists", id)));
         switch (user.getRole()) {
             case "PATIENT":
-                return new UsersData.PatientData(user);
+                return new UserDataDto.PatientData(user);
             case "DOCTOR":
-                return new UsersData.DoctorData(user);
+                return new UserDataDto.DoctorData(user);
             case "ADMIN":
-                return new UsersData.AdminData(user);
+                return new UserDataDto.AdminData(user);
             default:
                 throw new InvalidRole("Unknown role of the user");
         }
     }
 
-    public UsersData.UserData editUserData(Long id, Optional<String> email, Optional<String> password, Optional<String> name, Optional<String> surname) throws UserNotFound, InvalidRole, DataIntegrityViolationException {
+    public UserDataDto.UserData editUserData(Long id, Optional<String> email, Optional<String> password, Optional<String> name, Optional<String> surname) throws UserNotFound, InvalidRole, DataIntegrityViolationException {
         final User user = userRepository.findById(id).orElseThrow(() -> new UserNotFound(String.format("User with id=%d does not exists", id)));
         password.ifPresent(user::setPassword);
         email.ifPresent(user::setEmail);
@@ -94,7 +91,7 @@ public class UserService {
         return getUserData(id);
     }
 
-    // Temporary login withour spring security, hashing passwords etc.
+    // Temporary login without spring security, hashing passwords etc.
     public User login(String email, String encodedPassword) throws UserNotFound, InvalidCredentials {
         final User userByEmail = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFound("User with this email does not exist"));
         if (userByEmail.getPassword().equals(encodedPassword)) {

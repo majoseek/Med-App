@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -62,7 +61,7 @@ public class UserController {
     @ResponseBody
     ResponseEntity<?> getUserData(@PathVariable Long id) {
         try {
-            UsersData.UserData data = userService.getUserData(id);
+            UserDataDto.UserData data = userService.getUserData(id);
             return ResponseEntity.ok(data);
         } catch (UserNotFound | InvalidRole invalidParam) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", invalidParam.getLocalizedMessage()));
@@ -77,7 +76,7 @@ public class UserController {
                                    @RequestParam(required = false) Optional<String> name,
                                    @RequestParam(required = false) Optional<String> surname) {
         try {
-            final UsersData.UserData editedUser = userService.editUserData(id, email, password, name, surname);
+            final UserDataDto.UserData editedUser = userService.editUserData(id, email, password, name, surname);
             return ResponseEntity.ok(editedUser);
         } catch (UserNotFound userNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", userNotFound.getLocalizedMessage()));

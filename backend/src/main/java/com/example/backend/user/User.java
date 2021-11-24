@@ -10,7 +10,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "PAP_USER", schema = "WKOLODZ2")
-@DynamicUpdate
 public class User {
     private Long id;
     private String email;
