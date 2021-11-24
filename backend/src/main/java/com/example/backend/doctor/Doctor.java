@@ -4,7 +4,6 @@ import com.example.backend.prescription.Prescription;
 import com.example.backend.user.User;
 import com.example.backend.visit.Visit;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -19,9 +18,7 @@ public class Doctor {
     private String specialization;
     @JsonBackReference
     private User userByUserId;
-    @JsonIgnore
     private Collection<Prescription> prescriptsByUserId;
-    @JsonIgnore
     private Collection<Visit> visitsByUserId;
 
     @Id
