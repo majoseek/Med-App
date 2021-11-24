@@ -10,19 +10,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@SpringBootApplication
 public class PrescriptionController {
 
-    private PrescriptionRepository repository;
+    private PrescriptionService service;
 
     @Autowired
-    public PrescriptionController(PrescriptionRepository repository) {
-        this.repository = repository;
+    public PrescriptionController(PrescriptionService service) {
+        this.service = service;
     }
 
-    @GetMapping("/smth{patientId}") //???
-    public ResponseEntity<Iterable<Prescription>> getPatientPrescription(@PathVariable Long patientId) {
-        return ResponseEntity.ok(repository.findAllByPatientByPatientUserId(patientId));
+    @GetMapping("/smth/{patientId}") //???
+    public List<Prescription> getPatientPrescription(@PathVariable Long patientId) {
+        return service.getPatientPrescription(patientId);
     }
 }

@@ -9,19 +9,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@SpringBootApplication
 public class PatientController {
 
-    private PatientRepository repository;
+    private PatientService service;
 
     @Autowired
-    public PatientController(PatientRepository repository) {
-        this.repository = repository;
-    }
+    public PatientController(PatientService service) {this.service = service;}
 
     @GetMapping("/smth") //???
-    public ResponseEntity<Iterable<Patient>> getPatients() {
-        return ResponseEntity.ok(repository.findAll());
+    public List<Patient> getPatients() {
+        return service.getPatients();
     }
 }

@@ -7,36 +7,31 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
-@SpringBootApplication
 public class VisitController {
 
-    private VisitRepository repository;
+    private VisitService service;
 
     @Autowired
-    public VisitController(VisitRepository repository) {
-        this.repository = repository;
+    public VisitController(VisitService service) {
+        this.service = service;
     }
 
-    @GetMapping("/smth{patientId}") //??
-    public ResponseEntity<Iterable<Visit>> getPatientVisit(@PathVariable Long patientId) {
-        return ResponseEntity.ok(repository.findAllByPatientByPatientUserId(patientId));
+    @GetMapping("/smth/{patientId}") //??
+    public List<Visit> getPatientVisit(@PathVariable Long patientId) {
+        return service.getPatientVisits(patientId);
     }
 
-    @GetMapping("/smth{doctorId}") //??
-    public ResponseEntity<Iterable<Visit>> getDoctorVisit(@PathVariable Long doctorId) {
-        return ResponseEntity.ok(repository.findAllByDoctorByDoctorUserId(doctorId));
+    @GetMapping("/smth/{doctorId}") //??
+    public List<Visit> getDoctorVisit(@PathVariable Long doctorId) {
+        return service.getDoctorVisits(doctorId);
     }
 
-    @PutMapping("/...{visitId}")
-    public ResponseEntity<Visit> updateVisitDate(@PathVariable Long visitId, @RequestBody Date newDate)
-            throws ResourceNotFoundException {
-        Visit visit = repository.findById(visitId)
-                .orElseThrow(() -> new ResourceNotFoundException("Visit not found on :: "+ visitId));
-        visit.setDate(newDate);
-        final Visit updatedVisit = repository.save(visit);
-        return ResponseEntity.ok(updatedVisit);
+    @PutMapping("/.../{visitId}")
+    public Visit updateVisitDate(@PathVariable Long visitId, @RequestBody Date newDate) {
+        return service.updateVisitDate(visitId, newDate);
     }
 }
