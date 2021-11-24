@@ -1,5 +1,5 @@
 import "./Features.css";
-export const Features = (props) => {
+export const Features = () => {
     return (
         <div id="features" className="text-center">
             <div className="container">
@@ -7,19 +7,42 @@ export const Features = (props) => {
                     <h2>Features</h2>
                 </div>
                 <div className="row">
-                    {props.data
-                        ? props.data.map((d, i) => (
-                              <div
-                                  key={`${d.title}-${i}`}
-                                  className="col-xs-6 col-md-3"
-                              >
-                                  {" "}
-                                  <i className={d.icon}></i>
-                                  <h3>{d.title}</h3>
-                                  <p>{d.text}</p>
-                              </div>
-                          ))
-                        : "Loading..."}
+                    <div className="col-xs-6 col-md-3">
+                        {" "}
+                        <i className="fa fa-comments-o"></i>
+                        <h3>Jakis tytul</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet placerat facilisis felis
+                            m
+                        </p>
+                    </div>
+                    <div className="col-xs-6 col-md-3">
+                        {" "}
+                        <i className="fa fa-bullhorn"></i>
+                        <h3>Jakis tytul123</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet placerat facilisis felis
+                            m
+                        </p>
+                    </div>
+                    <div className="col-xs-6 col-md-3">
+                        {" "}
+                        <i className="fa fa-magic"></i>
+                        <h3>Jakis tytul1234</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet placerat facilisis felis
+                            m
+                        </p>
+                    </div>
+                    <div className="col-xs-6 col-md-3">
+                        {" "}
+                        <i className="fa fa-group"></i>
+                        <h3>Jakis tytul</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet placerat facilisis felis
+                            m
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

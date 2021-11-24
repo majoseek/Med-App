@@ -1,5 +1,5 @@
 import "./Testimonials.css";
-export const Testimonials = (props) => {
+export const Testimonials = () => {
     return (
         <div id="testimonials">
             <div className="container">
@@ -7,25 +7,142 @@ export const Testimonials = (props) => {
                     <h2>What our clients say</h2>
                 </div>
                 <div className="row">
-                    {props.data
-                        ? props.data.map((d, i) => (
-                              <div key={`${d.name}-${i}`} className="col-md-4">
-                                  <div className="testimonial">
-                                      <div className="testimonial-image">
-                                          {" "}
-                                          <img src={d.img} alt="" />{" "}
-                                      </div>
-                                      <div className="testimonial-content">
-                                          <p>"{d.text}"</p>
-                                          <div className="testimonial-meta">
-                                              {" "}
-                                              - {d.name}{" "}
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          ))
-                        : "loading"}
+                    <div className="col-md-4">
+                        <div className="testimonial">
+                            <div className="testimonial-image">
+                                {" "}
+                                <img
+                                    src="img/testimonials/01.jpg"
+                                    alt=""
+                                />{" "}
+                            </div>
+                            <div className="testimonial-content">
+                                <p>
+                                    ihggas afsf safas fa fas fasf asf asf fasf
+                                    asfasfa sfas fas f afs fas f as fa fafhasf
+                                    afsa sfas fas fas fasf asf asf asfasfa asfo
+                                    ghaiudhg isuadhgui sadgiuhasd gui
+                                </p>
+                                <div className="testimonial-meta">
+                                    {" "}
+                                    - Andrzejek{" "}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="testimonial">
+                            <div className="testimonial-image">
+                                {" "}
+                                <img
+                                    src="img/testimonials/01.jpg"
+                                    alt=""
+                                />{" "}
+                            </div>
+                            <div className="testimonial-content">
+                                <p>
+                                    gagauasihggas afsf safas fa fas fasf asf asf
+                                    fasf asfasfa sfas fas f afs fas f as fa
+                                    fafhasf afsa sfas fas fas fasf asf asf
+                                    asfasfa asfo ghaiudhg isuadhgui sadgiuhasd
+                                    guifasfihggas
+                                </p>
+                                <div className="testimonial-meta">
+                                    {" "}
+                                    - Andrzejek{" "}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="testimonial">
+                            <div className="testimonial-image">
+                                {" "}
+                                <img
+                                    src="img/testimonials/01.jpg"
+                                    alt=""
+                                />{" "}
+                            </div>
+                            <div className="testimonial-content">
+                                <p>
+                                    ihggas afsf safas fa fas fasf asf asf fasf
+                                    asfasfa sfas fas f afs fas f as fa fafhasf
+                                    afsa sfas fas fas fasf asf asf asfasfa asfo
+                                    ghaiudhg isuadhgui sadgiuhasd gui
+                                </p>
+                                <div className="testimonial-meta">
+                                    {" "}
+                                    - Andrzejek{" "}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="testimonial">
+                            <div className="testimonial-image">
+                                {" "}
+                                <img
+                                    src="img/testimonials/01.jpg"
+                                    alt=""
+                                />{" "}
+                            </div>
+                            <div className="testimonial-content">
+                                <p>
+                                    ihggas afsf safas fa fas fasf asf asf fasf
+                                    asfasfa sfas fas f afs fas f as fa fafhasf
+                                    afsa sfas fas fas fasf asf asf asfasfa asfo
+                                    ghaiudhg isuadhgui sadgiuhasd gui
+                                </p>
+                                <div className="testimonial-meta">
+                                    {" "}
+                                    - Andrzejek{" "}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="testimonial">
+                            <div className="testimonial-image">
+                                {" "}
+                                <img
+                                    src="img/testimonials/01.jpg"
+                                    alt=""
+                                />{" "}
+                            </div>
+                            <div className="testimonial-content">
+                                <p>
+                                    ihggas afsf safas fa fas fasf asf asf fasf
+                                    asfasfa sfas fas f afs fas f as fa fafhasf
+                                    afsa sfas fas fas fasf asf asf asfasfa asfo
+                                    ghaiudhg isuadhgui sadgiuhasd gui
+                                </p>
+                                <div className="testimonial-meta">
+                                    {" "}
+                                    - Andrzejek{" "}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="testimonial">
+                            <div className="testimonial-image">
+                                {" "}
+                                <img
+                                    src="img/testimonials/01.jpg"
+                                    alt=""
+                                />{" "}
+                            </div>
+                            <div className="testimonial-content">
+                                <p>
+                                    gagauihggasgagauihggasgagauihggasgagauihggas
+                                </p>
+                                <div className="testimonial-meta">
+                                    {" "}
+                                    - Andrzejek{" "}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -5,14 +5,13 @@ const initialState = {
     email: "",
     message: "",
 };
-export const Contact = (props) => {
+export const Contact = () => {
     const [{ name, email, message }, setState] = useState(initialState);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setState((prevState) => ({ ...prevState, [name]: value }));
     };
-    const clearState = () => setState({ ...initialState });
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -92,7 +91,7 @@ export const Contact = (props) => {
                                 <span>
                                     <i className="fa fa-map-marker"></i> Address
                                 </span>
-                                {props.data ? props.data.address : "loading"}
+                                Jakis adres 123/456
                             </p>
                         </div>
                         <div className="contact-item">
@@ -100,7 +99,7 @@ export const Contact = (props) => {
                                 <span>
                                     <i className="fa fa-phone"></i> Phone
                                 </span>{" "}
-                                {props.data ? props.data.phone : "loading"}
+                                +48 123 456 789
                             </p>
                         </div>
                         <div className="contact-item">
@@ -108,7 +107,7 @@ export const Contact = (props) => {
                                 <span>
                                     <i className="fa fa-envelope-o"></i> Email
                                 </span>{" "}
-                                {props.data ? props.data.email : "loading"}
+                                mail@random.com
                             </p>
                         </div>
                     </div>
@@ -117,35 +116,17 @@ export const Contact = (props) => {
                             <div className="social">
                                 <ul>
                                     <li>
-                                        <a
-                                            href={
-                                                props.data
-                                                    ? props.data.facebook
-                                                    : "/"
-                                            }
-                                        >
+                                        <a href="123">
                                             <i className="fa fa-facebook"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a
-                                            href={
-                                                props.data
-                                                    ? props.data.twitter
-                                                    : "/"
-                                            }
-                                        >
+                                        <a href="123">
                                             <i className="fa fa-twitter"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a
-                                            href={
-                                                props.data
-                                                    ? props.data.youtube
-                                                    : "/"
-                                            }
-                                        >
+                                        <a href="123">
                                             <i className="fa fa-youtube"></i>
                                         </a>
                                     </li>
@@ -157,13 +138,7 @@ export const Contact = (props) => {
             </div>
             <div id="footer">
                 <div className="container text-center">
-                    <p>
-                        &copy; 2020 Issaaf Kattan React Land Page Template.
-                        Design by{" "}
-                        <a href="" rel="nofollow">
-                            TemplateWire
-                        </a>
-                    </p>
+                    <p>Medicine App</p>
                 </div>
             </div>
         </div>

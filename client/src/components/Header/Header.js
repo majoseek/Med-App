@@ -1,5 +1,5 @@
 import "./Header.css";
-export const Header = (props) => {
+export const Header = () => {
     return (
         <header id="header">
             <div className="intro">
@@ -8,13 +8,14 @@ export const Header = (props) => {
                         <div className="row">
                             <div className="col-md-8 col-md-offset-2 intro-text">
                                 <h1>
-                                    {props.data ? props.data.title : "Loading"}
+                                    Lorem ipsum
                                     <span></span>
                                 </h1>
                                 <p>
-                                    {props.data
-                                        ? props.data.paragraph
-                                        : "Loading"}
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit. Duis sed dapibus leo nec
+                                    ornare diam sed commodo nibh ante facilisis
+                                    bibendum.
                                 </p>
                                 <a
                                     href="#features"

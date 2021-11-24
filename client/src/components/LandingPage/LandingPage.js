@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Navigation } from "../Navigation/Navigation";
 import { Header } from "../Header/Header";
 import { Features } from "../Features/Features";
@@ -8,7 +7,6 @@ import { Gallery } from "../Gallery/Gallery";
 import { Testimonials } from "../Testimonials/Testimonials";
 import { Team } from "../Team/Team";
 import { Contact } from "../Contact/Contact";
-import JsonData from "../../data/data.json";
 import SmoothScroll from "smooth-scroll";
 import "./LandingPage.css";
 
@@ -18,22 +16,17 @@ export const scroll = new SmoothScroll('a[href*="#"]', {
 });
 
 const LandingPage = () => {
-    const [landingPageData, setLandingPageData] = useState({});
-    useEffect(() => {
-        setLandingPageData(JsonData);
-    }, []);
-
     return (
         <div>
             <Navigation />
-            <Header data={landingPageData.Header} />
-            <Features data={landingPageData.Features} />
-            <About data={landingPageData.About} />
-            <Services data={landingPageData.Services} />
-            <Gallery data={landingPageData.Gallery} />
-            <Testimonials data={landingPageData.Testimonials} />
-            <Team data={landingPageData.Team} />
-            <Contact data={landingPageData.Contact} />
+            <Header />
+            <Features />
+            <About />
+            <Services />
+            <Gallery />
+            <Testimonials />
+            <Team />
+            <Contact />
         </div>
     );
 };
