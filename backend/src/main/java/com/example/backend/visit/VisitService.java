@@ -1,5 +1,10 @@
 package com.example.backend.visit;
 
+import com.example.backend.exceptions.UserNotFound;
+import com.example.backend.exceptions.VisitNotFound;
+import com.example.backend.patient.PatientController;
+import com.example.backend.patient.PatientRepository;
+import com.example.backend.patient.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +21,24 @@ public class VisitService {
     @Autowired
     VisitService(VisitRepository repository) {this.repository = repository;}
 
-    public List<Visit> getPatientVisits(Long patientId) {
-        return ResponseEntity.ok(repository.findAllByPatientByPatientUserId(patientId)).getBody();
+    public Visit getVisitById(Long visitId) throws VisitNotFound{
+        return repository.findById(visitId).orElseThrow(()-> new VisitNotFound("Could not find visit " + visitId));
     }
 
-    public List<Visit> getDoctorVisits(Long doctorId) {
-        return ResponseEntity.ok(repository.findAllByDoctorByDoctorUserId(doctorId)).getBody();
+    public List<Visit> getVisitsByDate(Date dateOfVisits) {
+        return repository.findAllByDate(dateOfVisits);
+    }
+
+    public List<Visit> getVisitsByLocation(String location) {
+        return  repository.findAllByLocation(location);
+    }
+
+    public List<Visit> getPatientVisits(Long patientId) throws UserNotFound { //jak rzucic wyjatkiem?
+        return repository.findAllByPatientByPatientUserId(patientId);
+    }
+
+    public List<Visit> getDoctorVisits(Long doctorId) throws UserNotFound{ //jak rzucic wyjatkiem?
+        return repository.findAllByDoctorByDoctorUserId(doctorId);
     }
 
     public Visit updateVisitDate(Long visitId, Date newDate) throws ResourceNotFoundException {
@@ -44,4 +61,6 @@ public class VisitService {
         else
             return false;
     }
+
+
 }
