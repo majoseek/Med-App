@@ -2,8 +2,11 @@ import "./About.css";
 import AboutImg from "./about.jpg";
 export const About = () => {
     return (
-        <div id="about">
+        <div id="about" className="text-center">
             <div className="container">
+                <div className="row section-title">
+                    <h2>About Us</h2>
+                </div>
                 <div className="row">
                     <div className="col-12 col-md-6">
                         {" "}
@@ -15,7 +18,6 @@ export const About = () => {
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="about-text">
-                            <h2>About Us</h2>
                             <p>
                                 Lorem ipsum dolor sit amet, consectetur
                                 adipiscing elit, sed do eiusmod tempor
@@ -28,7 +30,7 @@ export const About = () => {
                                 aliqua.
                             </p>
                             <h3>Why Choose Us?</h3>
-                            <div className="list-style">
+                            <div className="row">
                                 <div className="col-lg-6 col-sm-6 col-12">
                                     <ul>
                                         <li>Cos tam</li>
