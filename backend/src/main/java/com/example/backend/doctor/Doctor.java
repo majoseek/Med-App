@@ -3,6 +3,7 @@ package com.example.backend.doctor;
 import com.example.backend.prescription.Prescription;
 import com.example.backend.user.User;
 import com.example.backend.visit.Visit;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -15,6 +16,7 @@ public class Doctor {
     private String name;
     private String surname;
     private String specialization;
+    @JsonBackReference
     private User userByUserId;
     private Collection<Prescription> prescriptsByUserId;
     private Collection<Visit> visitsByUserId;
@@ -74,7 +76,8 @@ public class Doctor {
         return Objects.hash(userId, name, surname, specialization);
     }
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
+    @MapsId
     @JoinColumn(name = "PAP_USER_ID", referencedColumnName = "ID", nullable = false)
     public User getUserByUserId() {
         return userByUserId;
