@@ -1,9 +1,12 @@
 package com.example.backend.user;
 
+import com.example.backend.doctor.DoctorSignUpDto;
 import com.example.backend.exceptions.EmailAlreadyUsed;
 import com.example.backend.exceptions.InvalidCredentials;
 import com.example.backend.exceptions.InvalidRole;
 import com.example.backend.exceptions.UserNotFound;
+import com.example.backend.patient.PatientSignUpDto;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -26,14 +29,9 @@ public class UserController {
 
     @PostMapping(path = "/create/doctor")
     @ResponseBody
-    ResponseEntity<?> createNewUserAsDoctor(@RequestParam String email,
-                                            @RequestParam String password,
-                                            @RequestParam String role,
-                                            @RequestParam String name,
-                                            @RequestParam String surname,
-                                            @RequestParam String specialization) {
+    ResponseEntity<?> createNewUserAsDoctor(@RequestBody @NotNull DoctorSignUpDto doctor) {
         try {
-            User user = userService.createUserAsDoctor(email, password, role, name, surname, specialization);
+            User user = userService.createUserAsDoctor(doctor);
             return ResponseEntity.status(HttpStatus.CREATED).body(user);
         } catch (EmailAlreadyUsed e) {
             return ResponseEntity.status(HttpStatus.IM_USED).body(Collections.singletonMap("error", e.getLocalizedMessage()));
@@ -43,14 +41,9 @@ public class UserController {
 
     @PostMapping(path = "/create/patient")
     @ResponseBody
-    ResponseEntity<?> createNewUserAsPatient(@RequestParam String email,
-                                             @RequestParam String password,
-                                             @RequestParam String role,
-                                             @RequestParam String name,
-                                             @RequestParam String surname,
-                                             @RequestParam String pesel) {
+    ResponseEntity<?> createNewUserAsPatient(@RequestBody @NotNull PatientSignUpDto patient) {
         try {
-            User user = userService.createUserAsPatient(email, password, role, name, surname, pesel);
+            User user = userService.createUserAsPatient(patient);
             return ResponseEntity.status(HttpStatus.CREATED).body(user);
         } catch (EmailAlreadyUsed emailUsed) {
             return ResponseEntity.status(HttpStatus.IM_USED).body(Collections.singletonMap("error", emailUsed.getLocalizedMessage()));
@@ -89,10 +82,9 @@ public class UserController {
 
     @PostMapping(path = "/login")
     @ResponseBody
-    ResponseEntity<?> loginUser(@RequestParam String email,
-                                @RequestParam String password) {
+    ResponseEntity<?> loginUser(@RequestBody UserLogInDto userCredentials) {
         try {
-            User user = userService.login(email, password);
+            UserDataDto.UserData user = userService.login(userCredentials);
             return ResponseEntity.ok(user);
         } catch (UserNotFound userNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userNotFound.getLocalizedMessage());
