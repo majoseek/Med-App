@@ -1,7 +1,9 @@
 package com.example.backend.visit;
 
+import com.example.backend.doctor.Doctor;
 import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.exceptions.VisitNotFound;
+import com.example.backend.patient.Patient;
 import com.example.backend.patient.PatientController;
 import com.example.backend.patient.PatientRepository;
 import com.example.backend.patient.PatientService;
@@ -57,5 +59,14 @@ public class VisitService {
         repository.deleteById(visitId);
     }
 
-
+    public Visit createVisit(Date date, String description, String location, Doctor doctor, Patient patient) {
+        Visit newVisit = new Visit();
+        newVisit.setDate(date);
+        newVisit.setDescription(description);
+        newVisit.setLocation(location);
+        newVisit.setDoctorByDoctorUserId(doctor);
+        newVisit.setPatientByPatientUserId(patient);
+        repository.save(newVisit);
+        return newVisit;
+    }
 }
