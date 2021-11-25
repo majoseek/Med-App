@@ -57,7 +57,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(path = "/data/{id}")
+    @GetMapping(path = "/{id}")
     @ResponseBody
     ResponseEntity<?> getUserData(@PathVariable Long id) {
         try {
@@ -68,7 +68,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(path ="/edit/{id}")
+    @PutMapping(path ="/edit/{id}")
     @ResponseBody
     ResponseEntity<?> editUserData(@PathVariable Long id,
                                    @RequestParam(required = false) Optional<String> email,
