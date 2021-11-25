@@ -25,6 +25,11 @@ public class VisitController {
         this.service = service;
     }
 
+    @GetMapping("/visits")
+    public ResponseEntity<?> getAllVisits() {
+        List<Visit> allVisits = service.getAllVisits();
+        return ResponseEntity.ok(allVisits);
+    }
 
     @GetMapping("/visits/{visitId}")
     public ResponseEntity<?> getVisitById(@PathVariable Long visitId) {
