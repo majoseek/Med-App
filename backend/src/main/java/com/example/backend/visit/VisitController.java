@@ -1,7 +1,9 @@
 package com.example.backend.visit;
 
+import com.example.backend.doctor.Doctor;
 import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.exceptions.VisitNotFound;
+import com.example.backend.patient.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -77,9 +79,13 @@ public class VisitController {
         }
     }
 
-    @PostMapping("/visits/{visitId}")
-    public ResponseEntity<?> createVisit(@RequestBody Visit newVisit) {
-        Visit visit = service.save(newVisit);
+    @PostMapping("/visits")
+    public ResponseEntity<?> createVisit(@RequestBody Date date,
+                                         @RequestBody String description,
+                                         @RequestBody String location,
+                                         @RequestBody Doctor doctor,
+                                         @RequestBody Patient patient) {
+        Visit visit = service.createVisit(date, description, location, doctor, patient);
         return ResponseEntity.ok(visit);
     }
 
