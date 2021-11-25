@@ -1,6 +1,7 @@
 package com.example.backend.prescription;
 
 
+import com.example.backend.doctor.Doctor;
 import com.example.backend.exceptions.PrescriptionNotFound;
 import com.example.backend.patient.Patient;
 import com.example.backend.visit.Visit;
@@ -23,19 +24,19 @@ public class PrescriptionController {
         this.service = service;
     }
 
-    @GetMapping("/prescriptions/{patientId}")
+    @GetMapping("/{patientId}/prescriptions")
     public ResponseEntity<?> getPatientPrescription(@PathVariable Long patientId) {
         List<Prescription> prescriptions = service.getPatientPrescription(patientId);
         return ResponseEntity.ok(prescriptions);
     }
 
-    @GetMapping("/prescription/{doctorId}")
+    @GetMapping("/{doctorId}/prescription")
     public ResponseEntity<?> getDoctorPrescription(@PathVariable Long doctorId) {
         List<Prescription> prescriptions = service.getDoctorPrescription(doctorId);
         return ResponseEntity.ok(prescriptions);
     }
 
-    @GetMapping("/{prescriptionId}")
+    @GetMapping("/prescriptions/{prescriptionId}")
     public ResponseEntity<?> getPrescriptionById(@PathVariable Long prescriptionId) {
         try {
             Prescription prescription = service.getPrescriptionById(prescriptionId);
@@ -45,12 +46,16 @@ public class PrescriptionController {
         }
     }
 
-    @PostMapping("/...")
-    public Prescription createPrescription(Prescription newPrescription) {
-        return service.save(newPrescription);
+    @PostMapping("/prescriptions")
+    public ResponseEntity<?> createPrescription(@RequestBody String medicationName,
+                                                @RequestBody Long amount,
+                                                @RequestBody Doctor doctor,
+                                                @RequestBody Patient patient) {
+        Prescription prescription = service.createPrescription(medicationName, amount, doctor, patient);
+        return ResponseEntity.ok(prescription);
     }
 
-    @DeleteMapping("/.../{prescriptionId}")
+    @DeleteMapping("/prescriptions/{prescriptionId}")
     public void deletePrescription(
             @PathVariable Long prescriptionId) throws ResourceNotFoundException {
         var isDeleted= service.delete(prescriptionId);

@@ -1,6 +1,8 @@
 package com.example.backend.prescription;
 
+import com.example.backend.doctor.Doctor;
 import com.example.backend.exceptions.PrescriptionNotFound;
+import com.example.backend.patient.Patient;
 import com.example.backend.patient.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +44,13 @@ public class PrescriptionService {
     }
 
 
-
+    public Prescription createPrescription(String medicationName, Long amount, Doctor doctor, Patient patient) {
+        final Prescription newPrescription = new Prescription();
+        newPrescription.setMedicationName(medicationName);
+        newPrescription.setAmount(amount);
+        newPrescription.setDoctorByDoctorUserId(doctor);
+        newPrescription.setPatientByPatientUserId(patient);
+        repository.save(newPrescription);
+        return newPrescription;
+    }
 }
