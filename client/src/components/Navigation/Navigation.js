@@ -3,15 +3,17 @@ export const Navigation = () => {
     return (
         <nav id="menu" className="navbar navbar-default fixed-top">
             <div className="container">
-                <div className="navbar-header">
+                <div>
                     <button
                         type="button"
-                        className="navbar-toggle collapsed"
+                        className="navbar-toggler"
                         data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1"
+                        data-target="#menu_collapse"
                     >
                         {" "}
-                        <span className="sr-only">Toggle navigation</span>{" "}
+                        <span className="d-md-none">
+                            Toggle navigation
+                        </span>{" "}
                         <span className="icon-bar"></span>{" "}
                         <span className="icon-bar"></span>{" "}
                         <span className="icon-bar"></span>{" "}
@@ -21,10 +23,7 @@ export const Navigation = () => {
                     </a>{" "}
                 </div>
 
-                <div
-                    className="collapse navbar-collapse"
-                    id="bs-example-navbar-collapse-1"
-                >
+                <div className="collapse navbar-collapse" id="menu_collapse">
                     <ul className="nav navbar-nav navbar-right">
                         <li>
                             <a href="#features" className="page-scroll">

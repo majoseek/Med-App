@@ -7,7 +7,7 @@ import "./App.css";
 const App = () => {
     return (
         <React.Fragment>
-            {/* <Navigation /> */}
+            <Navigation />
             <LandingPage />
             {/* <LoginPage /> */}
             <div id="footer">
