@@ -1,6 +1,7 @@
 package com.example.backend.prescription;
 
 
+import com.example.backend.exceptions.PrescriptionNotFound;
 import com.example.backend.patient.Patient;
 import com.example.backend.visit.Visit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,26 @@ public class PrescriptionController {
         this.service = service;
     }
 
-    @GetMapping("/smth/{patientId}") //???
-    public List<Prescription> getPatientPrescription(@PathVariable Long patientId) {
-        return service.getPatientPrescription(patientId);
+    @GetMapping("/prescriptions/{patientId}")
+    public ResponseEntity<?> getPatientPrescription(@PathVariable Long patientId) {
+        List<Prescription> prescriptions = service.getPatientPrescription(patientId);
+        return ResponseEntity.ok(prescriptions);
+    }
+
+    @GetMapping("/prescription/{doctorId}")
+    public ResponseEntity<?> getDoctorPrescription(@PathVariable Long doctorId) {
+        List<Prescription> prescriptions = service.getDoctorPrescription(doctorId);
+        return ResponseEntity.ok(prescriptions);
+    }
+
+    @GetMapping("/{prescriptionId}")
+    public ResponseEntity<?> getPrescriptionById(@PathVariable Long prescriptionId) {
+        try {
+            Prescription prescription = service.getPrescriptionById(prescriptionId);
+            return ResponseEntity.ok(prescription);
+        } catch (PrescriptionNotFound prescriptionNotFound){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((prescriptionNotFound.getLocalizedMessage()));
+        }
     }
 
     @PostMapping("/...")
