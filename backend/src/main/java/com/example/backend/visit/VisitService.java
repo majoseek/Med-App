@@ -69,4 +69,8 @@ public class VisitService {
         repository.save(newVisit);
         return newVisit;
     }
+
+    public List<Visit> getAllVisits() {
+        return repository.findAll();
+    }
 }

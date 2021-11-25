@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface VisitRepository extends CrudRepository<Visit, Long> {
+    List<Visit> findAll();
 
     @Query(value = "select visit from Visit visit where visit.patientByPatientUserId = ?1")
     List<Visit> findAllByPatientByPatientUserId(Long patientId);
