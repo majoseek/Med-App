@@ -11,50 +11,48 @@ export const Gallery = () => {
                         duis sed dapibus leonec.
                     </p>
                 </div>
-                <div className="row">
-                    <div className="portfolio-items">
-                        <div className="col-sm-6 col-md-4 col-lg-4">
-                            <Image
-                                title="tyt125ul"
-                                largeImage="./img/portfolio/01-large.jpg"
-                                smallImage="./img/portfolio/01-small.jpg"
-                            />
-                        </div>
-                        <div className="col-sm-6 col-md-4 col-lg-4">
-                            <Image
-                                title="tytu512l"
-                                largeImage="./img/portfolio/01-large.jpg"
-                                smallImage="./img/portfolio/01-small.jpg"
-                            />
-                        </div>
-                        <div className="col-sm-6 col-md-4 col-lg-4">
-                            <Image
-                                title="tytul512"
-                                largeImage="./img/portfolio/01-large.jpg"
-                                smallImage="./img/portfolio/01-small.jpg"
-                            />
-                        </div>
-                        <div className="col-sm-6 col-md-4 col-lg-4">
-                            <Image
-                                title="tytul123"
-                                largeImage="./img/portfolio/01-large.jpg"
-                                smallImage="./img/portfolio/01-small.jpg"
-                            />
-                        </div>
-                        <div className="col-sm-6 col-md-4 col-lg-4">
-                            <Image
-                                title="tytul456"
-                                largeImage="./img/portfolio/01-large.jpg"
-                                smallImage="./img/portfolio/01-small.jpg"
-                            />
-                        </div>
-                        <div className="col-sm-6 col-md-4 col-lg-4">
-                            <Image
-                                title="tytu152l"
-                                largeImage="./img/portfolio/01-large.jpg"
-                                smallImage="./img/portfolio/01-small.jpg"
-                            />
-                        </div>
+                <div className="row gx-5">
+                    <div className="col-sm-5 col-md-4 col-lg-3">
+                        <Image
+                            title="tyt125ul"
+                            largeImage="./img/portfolio/01-large.jpg"
+                            smallImage="./img/portfolio/01-small.jpg"
+                        />
+                    </div>
+                    <div className="col-sm-5 col-md-4 col-lg-3">
+                        <Image
+                            title="tytu512l"
+                            largeImage="./img/portfolio/01-large.jpg"
+                            smallImage="./img/portfolio/01-small.jpg"
+                        />
+                    </div>
+                    <div className="col-sm-5 col-md-4 col-lg-3">
+                        <Image
+                            title="tytul512"
+                            largeImage="./img/portfolio/01-large.jpg"
+                            smallImage="./img/portfolio/01-small.jpg"
+                        />
+                    </div>
+                    <div className="col-sm-5 col-md-4 col-lg-3">
+                        <Image
+                            title="tytul123"
+                            largeImage="./img/portfolio/01-large.jpg"
+                            smallImage="./img/portfolio/01-small.jpg"
+                        />
+                    </div>
+                    <div className="col-sm-5 col-md-4 col-lg-3">
+                        <Image
+                            title="tytul456"
+                            largeImage="./img/portfolio/01-large.jpg"
+                            smallImage="./img/portfolio/01-small.jpg"
+                        />
+                    </div>
+                    <div className="col-sm-5 col-md-4 col-lg-3">
+                        <Image
+                            title="tytu152l"
+                            largeImage="./img/portfolio/01-large.jpg"
+                            smallImage="./img/portfolio/01-small.jpg"
+                        />
                     </div>
                 </div>
             </div>
