@@ -23,7 +23,8 @@ public class VisitController {
         this.service = service;
     }
 
-    @GetMapping("/{visitId}")
+
+    @GetMapping("/visits/{visitId}")
     public ResponseEntity<?> getVisitById(@PathVariable Long visitId) {
         try {
             Visit visit = service.getVisitById(visitId);
@@ -33,53 +34,58 @@ public class VisitController {
         }
     }
 
-    @GetMapping("/{dateOfVisits}") // czy to potrzebuje wyjatkow
+    // czy Date czy tylko dzien
+    @GetMapping("/visits/{dateOfVisits}") // czy to potrzebuje wyjatkow
     public ResponseEntity<?> getVisitsByDate(@PathVariable Date dateOfVisits) {
         List<Visit> visits = service.getVisitsByDate(dateOfVisits);
         return ResponseEntity.ok(visits);
     }
 
-    @GetMapping("/{location}") // czy to potrzebuje wyjatkow
+    @GetMapping("/visits/{location}") // czy to potrzebuje wyjatkow
     public ResponseEntity<?> getVisitsByLocation(@PathVariable String location) {
         List<Visit> visits = service.getVisitsByLocation(location);
         return ResponseEntity.ok(visits);
     }
 
-    @GetMapping("/{patientId}")
+    @GetMapping("/{patientId}/visits")
     public ResponseEntity<?> getPatientVisits(@PathVariable Long patientId) {
         try {
             List<Visit> patientsVisits = service.getPatientVisits(patientId);
             return ResponseEntity.ok(patientsVisits);
         } catch (UserNotFound userNotFound) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((userNotFound.getLocalizedMessage()));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userNotFound.getLocalizedMessage());
         }
     }
 
-    @GetMapping("/{doctorId}")
+    @GetMapping("/{doctorId}/visits")
     public ResponseEntity<?> getDoctorVisit(@PathVariable Long doctorId) {
         try {
             List<Visit> patientsVisits = service.getDoctorVisits(doctorId);
             return ResponseEntity.ok(patientsVisits);
         } catch (UserNotFound userNotFound) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((userNotFound.getLocalizedMessage()));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userNotFound.getLocalizedMessage());
         }
     }
 
-    @PutMapping("/{visitId}") // czy nie powinno byc void
-    public Visit updateVisitDate(@PathVariable Long visitId, @RequestBody Date newDate) {
-        return service.updateVisitDate(visitId, newDate);
+    @PutMapping("/visits/{visitId}")
+    public ResponseEntity<?> updateVisitDate(@PathVariable Long visitId, @RequestBody Date newDate) {
+        try {
+            Visit visit = service.updateVisitDate(visitId, newDate);
+            return ResponseEntity.ok(visit);
+        } catch (VisitNotFound visitNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((visitNotFound.getLocalizedMessage()));
+        }
     }
 
-    @PostMapping("/...") // czy nie powinno byc void
-    public Visit createVisit(@RequestBody Visit newVisit) {
-        return service.save(newVisit);
+    @PostMapping("/visits/{visitId}")
+    public ResponseEntity<?> createVisit(@RequestBody Visit newVisit) {
+        Visit visit = service.save(newVisit);
+        return ResponseEntity.ok(visit);
     }
 
-    @DeleteMapping("/{visitId}")
-    public void deleteVisit(
-            @PathVariable Long visitId) throws VisitNotFound {
-        var isDeleted= service.delete(visitId);
-        if(!isDeleted)
-            throw new VisitNotFound("Could not find prescription with id: " + visitId);
+    @DeleteMapping("/visits/{visitId}")
+    public ResponseEntity<?> deleteVisit(@PathVariable Long visitId){
+        service.delete(visitId);
+        return ResponseEntity.ok(visitId);
     }
 }

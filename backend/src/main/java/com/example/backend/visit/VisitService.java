@@ -41,9 +41,9 @@ public class VisitService {
         return repository.findAllByDoctorByDoctorUserId(doctorId);
     }
 
-    public Visit updateVisitDate(Long visitId, Date newDate) throws ResourceNotFoundException {
+    public Visit updateVisitDate(Long visitId, Date newDate) throws VisitNotFound {
         Visit visit = repository.findById(visitId)
-                .orElseThrow(() -> new ResourceNotFoundException("Visit not found on :: "+ visitId));
+                .orElseThrow(() -> new VisitNotFound("Visit not found on :: "+ visitId));
         visit.setDate(newDate);
         final Visit updatedVisit = repository.save(visit);
         return ResponseEntity.ok(updatedVisit).getBody();
@@ -53,13 +53,8 @@ public class VisitService {
         return repository.save(newVisit);
     }
 
-    public boolean delete(Long visitId) {
-        if(repository.existsById(visitId)) {
-            repository.deleteById(visitId);
-            return true;
-        }
-        else
-            return false;
+    public void delete(Long visitId){
+        repository.deleteById(visitId);
     }
 
 
