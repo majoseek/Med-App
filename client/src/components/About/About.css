@@ -20,6 +20,7 @@
     left: 0;
 }
 #about .about-text li {
+    font-size: 16px;
     margin-bottom: 6px;
     margin-left: 6px;
     list-style: none;

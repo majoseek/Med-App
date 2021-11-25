@@ -1,4 +1,6 @@
-/* Header Section */
+.header {
+    display: block;
+}
 .intro {
     display: table;
     width: 100%;

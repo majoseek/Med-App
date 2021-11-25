@@ -1,4 +1,3 @@
-import { Navigation } from "../Navigation/Navigation";
 import { Header } from "../Header/Header";
 import { Features } from "../Features/Features";
 import { About } from "../About/About";

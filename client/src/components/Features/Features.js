@@ -3,41 +3,41 @@ export const Features = () => {
     return (
         <div id="features" className="text-center">
             <div className="container">
-                <div className="col-md-10 col-md-offset-1 section-title">
-                    <h2>Features</h2>
+                <div className="row section-title">
+                    <h4>Features</h4>
                 </div>
                 <div className="row">
-                    <div className="col-xs-6 col-md-3">
+                    <div className="col-6 col-md-3">
                         {" "}
-                        <i className="fa fa-comments-o"></i>
-                        <h3>Jakis tytul</h3>
+                        <i className="fa fa-glass"></i>
+                        <h4>Jakis tytul</h4>
                         <p>
                             Lorem ipsum dolor sit amet placerat facilisis felis
                             m
                         </p>
                     </div>
-                    <div className="col-xs-6 col-md-3">
+                    <div className="col-6 col-md-3">
                         {" "}
                         <i className="fa fa-bullhorn"></i>
-                        <h3>Jakis tytul123</h3>
+                        <h3 className="font-weight-bold">Jakis tytul123</h3>
                         <p>
                             Lorem ipsum dolor sit amet placerat facilisis felis
                             m
                         </p>
                     </div>
-                    <div className="col-xs-6 col-md-3">
+                    <div className="col-6 col-md-3">
                         {" "}
                         <i className="fa fa-magic"></i>
-                        <h3>Jakis tytul1234</h3>
+                        <h4>Jakis tytul1234</h4>
                         <p>
                             Lorem ipsum dolor sit amet placerat facilisis felis
                             m
                         </p>
                     </div>
-                    <div className="col-xs-6 col-md-3">
+                    <div className="col-6 col-md-3">
                         {" "}
                         <i className="fa fa-group"></i>
-                        <h3>Jakis tytul</h3>
+                        <h4>Jakis tytul</h4>
                         <p>
                             Lorem ipsum dolor sit amet placerat facilisis felis
                             m

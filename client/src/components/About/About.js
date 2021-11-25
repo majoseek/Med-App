@@ -1,11 +1,11 @@
 import "./About.css";
 import AboutImg from "./about.jpg";
-export const About = (props) => {
+export const About = () => {
     return (
         <div id="about">
             <div className="container">
                 <div className="row">
-                    <div className="col-xs-12 col-md-6">
+                    <div className="col-12 col-md-6">
                         {" "}
                         <img
                             src={AboutImg}
@@ -13,7 +13,7 @@ export const About = (props) => {
                             alt=""
                         />{" "}
                     </div>
-                    <div className="col-xs-12 col-md-6">
+                    <div className="col-12 col-md-6">
                         <div className="about-text">
                             <h2>About Us</h2>
                             <p>
@@ -29,7 +29,7 @@ export const About = (props) => {
                             </p>
                             <h3>Why Choose Us?</h3>
                             <div className="list-style">
-                                <div className="col-lg-6 col-sm-6 col-xs-12">
+                                <div className="col-lg-6 col-sm-6 col-12">
                                     <ul>
                                         <li>Cos tam</li>
                                         <li>Cos 123</li>
@@ -39,7 +39,7 @@ export const About = (props) => {
                                         <li>Cos 123</li>
                                     </ul>
                                 </div>
-                                <div className="col-lg-6 col-sm-6 col-xs-12">
+                                <div className="col-lg-6 col-sm-6 col-12">
                                     <ul>
                                         <li>Cos tam</li>
                                         <li>Cos 123</li>

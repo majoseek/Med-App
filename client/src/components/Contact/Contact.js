@@ -136,11 +136,6 @@ export const Contact = () => {
                     </div>
                 </div>
             </div>
-            <div id="footer">
-                <div className="container text-center">
-                    <p>Medicine App</p>
-                </div>
-            </div>
         </div>
     );
 };

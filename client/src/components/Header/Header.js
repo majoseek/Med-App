@@ -6,7 +6,7 @@ export const Header = () => {
                 <div className="overlay">
                     <div className="container">
                         <div className="row">
-                            <div className="col-md-8 col-md-offset-2 intro-text">
+                            <div className="col-md-8 offset-md-2 intro-text">
                                 <h1>
                                     Lorem ipsum
                                     <span></span>
@@ -17,10 +17,7 @@ export const Header = () => {
                                     ornare diam sed commodo nibh ante facilisis
                                     bibendum.
                                 </p>
-                                <a
-                                    href="#features"
-                                    className="btn btn-custom btn-lg page-scroll"
-                                >
+                                <a href="#features" className="btn btn-primary">
                                     Learn More
                                 </a>{" "}
                             </div>

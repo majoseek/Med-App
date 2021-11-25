@@ -1,7 +1,7 @@
 import "./Navigation.css";
-export const Navigation = (props) => {
+export const Navigation = () => {
     return (
-        <nav id="menu" className="navbar navbar-default navbar-fixed-top">
+        <nav id="menu" className="navbar navbar-default fixed-top">
             <div className="container">
                 <div className="navbar-header">
                     <button
