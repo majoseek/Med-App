@@ -3,7 +3,6 @@ package com.example.backend.user;
 import com.example.backend.doctor.Doctor;
 import com.example.backend.patient.Patient;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Objects;
