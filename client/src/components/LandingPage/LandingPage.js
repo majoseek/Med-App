@@ -18,7 +18,6 @@ export const scroll = new SmoothScroll('a[href*="#"]', {
 const LandingPage = () => {
     return (
         <div>
-            <Navigation />
             <Header />
             <Features />
             <About />

@@ -1,7 +1,14 @@
+import React from "react";
 import LandingPage from "./components/LandingPage/LandingPage";
+import { Navigation } from "./components/Navigation/Navigation";
 
 const App = () => {
-    return <LandingPage />;
+    return (
+        <React.Fragment>
+            <Navigation />
+            <LandingPage />
+        </React.Fragment>
+    );
 };
 
 export default App;
