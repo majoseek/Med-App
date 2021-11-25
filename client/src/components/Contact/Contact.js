@@ -77,7 +77,7 @@ export const Contact = () => {
                                 <div id="success"></div>
                                 <button
                                     type="submit"
-                                    className="btn btn-custom btn-lg"
+                                    className="btn btn-outline-light"
                                 >
                                     Send Message
                                 </button>
@@ -109,29 +109,6 @@ export const Contact = () => {
                                 </span>{" "}
                                 mail@random.com
                             </p>
-                        </div>
-                    </div>
-                    <div className="col-md-12">
-                        <div className="row">
-                            <div className="social">
-                                <ul>
-                                    <li>
-                                        <a href="123">
-                                            <i className="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="123">
-                                            <i className="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="123">
-                                            <i className="fa fa-youtube"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </div>
