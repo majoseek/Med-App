@@ -34,14 +34,14 @@ public class DoctorController {
         return ResponseEntity.ok(doctorList);
     }
 
-    @GetMapping(path = "/all")
+    @GetMapping(path = "/allGetBySpec")
     @ResponseBody
     ResponseEntity<?> getDoctorsBySpecialization(@RequestParam String specialization) {
         List<DoctorDto> doctorList = doctorService.getAllDoctorsBySpecialization(specialization).stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(doctorList);
     }
 
-    @GetMapping(path = "/all")
+    @GetMapping(path = "/allGetBy")
     @ResponseBody
     ResponseEntity<?> getDoctorsByNames(@RequestParam String name) {
         List<DoctorDto> doctorList = doctorService.getAllDoctorsByNameOrSurname(name).stream().map(this::convertToDto).collect(Collectors.toList());

@@ -1,21 +1,21 @@
 package com.example.backend.user;
 
 import com.example.backend.doctor.Doctor;
+import com.example.backend.doctor.DoctorSignUpDto;
 import com.example.backend.exceptions.EmailAlreadyUsed;
 import com.example.backend.exceptions.InvalidCredentials;
 import com.example.backend.exceptions.InvalidRole;
 import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.patient.Patient;
+import com.example.backend.patient.PatientSignUpDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -25,38 +25,38 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUserAsDoctor(String email, String password, String role, String name, String surname, String specialization) throws EmailAlreadyUsed {
-        if (userRepository.existsByEmail(email)) {
+    public User createUserAsDoctor(DoctorSignUpDto doctor) throws EmailAlreadyUsed {
+        if (userRepository.existsByEmail(doctor.getEmail())) {
             throw new EmailAlreadyUsed("User with this mail already exists!");
         }
         final User newUser = new User();
         final Doctor newDoctor = new Doctor();
-        newUser.setEmail(email);
-        newUser.setPassword(password);
-        newUser.setRole(role);
-        newDoctor.setSpecialization(specialization);
-        newDoctor.setName(name);
-        newDoctor.setSurname(surname);
+        newUser.setEmail(doctor.getEmail());
+        newUser.setPassword(doctor.getEmail());
+        newUser.setRole(doctor.getRole());
+        newDoctor.setSpecialization(doctor.getSpecialization());
+        newDoctor.setName(doctor.getName());
+        newDoctor.setSurname(doctor.getSurname());
         newDoctor.setUserByUserId(newUser);
         newUser.setDoctorById(newDoctor);
         userRepository.save(newUser);
         return newUser;
     }
 
-    public User createUserAsPatient(String email, String password, String role, String name, String surname, String pesel) throws EmailAlreadyUsed {
-        if (userRepository.existsByEmail(email)) {
+    public User createUserAsPatient(PatientSignUpDto patient) throws EmailAlreadyUsed {
+        if (userRepository.existsByEmail(patient.getEmail())) {
             throw new EmailAlreadyUsed("User with this mail already exists!");
         }
         final User newUser = new User();
-        newUser.setEmail(email);
-        newUser.setPassword(password);
-        newUser.setRole(role);
-        final Patient patient = new Patient();
-        patient.setName(name);
-        patient.setSurname(surname);
-        patient.setPesel(pesel);
-        newUser.setPatientById(patient);
-        patient.setUserByUserId(newUser);
+        newUser.setEmail(patient.getEmail());
+        newUser.setPassword(patient.getPassword());
+        newUser.setRole(patient.getRole());
+        final Patient newPatient = new Patient();
+        newPatient.setName(patient.getName());
+        newPatient.setSurname(patient.getSurname());
+        newPatient.setPesel(patient.getpesel());
+        newUser.setPatientById(newPatient);
+        newPatient.setUserByUserId(newUser);
         userRepository.save(newUser);
         return newUser;
     }
@@ -92,10 +92,10 @@ public class UserService {
     }
 
     // Temporary login without spring security, hashing passwords etc.
-    public User login(String email, String encodedPassword) throws UserNotFound, InvalidCredentials {
-        final User userByEmail = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFound("User with this email does not exist"));
-        if (userByEmail.getPassword().equals(encodedPassword)) {
-            return userByEmail;
+    public UserDataDto.UserData login(UserLogInDto credentials) throws UserNotFound, InvalidCredentials {
+        final User userByEmail = userRepository.findByEmail(credentials.getEmail()).orElseThrow(() -> new UserNotFound("User with this email does not exist"));
+        if (userByEmail.getPassword().equals(credentials.getPassword())) {
+            return new UserDataDto.UserData(userByEmail);
         }
         throw new InvalidCredentials("Incorrect email or password");
     }

@@ -3,14 +3,25 @@ package com.example.backend.user;
 import org.jetbrains.annotations.NotNull;
 
 public class UserDataDto {
-    abstract static class UserData {
+    public static class UserData {
+        private Long id;
         private String email;
         private String password;
         private String role;
 
-        public UserData(String email, String role) {
-            this.email = email;
-            this.role = role;
+        public UserData(User user) {
+            this.id = user.getId();
+            this.email = user.getEmail();
+            this.password = user.getPassword();
+            this.role = user.getRole();
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
         }
 
         public String getEmail() {
@@ -44,7 +55,7 @@ public class UserDataDto {
         private String pesel;
 
         public PatientData(@NotNull User user){
-            super(user.getEmail(), user.getRole());
+            super(user);
             this.name = user.getPatientById().getName();
             this.surname = user.getPatientById().getSurname();
             this.pesel = user.getPatientById().getSurname();
@@ -82,7 +93,7 @@ public class UserDataDto {
         private String specialization;
 
         public DoctorData(@NotNull User user) {
-            super(user.getEmail(), user.getRole());
+            super(user);
             this.name = user.getDoctorById().getName();
             this.surname = user.getDoctorById().getSurname();
             this.specialization = user.getDoctorById().getSpecialization();
@@ -116,7 +127,7 @@ public class UserDataDto {
 
     public static final class AdminData extends UserData {
         public AdminData(@NotNull User user) {
-            super(user.getEmail(), user.getRole());
+            super(user);
         }
     }
 }
