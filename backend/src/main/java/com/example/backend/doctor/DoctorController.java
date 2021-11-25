@@ -1,7 +1,9 @@
 package com.example.backend.doctor;
 
+import com.example.backend.exceptions.UserNotFound;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,4 +41,21 @@ public class DoctorController {
         return ResponseEntity.ok(doctorList);
     }
 
+    @GetMapping(path = "/all")
+    @ResponseBody
+    ResponseEntity<?> getDoctorsByNames(@RequestParam String name) {
+        List<DoctorDto> doctorList = doctorService.getAllDoctorsByNameOrSurname(name).stream().map(this::convertToDto).collect(Collectors.toList());
+        return ResponseEntity.ok(doctorList);
+    }
+
+    @GetMapping(path = "/{id}")
+    @ResponseBody
+    ResponseEntity<?> getDoctorById(@PathVariable Long id) {
+        try {
+            DoctorDto doctor = convertToDto(doctorService.getDoctorById(id));
+            return ResponseEntity.ok(doctor);
+        } catch (UserNotFound userNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userNotFound.getLocalizedMessage());
+        }
+    }
 }
