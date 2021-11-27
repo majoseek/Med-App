@@ -9,9 +9,7 @@ import java.util.Optional;
 public interface IllnessRepository extends CrudRepository<Illness, Long> {
     List<Illness> findAll();
 
-    @Query(value = "select illness from Illness illness where illness.name like ?1")
     List<Illness> findAllByName(String illnessName);
 
-    @Query(value = "select illness from Illness illness where illness.id = ?1")
     Optional<Illness> findById(Long id);
 }
