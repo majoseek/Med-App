@@ -25,18 +25,21 @@ public class PrescriptionController {
     }
 
     @GetMapping("/{patientId}/prescriptions")
+    @ResponseBody
     public ResponseEntity<?> getPatientPrescription(@PathVariable Long patientId) {
         List<Prescription> prescriptions = service.getPatientPrescription(patientId);
         return ResponseEntity.ok(prescriptions);
     }
 
     @GetMapping("/{doctorId}/prescription")
+    @ResponseBody
     public ResponseEntity<?> getDoctorPrescription(@PathVariable Long doctorId) {
         List<Prescription> prescriptions = service.getDoctorPrescription(doctorId);
         return ResponseEntity.ok(prescriptions);
     }
 
     @GetMapping("/prescriptions/{prescriptionId}")
+    @ResponseBody
     public ResponseEntity<?> getPrescriptionById(@PathVariable Long prescriptionId) {
         try {
             Prescription prescription = service.getPrescriptionById(prescriptionId);
@@ -56,10 +59,8 @@ public class PrescriptionController {
     }
 
     @DeleteMapping("/prescriptions/{prescriptionId}")
-    public void deletePrescription(
-            @PathVariable Long prescriptionId) throws ResourceNotFoundException {
-        var isDeleted= service.delete(prescriptionId);
-        if(!isDeleted)
-            throw new ResourceNotFoundException("Could not find prescription with id: " + prescriptionId);
-    }
+    public ResponseEntity<?> deletePrescription(
+            @PathVariable Long prescriptionId) {
+        service.delete(prescriptionId);
+        return ResponseEntity.ok(prescriptionId);}
 }

@@ -26,12 +26,14 @@ public class VisitController {
     }
 
     @GetMapping("/visits")
+    @ResponseBody
     public ResponseEntity<?> getAllVisits() {
         List<Visit> allVisits = service.getAllVisits();
         return ResponseEntity.ok(allVisits);
     }
 
     @GetMapping("/visits/{visitId}")
+    @ResponseBody
     public ResponseEntity<?> getVisitById(@PathVariable Long visitId) {
         try {
             Visit visit = service.getVisitById(visitId);
@@ -43,18 +45,21 @@ public class VisitController {
 
     // czy Date czy tylko dzien
     @GetMapping("/visits/{dateOfVisits}") // czy to potrzebuje wyjatkow
+    @ResponseBody
     public ResponseEntity<?> getVisitsByDate(@PathVariable Date dateOfVisits) {
         List<Visit> visits = service.getVisitsByDate(dateOfVisits);
         return ResponseEntity.ok(visits);
     }
 
     @GetMapping("/visits/{location}") // czy to potrzebuje wyjatkow
+    @ResponseBody
     public ResponseEntity<?> getVisitsByLocation(@PathVariable String location) {
         List<Visit> visits = service.getVisitsByLocation(location);
         return ResponseEntity.ok(visits);
     }
 
     @GetMapping("/{patientId}/visits")
+    @ResponseBody
     public ResponseEntity<?> getPatientVisits(@PathVariable Long patientId) {
         try {
             List<Visit> patientsVisits = service.getPatientVisits(patientId);
@@ -65,6 +70,7 @@ public class VisitController {
     }
 
     @GetMapping("/{doctorId}/visits")
+    @ResponseBody
     public ResponseEntity<?> getDoctorVisit(@PathVariable Long doctorId) {
         try {
             List<Visit> patientsVisits = service.getDoctorVisits(doctorId);

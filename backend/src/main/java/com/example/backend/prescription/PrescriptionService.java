@@ -34,13 +34,10 @@ public class PrescriptionService {
         return repository.save(newPrescription);
     }
 
-    public boolean delete(Long prescriptionId){
+    public void delete(Long prescriptionId){
         if(repository.existsById(prescriptionId)) {
             repository.deleteById(prescriptionId);
-            return true;
         }
-        else
-            return false;
     }
 
 
