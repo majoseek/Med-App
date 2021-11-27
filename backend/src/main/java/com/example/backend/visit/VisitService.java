@@ -1,6 +1,7 @@
 package com.example.backend.visit;
 
 import com.example.backend.doctor.Doctor;
+import com.example.backend.doctor.DoctorService;
 import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.exceptions.VisitNotFound;
 import com.example.backend.patient.Patient;
@@ -18,10 +19,19 @@ import java.util.List;
 @Service
 public class VisitService {
 
-    private  VisitRepository repository;
+    private final VisitRepository repository;
+    private final PatientService patientService;
+    private final DoctorService doctorService;
+
 
     @Autowired
-    VisitService(VisitRepository repository) {this.repository = repository;}
+    VisitService(VisitRepository repository,
+                 PatientService patientService,
+                 DoctorService doctorService) {
+        this.repository = repository;
+        this.patientService = patientService;
+        this.doctorService = doctorService;
+    }
 
     public Visit getVisitById(Long visitId) throws VisitNotFound{
         return repository.findById(visitId).orElseThrow(()-> new VisitNotFound("Could not find visit " + visitId));
@@ -35,11 +45,13 @@ public class VisitService {
         return  repository.findAllByLocation(location);
     }
 
-    public List<Visit> getPatientVisits(Long patientId) throws UserNotFound { //jak rzucic wyjatkiem?
+    public List<Visit> getPatientVisits(Long patientId) throws UserNotFound {
+        patientService.getPatientById(patientId);
         return repository.findAllByPatientByPatientUserId(patientId);
     }
 
-    public List<Visit> getDoctorVisits(Long doctorId) throws UserNotFound{ //jak rzucic wyjatkiem?
+    public List<Visit> getDoctorVisits(Long doctorId) throws UserNotFound{
+        doctorService.getDoctorById(doctorId);
         return repository.findAllByDoctorByDoctorUserId(doctorId);
     }
 
