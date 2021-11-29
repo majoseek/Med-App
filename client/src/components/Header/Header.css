@@ -7,17 +7,27 @@
     padding: 0;
     background: url(./intro-bg.jpg) center center no-repeat;
     background-color: #e5e5e5;
+    background-position: center;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -o-background-size: 100%;
+    background-size: 100%;
     -webkit-background-size: cover;
     -moz-background-size: cover;
-    background-size: cover;
     -o-background-size: cover;
+    background-size: cover;
+}
+@media only screen and (max-width: 992px) {
+    .intro {
+        background: none;
+    }
 }
 .intro .overlay {
     background: rgba(0, 0, 0, 0.2);
 }
 .intro h1 {
     font-family: "Raleway", sans-serif;
-    color: #fff;
+    color: #333;
     font-size: 82px;
     font-weight: 700;
     text-transform: uppercase;
@@ -29,7 +39,7 @@
     color: #5ca9fb;
 }
 .intro p {
-    color: #fff;
+    color: #333;
     font-size: 22px;
     font-weight: 300;
     line-height: 30px;

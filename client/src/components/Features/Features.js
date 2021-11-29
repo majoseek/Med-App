@@ -10,37 +10,39 @@ export const Features = () => {
                     <div className="col-6 col-md-3">
                         {" "}
                         <i className="fa fa-glass"></i>
-                        <h4>Jakis tytul</h4>
+                        <h4>Online consultations</h4>
                         <p>
-                            Lorem ipsum dolor sit amet placerat facilisis felis
-                            m
+                            You dont need to leave your home. Just fill in the
+                            forms and register your express online visit right
+                            away.
                         </p>
                     </div>
                     <div className="col-6 col-md-3">
                         {" "}
                         <i className="fa fa-bullhorn"></i>
-                        <h4 className="font-weight-bold">Jakis tytul123</h4>
+                        <h4 className="font-weight-bold">
+                            Periodic examinations
+                        </h4>
                         <p>
-                            Lorem ipsum dolor sit amet placerat facilisis felis
-                            m
+                            Dont waste your time waiting in the never ending
+                            queue, it is your health, you have to be serious
+                            about it.
                         </p>
                     </div>
                     <div className="col-6 col-md-3">
                         {" "}
                         <i className="fa fa-magic"></i>
-                        <h4>Jakis tytul1234</h4>
-                        <p>
-                            Lorem ipsum dolor sit amet placerat facilisis felis
-                            m
-                        </p>
+                        <h4>Emergency help</h4>
+                        <p>We offer 24/7 er in any of our establishments.</p>
                     </div>
                     <div className="col-6 col-md-3">
                         {" "}
                         <i className="fa fa-group"></i>
-                        <h4>Jakis tytul</h4>
+                        <h4>Disabled facilities</h4>
                         <p>
-                            Lorem ipsum dolor sit amet placerat facilisis felis
-                            m
+                            People with disabilities are offered special
+                            treatment. Our facilities feature elevators and free
+                            wheelchairs.
                         </p>
                     </div>
                 </div>

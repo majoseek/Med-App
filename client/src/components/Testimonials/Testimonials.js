@@ -18,14 +18,13 @@ export const Testimonials = () => {
                             </div>
                             <div className="testimonial-content">
                                 <p>
-                                    ihggas afsf safas fa fas fasf asf asf fasf
-                                    asfasfa sfas fas f afs fas f as fa fafhasf
-                                    afsa sfas fas fas fasf asf asf asfasfa asfo
-                                    ghaiudhg isuadhgui sadgiuhasd gui
+                                    W NFZ kazano mi czekać dwa lata, kazano mi
+                                    czekać aż do śmierci. A tu? Kto by pomyślał,
+                                    że wszystko da się załatwić od ręki Ha!
                                 </p>
                                 <div className="testimonial-meta">
                                     {" "}
-                                    - Andrzejek{" "}
+                                    - Andrzej S.{" "}
                                 </div>
                             </div>
                         </div>
@@ -35,21 +34,18 @@ export const Testimonials = () => {
                             <div className="testimonial-image">
                                 {" "}
                                 <img
-                                    src="img/testimonials/01.jpg"
+                                    src="img/testimonials/02.jpg"
                                     alt=""
                                 />{" "}
                             </div>
                             <div className="testimonial-content">
                                 <p>
-                                    gagauasihggas afsf safas fa fas fasf asf asf
-                                    fasf asfasfa sfas fas f afs fas f as fa
-                                    fafhasf afsa sfas fas fas fasf asf asf
-                                    asfasfa asfo ghaiudhg isuadhgui sadgiuhasd
-                                    guifasfihggas
+                                    Pozdrawiam doktora Kamila, bardzo dobrze
+                                    nastawił mi rękę i jest teraz nastawiona.
                                 </p>
                                 <div className="testimonial-meta">
                                     {" "}
-                                    - Andrzejek{" "}
+                                    - Krzysztof L.{" "}
                                 </div>
                             </div>
                         </div>
@@ -59,20 +55,21 @@ export const Testimonials = () => {
                             <div className="testimonial-image">
                                 {" "}
                                 <img
-                                    src="img/testimonials/01.jpg"
+                                    src="img/testimonials/03.jpg"
                                     alt=""
                                 />{" "}
                             </div>
                             <div className="testimonial-content">
                                 <p>
-                                    ihggas afsf safas fa fas fasf asf asf fasf
-                                    asfasfa sfas fas f afs fas f as fa fafhasf
-                                    afsa sfas fas fas fasf asf asf asfasfa asfo
-                                    ghaiudhg isuadhgui sadgiuhasd gui
+                                    Zostałem uzdrowiony w ośrodku Pańskim. Tu
+                                    nie ma że boli, że komuś się krzywda dzieje.
+                                    Bardzo dobrz mnie potraktowano tutaj. I
+                                    doktor też powiedział bardzo dobrze do mnie
+                                    i już jestem zdrowy.
                                 </p>
                                 <div className="testimonial-meta">
                                     {" "}
-                                    - Andrzejek{" "}
+                                    - Kamil O.{" "}
                                 </div>
                             </div>
                         </div>
@@ -82,20 +79,19 @@ export const Testimonials = () => {
                             <div className="testimonial-image">
                                 {" "}
                                 <img
-                                    src="img/testimonials/01.jpg"
+                                    src="img/testimonials/04.jpg"
                                     alt=""
                                 />{" "}
                             </div>
                             <div className="testimonial-content">
                                 <p>
-                                    ihggas afsf safas fa fas fasf asf asf fasf
-                                    asfasfa sfas fas f afs fas f as fa fafhasf
-                                    afsa sfas fas fas fasf asf asf asfasfa asfo
-                                    ghaiudhg isuadhgui sadgiuhasd gui
+                                    Pani Doktor Joanna okazała się bardzo
+                                    rzetelna, dokładna, sumienna i uśmiechnięta.
+                                    Prawdziwy lekarz z powołania.
                                 </p>
                                 <div className="testimonial-meta">
                                     {" "}
-                                    - Andrzejek{" "}
+                                    - Klara S.{" "}
                                 </div>
                             </div>
                         </div>
@@ -105,20 +101,15 @@ export const Testimonials = () => {
                             <div className="testimonial-image">
                                 {" "}
                                 <img
-                                    src="img/testimonials/01.jpg"
+                                    src="img/testimonials/05.jpg"
                                     alt=""
                                 />{" "}
                             </div>
                             <div className="testimonial-content">
-                                <p>
-                                    ihggas afsf safas fa fas fasf asf asf fasf
-                                    asfasfa sfas fas f afs fas f as fa fafhasf
-                                    afsa sfas fas fas fasf asf asf asfasfa asfo
-                                    ghaiudhg isuadhgui sadgiuhasd gui
-                                </p>
+                                <p>Bardzo dobra kawa.</p>
                                 <div className="testimonial-meta">
                                     {" "}
-                                    - Andrzejek{" "}
+                                    - Michał K.{" "}
                                 </div>
                             </div>
                         </div>
@@ -128,17 +119,22 @@ export const Testimonials = () => {
                             <div className="testimonial-image">
                                 {" "}
                                 <img
-                                    src="img/testimonials/01.jpg"
+                                    src="img/testimonials/06.jpg"
                                     alt=""
                                 />{" "}
                             </div>
                             <div className="testimonial-content">
                                 <p>
-                                    gagauihggasgagauihggasgagauihggasgagauihggas
+                                    Widać, że nikt nie zapomniał o
+                                    niepełnosprawnych, do windy można dostać się
+                                    już na parterze. A i w toaletach znajdzie
+                                    się wszystko, czego dusza zapragnie.
+                                    Wiedzieliści, że w papier może mieć trzy
+                                    warstwy?
                                 </p>
                                 <div className="testimonial-meta">
                                     {" "}
-                                    - Andrzejek{" "}
+                                    - Alina M.{" "}
                                 </div>
                             </div>
                         </div>

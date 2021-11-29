@@ -6,52 +6,49 @@ export const Gallery = () => {
             <div className="container">
                 <div className="section-title">
                     <h2>Gallery</h2>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                        duis sed dapibus leonec.
-                    </p>
+                    <p>Modern facility, top-in-the-industry technology.</p>
                 </div>
                 <div className="row gx-5">
                     <div className="col-sm-5 col-md-4 col-lg-3">
                         <Image
-                            title="tyt125ul"
-                            largeImage="./img/portfolio/01-large.jpg"
-                            smallImage="./img/portfolio/01-small.jpg"
+                            title="Modern building"
+                            largeImage="./img/portfolio/a.jpg"
+                            smallImage="./img/portfolio/a.jpg"
                         />
                     </div>
                     <div className="col-sm-5 col-md-4 col-lg-3">
                         <Image
-                            title="tytu512l"
-                            largeImage="./img/portfolio/01-large.jpg"
-                            smallImage="./img/portfolio/01-small.jpg"
+                            title="Our patients"
+                            largeImage="./img/portfolio/wheelchair.jpg"
+                            smallImage="./img/portfolio/wheelchair.jpg"
                         />
                     </div>
                     <div className="col-sm-5 col-md-4 col-lg-3">
                         <Image
-                            title="tytul512"
-                            largeImage="./img/portfolio/01-large.jpg"
-                            smallImage="./img/portfolio/01-small.jpg"
+                            title="Beatiful interior"
+                            largeImage="./img/portfolio/corridor.jpg"
+                            smallImage="./img/portfolio/corridor.jpg"
                         />
                     </div>
                     <div className="col-sm-5 col-md-4 col-lg-3">
                         <Image
-                            title="tytul123"
-                            largeImage="./img/portfolio/01-large.jpg"
-                            smallImage="./img/portfolio/01-small.jpg"
+                            title="Best technologies"
+                            largeImage="./img/portfolio/rtg.jpg"
+                            smallImage="./img/portfolio/rtg.jpg"
                         />
                     </div>
                     <div className="col-sm-5 col-md-4 col-lg-3">
                         <Image
-                            title="tytul456"
-                            largeImage="./img/portfolio/01-large.jpg"
-                            smallImage="./img/portfolio/01-small.jpg"
+                            title="Kind service"
+                            largeImage="./img/portfolio/reception.png"
+                            smallImage="./img/portfolio/reception.png"
                         />
                     </div>
                     <div className="col-sm-5 col-md-4 col-lg-3">
                         <Image
-                            title="tytu152l"
-                            largeImage="./img/portfolio/01-large.jpg"
-                            smallImage="./img/portfolio/01-small.jpg"
+                            title="Best specialists"
+                            largeImage="./img/portfolio/operation.jpg"
+                            smallImage="./img/portfolio/operation.jpg"
                         />
                     </div>
                 </div>

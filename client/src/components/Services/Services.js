@@ -5,20 +5,17 @@ export const Services = () => {
             <div className="container">
                 <div className="section-title">
                     <h2>Our Services</h2>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                        duis sed dapibus leonec.
-                    </p>
+                    <p>We live to serve.</p>
                 </div>
                 <div className="row">
                     <div className="col-md-4">
                         {" "}
                         <i className="fa fa-group"></i>
                         <div className="service-desc">
-                            <h3>Tytul123</h3>
+                            <h3>Diagnostic</h3>
                             <p>
-                                Lorem ipsum dolor sit amet placerat facilisis
-                                felis mi in{" "}
+                                We are ready to examine your problems and give
+                                you best healthcare possible.{" "}
                             </p>
                         </div>
                     </div>
@@ -26,10 +23,11 @@ export const Services = () => {
                         {" "}
                         <i className="fa fa-magic"></i>
                         <div className="service-desc">
-                            <h3>Tytul123</h3>
+                            <h3>Care</h3>
                             <p>
-                                Lorem ipsum dolor sit amet placerat facilisis
-                                felis mi in{" "}
+                                Professional modern facilities with air
+                                conditioning will make you cool any time of the
+                                year.{" "}
                             </p>
                         </div>
                     </div>
@@ -37,10 +35,10 @@ export const Services = () => {
                         {" "}
                         <i className="fa fa-bullhorn"></i>
                         <div className="service-desc">
-                            <h3>Tytul453</h3>
+                            <h3>Consultation</h3>
                             <p>
-                                Lorem ipsum dolor sit amet placerat facilisis
-                                felis mi in{" "}
+                                Specialists eager to give your codeine
+                                prescription.{" "}
                             </p>
                         </div>
                     </div>

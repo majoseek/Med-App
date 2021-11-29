@@ -6,16 +6,16 @@ export const Header = () => {
                 <div className="overlay">
                     <div className="container">
                         <div className="row">
-                            <div className="col-md-8 offset-md-2 intro-text">
+                            <div className="col-md-6 offset-md-2 offset-lg-0 intro-text">
                                 <h1>
-                                    Lorem ipsum
+                                    Welcome!
                                     <span></span>
                                 </h1>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Duis sed dapibus leo nec
-                                    ornare diam sed commodo nibh ante facilisis
-                                    bibendum.
+                                    They say laughter is the best medicine, well
+                                    it is more like a medicine a general
+                                    physician will prescribe but if you want
+                                    specialized care, make sure to visit us.
                                 </p>
                                 <a href="#features" className="btn btn-primary">
                                     Learn More

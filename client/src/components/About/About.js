@@ -19,36 +19,27 @@ export const About = () => {
                     <div className="col-12 col-md-6">
                         <div className="about-text">
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut
-                                enim ad minim veniam, quis nostrud exercitation
-                                ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Lorem ipsum dolor sit amet,
-                                consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna
-                                aliqua.
+                                Our group offers variety of medical care
+                                possibilities. From diagnostic, through
+                                occupational medicine, up to internist
+                                consultation and covid tests.
                             </p>
                             <h3>Why Choose Us?</h3>
                             <div className="row">
                                 <div className="col-lg-6 col-sm-6 col-12">
                                     <ul>
-                                        <li>Cos tam</li>
-                                        <li>Cos 123</li>
-                                        <li>Cos</li>
-                                        <li>Cos 56</li>
-                                        <li>Cos 4521</li>
-                                        <li>Cos 123</li>
+                                        <li>no queues</li>
+                                        <li>low cost</li>
+                                        <li>only vaccinated doctors</li>
+                                        <li>affordable insurance policy</li>
                                     </ul>
                                 </div>
                                 <div className="col-lg-6 col-sm-6 col-12">
                                     <ul>
-                                        <li>Cos tam</li>
-                                        <li>Cos 123</li>
-                                        <li>Cos</li>
-                                        <li>Cos 56</li>
-                                        <li>Cos 4521</li>
-                                        <li>Cos 123</li>
+                                        <li>many objects</li>
+                                        <li>professional care</li>
+                                        <li>reliability</li>
+                                        <li>no bullshit</li>
                                     </ul>
                                 </div>
                             </div>
