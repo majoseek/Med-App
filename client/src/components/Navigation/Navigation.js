@@ -2,6 +2,7 @@ import "./Navigation.css";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
+import { Link } from "react-router-dom";
 export const Navigation = () => {
     return (
         <Navbar bg="light" expand="lg" fixed="top">
@@ -17,8 +18,12 @@ export const Navigation = () => {
                         <Nav.Link href="#testimonials">Testimonials</Nav.Link>
                         <Nav.Link href="#team">Team</Nav.Link>
                         <Nav.Link href="#contact">Contact</Nav.Link>
-                        <Nav.Link href="#login">Login</Nav.Link>
-                        <Nav.Link href="#register">Register</Nav.Link>
+                        <Nav.Link as={Link} to="/login">
+                            Login
+                        </Nav.Link>
+                        <Nav.Link as={Link} to="/register">
+                            Register
+                        </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
