@@ -1,5 +1,13 @@
 package com.example.backend.visit;
 
+import com.example.backend.doctor.Doctor;
+import com.example.backend.doctor.DoctorService;
+import com.example.backend.exceptions.UserNotFound;
+import com.example.backend.exceptions.VisitNotFound;
+import com.example.backend.patient.Patient;
+import com.example.backend.patient.PatientController;
+import com.example.backend.patient.PatientRepository;
+import com.example.backend.patient.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -11,22 +19,45 @@ import java.util.List;
 @Service
 public class VisitService {
 
-    private  VisitRepository repository;
+    private final VisitRepository repository;
+    private final PatientService patientService;
+    private final DoctorService doctorService;
+
 
     @Autowired
-    VisitService(VisitRepository repository) {this.repository = repository;}
-
-    public List<Visit> getPatientVisits(Long patientId) {
-        return ResponseEntity.ok(repository.findAllByPatientByPatientUserId(patientId)).getBody();
+    VisitService(VisitRepository repository,
+                 PatientService patientService,
+                 DoctorService doctorService) {
+        this.repository = repository;
+        this.patientService = patientService;
+        this.doctorService = doctorService;
     }
 
-    public List<Visit> getDoctorVisits(Long doctorId) {
-        return ResponseEntity.ok(repository.findAllByDoctorByDoctorUserId(doctorId)).getBody();
+    public Visit getVisitById(Long visitId) throws VisitNotFound{
+        return repository.findById(visitId).orElseThrow(()-> new VisitNotFound("Could not find visit " + visitId));
     }
 
-    public Visit updateVisitDate(Long visitId, Date newDate) throws ResourceNotFoundException {
+    public List<Visit> getVisitsByDate(Date dateOfVisits) {
+        return repository.findAllByDate(dateOfVisits);
+    }
+
+    public List<Visit> getVisitsByLocation(String location) {
+        return  repository.findAllByLocation(location);
+    }
+
+    public List<Visit> getPatientVisits(Long patientId) throws UserNotFound {
+        patientService.getPatientById(patientId);
+        return repository.findAllByPatientByPatientUserId(patientId);
+    }
+
+    public List<Visit> getDoctorVisits(Long doctorId) throws UserNotFound{
+        doctorService.getDoctorById(doctorId);
+        return repository.findAllByDoctorByDoctorUserId(doctorId);
+    }
+
+    public Visit updateVisitDate(Long visitId, Date newDate) throws VisitNotFound {
         Visit visit = repository.findById(visitId)
-                .orElseThrow(() -> new ResourceNotFoundException("Visit not found on :: "+ visitId));
+                .orElseThrow(() -> new VisitNotFound("Visit not found on :: "+ visitId));
         visit.setDate(newDate);
         final Visit updatedVisit = repository.save(visit);
         return ResponseEntity.ok(updatedVisit).getBody();
@@ -36,12 +67,22 @@ public class VisitService {
         return repository.save(newVisit);
     }
 
-    public boolean delete(Long visitId) {
-        if(repository.existsById(visitId)) {
-            repository.deleteById(visitId);
-            return true;
-        }
-        else
-            return false;
+    public void delete(Long visitId){
+        repository.deleteById(visitId);
+    }
+
+    public Visit createVisit(Date date, String description, String location, Doctor doctor, Patient patient) {
+        Visit newVisit = new Visit();
+        newVisit.setDate(date);
+        newVisit.setDescription(description);
+        newVisit.setLocation(location);
+        newVisit.setDoctorByDoctorUserId(doctor);
+        newVisit.setPatientByPatientUserId(patient);
+        repository.save(newVisit);
+        return newVisit;
+    }
+
+    public List<Visit> getAllVisits() {
+        return repository.findAll();
     }
 }

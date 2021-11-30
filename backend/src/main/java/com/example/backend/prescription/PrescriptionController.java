@@ -1,6 +1,8 @@
 package com.example.backend.prescription;
 
 
+import com.example.backend.doctor.Doctor;
+import com.example.backend.exceptions.PrescriptionNotFound;
 import com.example.backend.patient.Patient;
 import com.example.backend.visit.Visit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,21 +24,43 @@ public class PrescriptionController {
         this.service = service;
     }
 
-    @GetMapping("/smth/{patientId}") //???
-    public List<Prescription> getPatientPrescription(@PathVariable Long patientId) {
-        return service.getPatientPrescription(patientId);
+    @GetMapping("/{patientId}/prescriptions")
+    @ResponseBody
+    public ResponseEntity<?> getPatientPrescription(@PathVariable Long patientId) {
+        List<Prescription> prescriptions = service.getPatientPrescription(patientId);
+        return ResponseEntity.ok(prescriptions);
     }
 
-    @PostMapping("/...")
-    public Prescription createPrescription(Prescription newPrescription) {
-        return service.save(newPrescription);
+    @GetMapping("/{doctorId}/prescription")
+    @ResponseBody
+    public ResponseEntity<?> getDoctorPrescription(@PathVariable Long doctorId) {
+        List<Prescription> prescriptions = service.getDoctorPrescription(doctorId);
+        return ResponseEntity.ok(prescriptions);
     }
 
-    @DeleteMapping("/.../{prescriptionId}")
-    public void deletePrescription(
-            @PathVariable Long prescriptionId) throws ResourceNotFoundException {
-        var isDeleted= service.delete(prescriptionId);
-        if(!isDeleted)
-            throw new ResourceNotFoundException("Could not find prescription with id: " + prescriptionId);
+    @GetMapping("/prescriptions/{prescriptionId}")
+    @ResponseBody
+    public ResponseEntity<?> getPrescriptionById(@PathVariable Long prescriptionId) {
+        try {
+            Prescription prescription = service.getPrescriptionById(prescriptionId);
+            return ResponseEntity.ok(prescription);
+        } catch (PrescriptionNotFound prescriptionNotFound){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((prescriptionNotFound.getLocalizedMessage()));
+        }
     }
+
+    @PostMapping("/prescriptions")
+    public ResponseEntity<?> createPrescription(@RequestBody String medicationName,
+                                                @RequestBody Long amount,
+                                                @RequestBody Doctor doctor,
+                                                @RequestBody Patient patient) {
+        Prescription prescription = service.createPrescription(medicationName, amount, doctor, patient);
+        return ResponseEntity.ok(prescription);
+    }
+
+    @DeleteMapping("/prescriptions/{prescriptionId}")
+    public ResponseEntity<?> deletePrescription(
+            @PathVariable Long prescriptionId) {
+        service.delete(prescriptionId);
+        return ResponseEntity.ok(prescriptionId);}
 }

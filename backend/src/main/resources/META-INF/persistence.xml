@@ -14,8 +14,8 @@
     <class>com.example.backend.visit.Visit</class>
     <properties>
       <property name="connection.url" value="jdbc:oracle:thin:@ora4.ii.pw.edu.pl:1521/pdb1.ii.pw.edu.pl"/>
-      <property name="connection.username" value="wkolodz2"/>
-      <property name="connection.password" value="wkolodz2"/>
+      <property name="connection.username" value="z14"/>
+      <property name="connection.password" value="dnzeu3"/>
       <property name="connection.driver_class" value="oracle.jdbc.OracleDriver"/>
     </properties>
   </persistence-unit>
