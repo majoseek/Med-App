@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PAP_VISIT", schema = "WKOLODZ2")
+@Table(name = "PAP_VISIT", schema = "Z14")
 public class Visit {
     private Long id;
     private Date date;

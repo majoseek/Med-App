@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PAP_USER", schema = "WKOLODZ2")
+@Table(name = "PAP_USER", schema = "Z14")
 public class User {
     private Long id;
     private String email;
