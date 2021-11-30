@@ -8,11 +8,6 @@ import { Team } from "../Team/Team";
 import { Contact } from "../Contact/Contact";
 import "./LandingPage.css";
 
-export const scroll = new SmoothScroll('a[href*="#"]', {
-    speed: 1000,
-    speedAsDuration: true,
-});
-
 const LandingPage = () => {
     return (
         <div>

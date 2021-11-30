@@ -1,4 +1,5 @@
 import "./Header.css";
+import { Link } from "react-scroll";
 export const Header = () => {
     return (
         <header id="header">
@@ -17,9 +18,16 @@ export const Header = () => {
                                     physician will prescribe but if you want
                                     specialized care, make sure to visit us.
                                 </p>
-                                <a href="#features" className="btn btn-primary">
+                                <Link
+                                    to="features"
+                                    activeClass="active"
+                                    spy={true}
+                                    smooth={true}
+                                    duration={50}
+                                    className="btn btn-primary"
+                                >
                                     Learn More
-                                </a>{" "}
+                                </Link>{" "}
                             </div>
                         </div>
                     </div>
