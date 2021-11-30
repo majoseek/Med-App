@@ -6,7 +6,6 @@ import { Gallery } from "../Gallery/Gallery";
 import { Testimonials } from "../Testimonials/Testimonials";
 import { Team } from "../Team/Team";
 import { Contact } from "../Contact/Contact";
-import SmoothScroll from "smooth-scroll";
 import "./LandingPage.css";
 
 export const scroll = new SmoothScroll('a[href*="#"]', {
