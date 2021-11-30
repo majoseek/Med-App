@@ -7,19 +7,29 @@ import { Testimonials } from "../Testimonials/Testimonials";
 import { Team } from "../Team/Team";
 import { Contact } from "../Contact/Contact";
 import "./LandingPage.css";
+import React from "react";
+import { Navigation } from "../Navigation/Navigation";
 
 const LandingPage = () => {
     return (
-        <div>
-            <Header />
-            <Features />
-            <About />
-            <Services />
-            <Gallery />
-            <Testimonials />
-            <Team />
-            <Contact />
-        </div>
+        <React.Fragment>
+            <Navigation />
+            <div>
+                <Header />
+                <Features />
+                <About />
+                <Services />
+                <Gallery />
+                <Testimonials />
+                <Team />
+                <Contact />
+                <div id="footer">
+                    <div className="container text-center">
+                        <p>Medicine App</p>
+                    </div>
+                </div>
+            </div>
+        </React.Fragment>
     );
 };
 

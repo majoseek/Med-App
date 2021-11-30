@@ -10,7 +10,7 @@ export const Services = () => {
                 <div className="row">
                     <div className="col-md-4">
                         {" "}
-                        <i className="fa fa-group"></i>
+                        <i className="fa fa-stethoscope"></i>
                         <div className="service-desc">
                             <h3>Diagnostic</h3>
                             <p>
@@ -21,7 +21,7 @@ export const Services = () => {
                     </div>
                     <div className="col-md-4">
                         {" "}
-                        <i className="fa fa-magic"></i>
+                        <i className="fa fa-hospital-o"></i>
                         <div className="service-desc">
                             <h3>Care</h3>
                             <p>
@@ -33,7 +33,7 @@ export const Services = () => {
                     </div>
                     <div className="col-md-4">
                         {" "}
-                        <i className="fa fa-bullhorn"></i>
+                        <i className="fa fa-user-md"></i>
                         <div className="service-desc">
                             <h3>Consultation</h3>
                             <p>
