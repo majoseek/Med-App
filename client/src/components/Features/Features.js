@@ -9,7 +9,7 @@ export const Features = () => {
                 <div className="row">
                     <div className="col-6 col-md-3">
                         {" "}
-                        <i className="fa fa-glass"></i>
+                        <i className="fa fa-comments-o"></i>
                         <h4>Online consultations</h4>
                         <p>
                             You dont need to leave your home. Just fill in the
@@ -19,7 +19,7 @@ export const Features = () => {
                     </div>
                     <div className="col-6 col-md-3">
                         {" "}
-                        <i className="fa fa-bullhorn"></i>
+                        <i className="fa fa-heartbeat"></i>
                         <h4 className="font-weight-bold">
                             Periodic examinations
                         </h4>
@@ -31,13 +31,13 @@ export const Features = () => {
                     </div>
                     <div className="col-6 col-md-3">
                         {" "}
-                        <i className="fa fa-magic"></i>
+                        <i className="fa fa-ambulance"></i>
                         <h4>Emergency help</h4>
                         <p>We offer 24/7 er in any of our establishments.</p>
                     </div>
                     <div className="col-6 col-md-3">
                         {" "}
-                        <i className="fa fa-group"></i>
+                        <i className="fa fa-wheelchair"></i>
                         <h4>Disabled facilities</h4>
                         <p>
                             People with disabilities are offered special

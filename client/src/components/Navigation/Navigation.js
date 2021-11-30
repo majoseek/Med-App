@@ -3,107 +3,51 @@ import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import { Link } from "react-router-dom";
-import { Link as LinkScroll } from "react-scroll";
 import Button from "react-bootstrap/Button";
+import { Link as LinkScroll } from "react-scroll";
 export const Navigation = () => {
     return (
         <Navbar bg="light" expand="lg" fixed="top">
             <Container>
-                <Navbar.Brand as={Link} to="/">
-                    <LinkScroll
-                        to="header"
-                        spy={true}
-                        smooth={true}
-                        duration={50}
-                    >
-                        PAP-MED
-                    </LinkScroll>
+                <Navbar.Brand>
+                    <Link to="/">PAP-APP</Link>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="/#features">
-                            <LinkScroll
+                            {/* <LinkScroll
                                 to="features"
                                 spy={true}
                                 smooth={true}
                                 duration={50}
                                 className="btn btn-primary"
-                            >
-                                Features
-                            </LinkScroll>
+                            > */}
+                            Features
                         </Nav.Link>
                         <Nav.Link as={Link} to="/#about">
-                            <LinkScroll
-                                to="about"
-                                spy={true}
-                                smooth={true}
-                                duration={50}
-                                className="btn btn-primary"
-                            >
-                                About
-                            </LinkScroll>
+                            About
                         </Nav.Link>
                         <Nav.Link as={Link} to="/#services">
-                            <LinkScroll
-                                to="services"
-                                spy={true}
-                                smooth={true}
-                                duration={50}
-                                className="btn btn-primary"
-                            >
-                                Services
-                            </LinkScroll>
+                            Services
                         </Nav.Link>
                         <Nav.Link as={Link} to="/#portfolio">
-                            <LinkScroll
-                                to="portfolio"
-                                spy={true}
-                                smooth={true}
-                                duration={50}
-                                className="btn btn-primary"
-                            >
-                                Gallery
-                            </LinkScroll>
+                            Gallery
                         </Nav.Link>
                         <Nav.Link as={Link} to="/#testimonials">
-                            <LinkScroll
-                                to="testimonials"
-                                spy={true}
-                                smooth={true}
-                                duration={50}
-                                className="btn btn-primary"
-                            >
-                                Testimonials
-                            </LinkScroll>
+                            Testimonials
                         </Nav.Link>
                         <Nav.Link as={Link} to="/#team">
-                            <LinkScroll
-                                to="team"
-                                spy={true}
-                                smooth={true}
-                                duration={50}
-                                className="btn btn-primary"
-                            >
-                                Team
-                            </LinkScroll>
+                            Team
                         </Nav.Link>
                         <Nav.Link as={Link} to="/#contact">
-                            <LinkScroll
-                                to="contact"
-                                spy={true}
-                                smooth={true}
-                                duration={50}
-                                className="btn btn-primary"
-                            >
-                                Contact
-                            </LinkScroll>
+                            Contact
                         </Nav.Link>
                         <Nav.Link as={Link} to="/login">
-                            <Button>Login</Button>
+                            Login
                         </Nav.Link>
                         <Nav.Link as={Link} to="/register">
-                            <Button>Register</Button>
+                            Register
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
