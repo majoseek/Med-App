@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PAP_DOCTOR", schema = "WKOLODZ2")
+@Table(name = "PAP_DOCTOR", schema = "Z14")
 public class Doctor {
     private Long userId;
     private String name;

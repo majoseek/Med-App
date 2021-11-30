@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PAP_PRESCRIPT", schema = "WKOLODZ2")
+@Table(name = "PAP_PRESCRIPT", schema = "Z14")
 public class Prescription {
     private Long id;
     private String medicationName;

@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PAP_ILLNESS_MAP", schema = "WKOLODZ2")
+@Table(name = "PAP_ILLNESS_MAP", schema = "Z14")
 @IdClass(IllnessMapPK.class)
 public class IllnessMap {
     private Long illnessId;

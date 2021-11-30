@@ -23,14 +23,14 @@ public class IllnessController {
         return ResponseEntity.ok(illnesses);
     }
 
-    @GetMapping("/{illnessName}")
+    @GetMapping("/name/{illnessName}")
     @ResponseBody
     public ResponseEntity<?> getIllnessByName(@PathVariable String illnessName) {
         List<Illness> illnesses = service.getIllnessByName(illnessName);
         return ResponseEntity.ok(illnesses);
     }
 
-    @GetMapping("/{illnessId}")
+    @GetMapping("/id/{illnessId}")
     @ResponseBody
     public ResponseEntity<?> getIllnessById(@PathVariable Long illnessId) {
         try{

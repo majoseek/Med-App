@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PAP_PATIENT", schema = "WKOLODZ2")
+@Table(name = "PAP_PATIENT", schema = "Z14")
 public class Patient {
     private Long UserId;
     private String name;
