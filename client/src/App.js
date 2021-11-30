@@ -4,6 +4,7 @@ import { Navigation } from "./components/Navigation/Navigation";
 import LoginPage from "./components/LoginPage/LoginPage";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import RegisterPage from "./components/RegisterPage/RegisterPage";
 
 const App = () => {
     return (
@@ -12,7 +13,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route exact path="/login" element={<LoginPage />} />
-                <Route exact path="/register" element={<h1>Register</h1>} />
+                <Route exact path="/register" element={<RegisterPage />} />
             </Routes>
             <div id="footer">
                 <div className="container text-center">

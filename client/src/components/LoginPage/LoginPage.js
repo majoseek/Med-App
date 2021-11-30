@@ -1,12 +1,19 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import "./LoginPage.css";
+import axios from "axios";
 export default function LoginPage() {
-    const [login, set_login] = useState("");
+    const [email, set_email] = useState("");
     const [password, set_password] = useState("");
     function sign_in() {
-        console.log(login, password);
-        //axios send request
+        console.log(email, password);
+        axios
+            .post("/users/login", {
+                email: email,
+                password: password,
+            })
+            .then((response) => console.log(response))
+            .catch((error) => console.log(error.response.status));
     }
     return (
         <div className="container main_div text-center">
@@ -15,8 +22,8 @@ export default function LoginPage() {
                     <h3>Login</h3>
                     <input
                         type="text"
-                        value={login}
-                        onChange={(e) => set_login(e.target.value)}
+                        value={email}
+                        onChange={(e) => set_email(e.target.value)}
                     />
                     <input
                         type="password"
