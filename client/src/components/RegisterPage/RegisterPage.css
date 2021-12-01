@@ -1,9 +1,9 @@
-.login,
+.register,
 .image {
     min-height: 100vh;
 }
-.bg_login-image {
-    background-image: url("./bg_login.jpg");
+.bg-image_register {
+    background-image: url("./bg_register.jpg");
     background-size: cover;
     background-position: center center;
 }
