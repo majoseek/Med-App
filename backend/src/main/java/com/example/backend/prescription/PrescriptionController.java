@@ -3,6 +3,7 @@ package com.example.backend.prescription;
 
 import com.example.backend.doctor.Doctor;
 import com.example.backend.exceptions.PrescriptionNotFound;
+import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.patient.Patient;
 import com.example.backend.visit.Visit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,20 @@ public class PrescriptionController {
                                                 @RequestBody Patient patient) {
         Prescription prescription = service.createPrescription(medicationName, amount, doctor, patient);
         return ResponseEntity.ok(prescription);
+    }
+
+    @PostMapping("/prescriprions")
+    public ResponseEntity<?> createByPatientPesel(@RequestBody String pesel,
+                                                  @RequestBody String medicationName,
+                                                  @RequestBody Long amount,
+                                                  @RequestBody Long doctorId) {
+        try{
+            Prescription prescription = service.createByPatientPesel(pesel, medicationName, amount, doctorId);
+            return ResponseEntity.ok(prescription);
+        } catch (UserNotFound userNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((userNotFound.getLocalizedMessage()));
+        }
+
     }
 
     @DeleteMapping("/prescriptions/{prescriptionId}")
