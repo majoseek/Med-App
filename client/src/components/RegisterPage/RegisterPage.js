@@ -1,12 +1,16 @@
 import { useState } from "react";
 import "./RegisterPage.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import ArrowLeft from "./arrow-left.svg";
 export default function RegisterPage() {
     const [email, set_email] = useState("");
+    const [name, set_name] = useState("");
+    const [surname, set_surname] = useState("");
+    const [pesel, set_pesel] = useState("");
     const [password, set_password] = useState("");
     function register() {
-        console.log(email, password);
+        console.log(email, name, surname, pesel, password);
     }
     return (
         <div className="maincontainer">
@@ -26,14 +30,20 @@ export default function RegisterPage() {
                                             Fill in this form to register your
                                             account
                                         </p>
-                                        <form className="justify-content-center">
+                                        <div className="justify-content-center">
                                             <div className="mb-3">
                                                 <input
                                                     id="inputEmail"
                                                     type="email"
                                                     placeholder="Email address"
-                                                    required=""
+                                                    required={true}
                                                     autoFocus={true}
+                                                    value={email}
+                                                    onChange={(e) =>
+                                                        set_email(
+                                                            e.target.value
+                                                        )
+                                                    }
                                                     className="form-control rounded-pill border-0 shadow-sm px-4"
                                                 />
                                             </div>
@@ -42,7 +52,11 @@ export default function RegisterPage() {
                                                     id="inputName"
                                                     type="text"
                                                     placeholder="Name"
-                                                    required=""
+                                                    required={true}
+                                                    value={name}
+                                                    onChange={(e) =>
+                                                        set_name(e.target.value)
+                                                    }
                                                     className="form-control rounded-pill border-0 shadow-sm px-4"
                                                 />
                                             </div>
@@ -51,7 +65,13 @@ export default function RegisterPage() {
                                                     id="inputSurName"
                                                     type="text"
                                                     placeholder="Surname"
-                                                    required=""
+                                                    required={true}
+                                                    value={surname}
+                                                    onChange={(e) =>
+                                                        set_surname(
+                                                            e.target.value
+                                                        )
+                                                    }
                                                     className="form-control rounded-pill border-0 shadow-sm px-4"
                                                 />
                                             </div>
@@ -60,7 +80,13 @@ export default function RegisterPage() {
                                                     id="inputPesel"
                                                     type="text"
                                                     placeholder="Pesel"
-                                                    required=""
+                                                    required={true}
+                                                    value={pesel}
+                                                    onChange={(e) =>
+                                                        set_pesel(
+                                                            e.target.value
+                                                        )
+                                                    }
                                                     className="form-control rounded-pill border-0 shadow-sm px-4"
                                                 />
                                             </div>
@@ -69,44 +95,51 @@ export default function RegisterPage() {
                                                     id="inputPassword"
                                                     type="password"
                                                     placeholder="Password"
-                                                    required=""
+                                                    required={true}
+                                                    value={password}
+                                                    onChange={(e) =>
+                                                        set_password(
+                                                            e.target.value
+                                                        )
+                                                    }
                                                     className="form-control rounded-pill border-0 shadow-sm px-4 text-primary"
                                                 />
                                             </div>
                                             <div className="d-grid gap-2 mt-2 w-75 m-auto">
                                                 <button
-                                                    type="submit"
+                                                    onClick={() => register()}
                                                     className="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm"
                                                 >
                                                     Register
                                                 </button>
                                             </div>
-                                        </form>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="row text-center mt-5">
-                                    <div className="col m-0">
-                                        <div
-                                            className="row"
-                                            style={{ cursor: "pointer" }}
-                                        >
-                                            <div className="col">
-                                                <img
-                                                    src={ArrowLeft}
-                                                    alt="Back home"
-                                                    width="32px"
-                                                    height="32px"
-                                                />
+                                <Link to="/">
+                                    <div
+                                        className="row text-center mt-5"
+                                        style={{ cursor: "pointer" }}
+                                    >
+                                        <div className="col m-0">
+                                            <div className="row">
+                                                <div className="col">
+                                                    <img
+                                                        src={ArrowLeft}
+                                                        alt="Back home"
+                                                        width="32px"
+                                                        height="32px"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="row mt-2">
+                                                <div className="col">
+                                                    Back home
+                                                </div>
                                             </div>
                                         </div>
-                                        <div
-                                            className="row mt-2"
-                                            style={{ cursor: "pointer" }}
-                                        >
-                                            <div className="col">Back home</div>
-                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             </div>
                         </div>
                     </div>

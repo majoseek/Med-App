@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./LoginPage.css";
 import axios from "axios";
 import ArrowLeft from "./arrow-left.svg";
+import { Link } from "react-router-dom";
 export default function LoginPage() {
     const [email, set_email] = useState("");
     const [password, set_password] = useState("");
@@ -34,7 +35,7 @@ export default function LoginPage() {
                                             Fill in this form to sign in to your
                                             dashboard
                                         </p>
-                                        <form className="justify-content-center">
+                                        <div className="justify-content-center">
                                             <div className="mb-3">
                                                 <input
                                                     id="inputEmail"
@@ -42,6 +43,12 @@ export default function LoginPage() {
                                                     placeholder="Email address"
                                                     required=""
                                                     autoFocus={true}
+                                                    value={email}
+                                                    onChange={(e) =>
+                                                        set_email(
+                                                            e.target.value
+                                                        )
+                                                    }
                                                     className="form-control rounded-pill border-0 shadow-sm px-4"
                                                 />
                                             </div>
@@ -51,6 +58,12 @@ export default function LoginPage() {
                                                     type="password"
                                                     placeholder="Password"
                                                     required=""
+                                                    value={password}
+                                                    onChange={(e) =>
+                                                        set_password(
+                                                            e.target.value
+                                                        )
+                                                    }
                                                     className="form-control rounded-pill border-0 shadow-sm px-4 text-primary"
                                                 />
                                             </div>
@@ -76,38 +89,39 @@ export default function LoginPage() {
                                             </div>
                                             <div className="d-grid gap-2 mt-2 m-auto w-75">
                                                 <button
-                                                    type="submit"
                                                     className="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm"
+                                                    onClick={() => sign_in()}
                                                 >
                                                     Sign in
                                                 </button>
                                             </div>
-                                        </form>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="row text-center mt-5">
-                                    <div className="col m-0">
-                                        <div
-                                            className="row"
-                                            style={{ cursor: "pointer" }}
-                                        >
-                                            <div className="col">
-                                                <img
-                                                    src={ArrowLeft}
-                                                    alt="Back home"
-                                                    width="32px"
-                                                    height="32px"
-                                                />
+                                <Link to="/">
+                                    <div
+                                        className="row text-center mt-5"
+                                        style={{ cursor: "pointer" }}
+                                    >
+                                        <div className="col m-0">
+                                            <div className="row">
+                                                <div className="col">
+                                                    <img
+                                                        src={ArrowLeft}
+                                                        alt="Back home"
+                                                        width="32px"
+                                                        height="32px"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="row mt-2">
+                                                <div className="col">
+                                                    Back home
+                                                </div>
                                             </div>
                                         </div>
-                                        <div
-                                            className="row mt-2"
-                                            style={{ cursor: "pointer" }}
-                                        >
-                                            <div className="col">Back home</div>
-                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             </div>
                         </div>
                     </div>
