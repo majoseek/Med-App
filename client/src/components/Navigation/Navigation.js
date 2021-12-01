@@ -9,38 +9,79 @@ export const Navigation = () => {
     return (
         <Navbar bg="light" expand="lg" fixed="top">
             <Container>
-                <Navbar.Brand>
-                    <Link to="/">PAP-APP</Link>
+                <Navbar.Brand
+                    as={LinkScroll}
+                    to="header"
+                    spy={true}
+                    smooth={true}
+                    duration={50}
+                >
+                    PAP-MED-APP
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link as={Link} to="/#features">
-                            {/* <LinkScroll
-                                to="features"
-                                spy={true}
-                                smooth={true}
-                                duration={50}
-                                className="btn btn-primary"
-                            > */}
+                        <Nav.Link
+                            as={LinkScroll}
+                            to="features"
+                            spy={true}
+                            smooth={true}
+                            duration={50}
+                        >
                             Features
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/#about">
+                        <Nav.Link
+                            as={LinkScroll}
+                            to="about"
+                            spy={true}
+                            smooth={true}
+                            duration={50}
+                        >
                             About
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/#services">
+                        <Nav.Link
+                            as={LinkScroll}
+                            to="services"
+                            spy={true}
+                            smooth={true}
+                            duration={50}
+                        >
                             Services
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/#portfolio">
+                        <Nav.Link
+                            as={LinkScroll}
+                            to="portfolio"
+                            spy={true}
+                            smooth={true}
+                            duration={50}
+                        >
                             Gallery
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/#testimonials">
+                        <Nav.Link
+                            as={LinkScroll}
+                            to="testimonials"
+                            spy={true}
+                            smooth={true}
+                            duration={50}
+                        >
                             Testimonials
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/#team">
+                        <Nav.Link
+                            as={LinkScroll}
+                            to="team"
+                            spy={true}
+                            smooth={true}
+                            duration={50}
+                        >
                             Team
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/#contact">
+                        <Nav.Link
+                            as={LinkScroll}
+                            to="contact"
+                            spy={true}
+                            smooth={true}
+                            duration={50}
+                        >
                             Contact
                         </Nav.Link>
                         <Nav.Link as={Link} to="/login">
