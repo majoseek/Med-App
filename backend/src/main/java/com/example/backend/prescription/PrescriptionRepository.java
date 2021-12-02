@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface PrescriptionRepository extends CrudRepository<Prescription, Long> {
 
-    List<Prescription> findAllByPatientByPatientUserId(Long patientUserId);
+    @Query(value = "select p from Prescription p where p.patientByPatientUserId.userId = :patientUserId")
+    List<Prescription> findAllByPatientId(Long patientUserId);
 
+    @Query(value = "select p from Prescription p where p.doctorByDoctorUserId.userId = :doctorId")
     List<Prescription> findAllByDoctorByDoctorUserId(Long doctorId);
 }
