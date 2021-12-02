@@ -75,6 +75,7 @@ public class PrescriptionService {
         newPrescription.setDoctorByDoctorUserId(newDoctor);
         newPrescription.setAmount(prescriptionDto.getAmount());
         newPrescription.setMedicationName(prescriptionDto.getMedicationName());
+        repository.save(newPrescription);
         return newPrescription;
     }
 }

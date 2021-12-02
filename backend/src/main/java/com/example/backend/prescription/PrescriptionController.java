@@ -71,10 +71,10 @@ public class PrescriptionController {
         }
     }
 
-    @PostMapping("/prescriprions")
+    @PostMapping("/prescriptionByPesel")
     public ResponseEntity<?> createByPatientPesel(@RequestBody CreateByPeselPrescriptionDto prescriptionDto) {
         try{
-            Prescription prescription = service.createByPatientPesel(prescriptionDto);
+            PrescriptionDto prescription = convertToDto(service.createByPatientPesel(prescriptionDto));
             return ResponseEntity.ok(prescription);
         } catch (UserNotFound userNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body((userNotFound.getLocalizedMessage()));
