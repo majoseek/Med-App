@@ -3,7 +3,6 @@ package com.example.backend.doctor;
 public class DoctorSignUpDto {
     private String email;
     private String password;
-    private String role;
     private String name;
     private String surname;
 
@@ -13,10 +12,6 @@ public class DoctorSignUpDto {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public void setName(String name) {
@@ -39,10 +34,6 @@ public class DoctorSignUpDto {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getRole() {
-        return role;
     }
 
     public String getName() {

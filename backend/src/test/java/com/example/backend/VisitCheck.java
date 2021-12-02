@@ -15,7 +15,7 @@ public class VisitCheck {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void shouldPassIfStringMatches() throws Exception {
+    public void shouldPassIfStringMatches() {
 
     }
 }

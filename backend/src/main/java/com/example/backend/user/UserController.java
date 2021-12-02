@@ -87,9 +87,9 @@ public class UserController {
             UserDataDto.UserData user = userService.login(userCredentials);
             return ResponseEntity.ok(user);
         } catch (UserNotFound userNotFound) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userNotFound.getLocalizedMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", userNotFound.getLocalizedMessage()));
         } catch (InvalidCredentials invalidCredentials) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(invalidCredentials.getLocalizedMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", invalidCredentials.getLocalizedMessage()));
         }
     }
 }
