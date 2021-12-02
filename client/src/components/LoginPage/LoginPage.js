@@ -13,8 +13,14 @@ export default function LoginPage() {
                 email: email,
                 password: password,
             })
-            .then((response) => console.log(response))
-            .catch((error) => console.log(error.response.status));
+            .then((response) => {
+                console.log("LOGIN SUCCESSFUL");
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log("LOGIN FAILED");
+                console.log(error.response.status);
+            });
     }
     return (
         <div className="maincontainer">

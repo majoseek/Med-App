@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./RegisterPage.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import ArrowLeft from "./arrow-left.svg";
 export default function RegisterPage() {
     const [email, set_email] = useState("");
     const [name, set_name] = useState("");
@@ -18,12 +17,13 @@ export default function RegisterPage() {
                 surname: surname,
                 pesel: pesel,
                 password: password,
-                role: "PATIENT",
             })
             .then((result) => {
+                console.log("REGISTERED SUCCESSFULL");
                 console.log(result);
             })
             .catch((err) => {
+                console.log("REGISTER FAILED");
                 console.log(err);
             });
     }

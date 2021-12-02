@@ -91,17 +91,13 @@ public class VisitController {
     }
 
     @PostMapping("/visits")
-    public ResponseEntity<?> createVisit(@RequestBody Date date,
-                                         @RequestBody String description,
-                                         @RequestBody String location,
-                                         @RequestBody Doctor doctor,
-                                         @RequestBody Patient patient) {
-        Visit visit = service.createVisit(date, description, location, doctor, patient);
-        return ResponseEntity.ok(visit);
+    public ResponseEntity<?> createVisit(@RequestBody CreateVisitDto createVisitDto) {
+        //Visit visit = service.createVisit(date, description, location, doctor, patient);
+        return ResponseEntity.ok("ok");
     }
 
     @DeleteMapping("/visits/{visitId}")
-    public ResponseEntity<?> deleteVisit(@PathVariable Long visitId){
+    public ResponseEntity<?> deleteVisit(@PathVariable Long visitId) {
         service.delete(visitId);
         return ResponseEntity.ok(visitId);
     }
