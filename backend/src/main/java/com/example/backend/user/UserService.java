@@ -33,7 +33,7 @@ public class UserService {
         final Doctor newDoctor = new Doctor();
         newUser.setEmail(doctor.getEmail());
         newUser.setPassword(doctor.getEmail());
-        newUser.setRole(doctor.getRole());
+        newUser.setRole("DOCTOR");
         newDoctor.setSpecialization(doctor.getSpecialization());
         newDoctor.setName(doctor.getName());
         newDoctor.setSurname(doctor.getSurname());
@@ -50,7 +50,7 @@ public class UserService {
         final User newUser = new User();
         newUser.setEmail(patient.getEmail());
         newUser.setPassword(patient.getPassword());
-        newUser.setRole(patient.getRole());
+        newUser.setRole("PATIENT");
         final Patient newPatient = new Patient();
         newPatient.setName(patient.getName());
         newPatient.setSurname(patient.getSurname());
