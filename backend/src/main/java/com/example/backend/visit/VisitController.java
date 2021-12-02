@@ -18,7 +18,7 @@ import java.util.Optional;
 @RestController
 public class VisitController {
 
-    private VisitService service;
+    private final VisitService service;
 
     @Autowired
     public VisitController(VisitService service) {

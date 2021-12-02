@@ -17,9 +17,9 @@ import java.util.Optional;
 @Service
 public class PrescriptionService {
 
-    private PrescriptionRepository repository;
-    private PatientRepository patientRepository;
-    private DoctorRepository doctorRepository;
+    private final PrescriptionRepository repository;
+    private final PatientRepository patientRepository;
+    private final DoctorRepository doctorRepository;
 
     @Autowired
     PrescriptionService(PrescriptionRepository repository,
@@ -30,8 +30,8 @@ public class PrescriptionService {
         this.doctorRepository = doctorRepository;
     }
 
-    public List<Prescription> getPatientPrescription (Long patientId) {
-        return repository.findAllByPatientByPatientUserId(patientId);
+    public List<Prescription> getPatientPrescription(Long patientId) {
+        return repository.findAllByPatientId(patientId);
     }
 
     public List<Prescription> getDoctorPrescription(Long doctorId) {
@@ -39,44 +39,42 @@ public class PrescriptionService {
     }
 
     public Prescription getPrescriptionById(Long prescriptionId) throws PrescriptionNotFound {
-        return repository.findById(prescriptionId).orElseThrow(()-> new PrescriptionNotFound("Could not find prescription " + prescriptionId));
+        return repository.findById(prescriptionId).orElseThrow(() -> new PrescriptionNotFound("Could not find prescription " + prescriptionId));
     }
 
     public Prescription save(Prescription newPrescription) {
         return repository.save(newPrescription);
     }
 
-    public void delete(Long prescriptionId){
-        if(repository.existsById(prescriptionId)) {
+    public void delete(Long prescriptionId) {
+        if (repository.existsById(prescriptionId)) {
             repository.deleteById(prescriptionId);
         }
     }
 
 
-    public Prescription createPrescription(String medicationName, Long amount, Doctor doctor, Patient patient) {
+    public Prescription createPrescription(CreatePrescriptionDto prescriptionDto) throws UserNotFound {
         final Prescription newPrescription = new Prescription();
-        newPrescription.setMedicationName(medicationName);
-        newPrescription.setAmount(amount);
-        newPrescription.setDoctorByDoctorUserId(doctor);
-        newPrescription.setPatientByPatientUserId(patient);
+        newPrescription.setMedicationName(prescriptionDto.getMedicationName());
+        newPrescription.setAmount(prescriptionDto.getAmount());
+        newPrescription.setDoctorByDoctorUserId(doctorRepository.findById(prescriptionDto.getDoctorId()).orElseThrow(() -> new UserNotFound("Doctor with this id was not found")));
+        newPrescription.setPatientByPatientUserId(patientRepository.findById(prescriptionDto.getPatientId()).orElseThrow(() -> new UserNotFound("Patient with this id was not found")));
         repository.save(newPrescription);
         return newPrescription;
     }
 
-    public Prescription createByPatientPesel(String pesel, String medicationName, Long amount, Long doctorId)
+    public Prescription createByPatientPesel(CreateByPeselPrescriptionDto prescriptionDto)
             throws UserNotFound {
         final Prescription newPrescription = new Prescription();
-        final Optional<Patient> newPatient = patientRepository.findPatientByPesel(pesel);
-        if (newPatient.isEmpty())
-            throw new UserNotFound(String.format("Patient with pesel %s doesn't exist", pesel));
-        final Optional<Doctor> newDoctor = doctorRepository.findById(doctorId);
-        if (newDoctor.isEmpty())
-            throw new UserNotFound(String.format("Doctor with id %d doesn't exist", doctorId));
+        final Patient newPatient = patientRepository.findPatientByPesel(prescriptionDto.getPesel())
+                .orElseThrow(() -> new UserNotFound(String.format("Patient with pesel %s doesn't exist", prescriptionDto.getPesel())));
+        final Doctor newDoctor = doctorRepository.findById(prescriptionDto.getDoctorId())
+                .orElseThrow(() -> new UserNotFound(String.format("Doctor with id %d doesn't exist", prescriptionDto.getDoctorId())));
 
-        newPrescription.setPatientByPatientUserId(newPatient.get());
-        newPrescription.setDoctorByDoctorUserId(newDoctor.get());
-        newPrescription.setAmount(amount);
-        newPrescription.setMedicationName(medicationName);
+        newPrescription.setPatientByPatientUserId(newPatient);
+        newPrescription.setDoctorByDoctorUserId(newDoctor);
+        newPrescription.setAmount(prescriptionDto.getAmount());
+        newPrescription.setMedicationName(prescriptionDto.getMedicationName());
         return newPrescription;
     }
 }
