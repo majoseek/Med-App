@@ -11,6 +11,21 @@ export default function RegisterPage() {
     const [password, set_password] = useState("");
     function register() {
         console.log(email, name, surname, pesel, password);
+        axios
+            .post("/users/create/patient", {
+                email: email,
+                name: name,
+                surname: surname,
+                pesel: pesel,
+                password: password,
+                role: role,
+            })
+            .then((result) => {
+                console.log(result);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
     return (
         <div className="maincontainer">
