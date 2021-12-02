@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./LoginPage.css";
 import axios from "axios";
-import ArrowLeft from "./arrow-left.svg";
 import { Link } from "react-router-dom";
 export default function LoginPage() {
     const [email, set_email] = useState("");
@@ -83,6 +82,7 @@ export default function LoginPage() {
                                                 <label
                                                     htmlFor="customCheck1"
                                                     className="form-check-label"
+                                                    style={{ fontSize: "13px" }}
                                                 >
                                                     Remember password
                                                 </label>
@@ -98,7 +98,7 @@ export default function LoginPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <Link to="/">
+                                <Link to="/" style={{ textDecoration: "none" }}>
                                     <div
                                         className="row text-center mt-5"
                                         style={{ cursor: "pointer" }}
@@ -106,16 +106,14 @@ export default function LoginPage() {
                                         <div className="col m-0">
                                             <div className="row">
                                                 <div className="col">
-                                                    <img
-                                                        src={ArrowLeft}
-                                                        alt="Back home"
-                                                        width="32px"
-                                                        height="32px"
-                                                    />
+                                                    <i
+                                                        className="fa fa-arrow-left left_arr"
+                                                        aria-hidden="true"
+                                                    ></i>
                                                 </div>
                                             </div>
                                             <div className="row mt-2">
-                                                <div className="col">
+                                                <div className="col back_home">
                                                     Back home
                                                 </div>
                                             </div>

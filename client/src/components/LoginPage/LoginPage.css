@@ -7,3 +7,20 @@
     background-size: cover;
     background-position: center center;
 }
+.left_arr {
+    font-size: 38px;
+    transition: all 0.5s;
+    padding-top: 10px;
+    color: #fff;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #6372ff 0%, #5ca9fb 100%);
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.05);
+}
+.back_home {
+    color: black;
+}
+label {
+    font-family: "Roboto", sans-serif;
+}

@@ -18,7 +18,7 @@ export default function RegisterPage() {
                 surname: surname,
                 pesel: pesel,
                 password: password,
-                role: role,
+                role: "PATIENT",
             })
             .then((result) => {
                 console.log(result);
@@ -131,7 +131,7 @@ export default function RegisterPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <Link to="/">
+                                <Link to="/" style={{ textDecoration: "none" }}>
                                     <div
                                         className="row text-center mt-5"
                                         style={{ cursor: "pointer" }}
@@ -139,16 +139,14 @@ export default function RegisterPage() {
                                         <div className="col m-0">
                                             <div className="row">
                                                 <div className="col">
-                                                    <img
-                                                        src={ArrowLeft}
-                                                        alt="Back home"
-                                                        width="32px"
-                                                        height="32px"
-                                                    />
+                                                    <i
+                                                        className="fa fa-arrow-left left_arr"
+                                                        aria-hidden="true"
+                                                    ></i>
                                                 </div>
                                             </div>
                                             <div className="row mt-2">
-                                                <div className="col">
+                                                <div className="col back_home">
                                                     Back home
                                                 </div>
                                             </div>
