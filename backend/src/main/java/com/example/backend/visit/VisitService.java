@@ -5,13 +5,12 @@ import com.example.backend.doctor.DoctorService;
 import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.exceptions.VisitNotFound;
 import com.example.backend.patient.Patient;
-import com.example.backend.patient.PatientController;
-import com.example.backend.patient.PatientRepository;
 import com.example.backend.patient.PatientService;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
@@ -33,6 +32,10 @@ public class VisitService {
         this.doctorService = doctorService;
     }
 
+    public List<Visit> getAllVisits() {
+        return repository.findAllBy();
+    }
+
     public Visit getVisitById(Long visitId) throws VisitNotFound{
         return repository.findById(visitId).orElseThrow(()-> new VisitNotFound("Could not find visit " + visitId));
     }
@@ -46,13 +49,14 @@ public class VisitService {
     }
 
     public List<Visit> getPatientVisits(Long patientId) throws UserNotFound {
-        patientService.getPatientById(patientId);
-        return repository.findAllByPatientByPatientUserId(patientId);
+        Patient patient = patientService.getPatientById(patientId);
+        Hibernate.initialize(patient.getVisitsByUserId());
+        return repository.findAllByPatientByPatientUserId(patient);
     }
 
     public List<Visit> getDoctorVisits(Long doctorId) throws UserNotFound{
-        doctorService.getDoctorById(doctorId);
-        return repository.findAllByDoctorByDoctorUserId(doctorId);
+        Doctor doctor = doctorService.getDoctorById(doctorId);
+        return repository.findAllByDoctorByDoctorUserId(doctor);
     }
 
     public Visit updateVisitDate(Long visitId, Date newDate) throws VisitNotFound {
@@ -82,7 +86,5 @@ public class VisitService {
         return newVisit;
     }
 
-    public List<Visit> getAllVisits() {
-        return repository.findAll();
-    }
+
 }

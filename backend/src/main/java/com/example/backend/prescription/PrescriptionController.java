@@ -9,8 +9,6 @@ import com.example.backend.patient.PatientDto;
 import com.example.backend.visit.Visit;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -39,15 +37,23 @@ public class PrescriptionController {
     @GetMapping("/{patientId}/prescriptions")
     @ResponseBody
     public ResponseEntity<?> getPatientPrescription(@PathVariable Long patientId) {
-        List<PrescriptionDto> prescriptions = service.getPatientPrescription(patientId).stream().map(this::convertToDto).collect(Collectors.toList());
-        return ResponseEntity.ok(prescriptions);
+        try{
+            List<PrescriptionDto> prescriptions = service.getPatientPrescription(patientId).stream().map(this::convertToDto).collect(Collectors.toList());
+            return ResponseEntity.ok(prescriptions);
+        } catch (UserNotFound userNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((userNotFound.getLocalizedMessage()));
+        }
     }
 
     @GetMapping("/{doctorId}/prescription")
     @ResponseBody
     public ResponseEntity<?> getDoctorPrescription(@PathVariable Long doctorId) {
-        List<PrescriptionDto> prescriptions = service.getDoctorPrescription(doctorId).stream().map(this::convertToDto).collect(Collectors.toList());
-        return ResponseEntity.ok(prescriptions);
+        try {
+            List<PrescriptionDto> prescriptions = service.getDoctorPrescription(doctorId).stream().map(this::convertToDto).collect(Collectors.toList());
+            return ResponseEntity.ok(prescriptions);
+        } catch (UserNotFound userNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((userNotFound.getLocalizedMessage()));
+        }
     }
 
     @GetMapping("/prescriptions/{prescriptionId}")

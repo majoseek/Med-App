@@ -5,15 +5,12 @@ import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.exceptions.VisitNotFound;
 import com.example.backend.patient.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class VisitController {
@@ -25,7 +22,7 @@ public class VisitController {
         this.service = service;
     }
 
-    @GetMapping("/visits")
+    @GetMapping("/visits/all")
     @ResponseBody
     public ResponseEntity<?> getAllVisits() {
         List<Visit> allVisits = service.getAllVisits();
@@ -58,7 +55,7 @@ public class VisitController {
         return ResponseEntity.ok(visits);
     }
 
-    @GetMapping("/{patientId}/visits")
+    @GetMapping("/patient/{patientId}/visits")
     @ResponseBody
     public ResponseEntity<?> getPatientVisits(@PathVariable Long patientId) {
         try {
@@ -69,7 +66,7 @@ public class VisitController {
         }
     }
 
-    @GetMapping("/{doctorId}/visits")
+    @GetMapping("/doctor/{doctorId}/visits")
     @ResponseBody
     public ResponseEntity<?> getDoctorVisit(@PathVariable Long doctorId) {
         try {
