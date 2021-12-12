@@ -15,6 +15,7 @@ export default function LoginPage() {
             })
             .then((response) => {
                 console.log("LOGIN SUCCESSFUL");
+                //TODO: ADD REDIRECTING
                 console.log(response);
             })
             .catch((error) => {
