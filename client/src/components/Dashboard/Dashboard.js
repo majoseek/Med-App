@@ -164,7 +164,9 @@ function DashboardContent() {
                                         flexDirection: "column",
                                         height: 240,
                                     }}
-                                ></Paper>
+                                >
+                                    {/* TODO: add chart*/}
+                                </Paper>
                             </Grid>
                             {/* Recent Deposits */}
                             <Grid item xs={12} md={4} lg={3}>
@@ -176,7 +178,7 @@ function DashboardContent() {
                                         height: 240,
                                     }}
                                 >
-                                    <Deposits />
+                                    <Deposits earnings={3000} />
                                 </Paper>
                             </Grid>
                             {/* Recent Orders */}
