@@ -62,7 +62,7 @@ public class UserService {
     }
 
     public UserDataDto.UserData getUserData(Long id) throws UserNotFound, InvalidRole {
-        final User user = userRepository.findById(id).orElseThrow(() -> new UserNotFound(String.format("User with id=%d does not exists", id)));
+        final User user = userRepository.findById(id).orElseThrow(() -> new UserNotFound(String.format("User with id=%d does not exist", id)));
         switch (user.getRole()) {
             case "PATIENT":
                 return new UserDataDto.PatientData(user);
@@ -76,7 +76,7 @@ public class UserService {
     }
 
     public UserDataDto.UserData editUserData(Long id, Optional<String> email, Optional<String> password, Optional<String> name, Optional<String> surname) throws UserNotFound, InvalidRole, DataIntegrityViolationException {
-        final User user = userRepository.findById(id).orElseThrow(() -> new UserNotFound(String.format("User with id=%d does not exists", id)));
+        final User user = userRepository.findById(id).orElseThrow(() -> new UserNotFound(String.format("User with id=%d does not exist", id)));
         password.ifPresent(user::setPassword);
         email.ifPresent(user::setEmail);
         if (Objects.equals(user.getRole(), "DOCTOR")) {
