@@ -1,5 +1,7 @@
 package com.example.backend.illness;
 
+import com.example.backend.patient.Patient;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
@@ -9,10 +11,10 @@ import java.util.Objects;
 public class Illness {
     private Long id;
     private String name;
-    private Collection<IllnessMap> illnessMapsById;
+    private Collection<Patient> patientsByIlnessId;
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ILLNESS_ID", nullable = false)
     @SequenceGenerator(name = "ILLNESS", sequenceName = "ILLNESS_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ILLNESS")
     public Long getId() {

@@ -18,7 +18,7 @@ public class Prescription {
     private Collection<Medication> medicationsByPrescriptId;
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "PRESCRIPT_ID", nullable = false)
     @SequenceGenerator(name = "PRESCRIPTION", sequenceName = "PRESCRIPT_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRESCRIPTION")
     public Long getId() {
@@ -44,7 +44,7 @@ public class Prescription {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Prescription that = (Prescription) o;
-        return Objects.equals(id, that.id) && Objects.equals(medicationName, that.medicationName) && Objects.equals(amount, that.amount);
+        return Objects.equals(id, that.id) && Objects.equals(amount, that.amount);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class Prescription {
     }
 
     @ManyToOne
-    @JoinColumn(name = "PAP_DOCTOR_PAP_USER_ID", referencedColumnName = "PAP_USER_ID", nullable = false)
+    @JoinColumn(name = "DOCTOR_ID", referencedColumnName = "USER_ID", nullable = false)
     public Doctor getDoctorByDoctorUserId() {
         return doctorByDoctorUserId;
     }
@@ -77,7 +77,7 @@ public class Prescription {
     }
 
     @ManyToOne
-    @JoinColumn(name = "PAP_PATIENT_PAP_USER_ID", referencedColumnName = "PAP_USER_ID", nullable = false)
+    @JoinColumn(name = "PATIENT_ID", referencedColumnName = "USER_ID", nullable = false)
     public Patient getPatientByPatientUserId() {
         return patientByPatientUserId;
     }

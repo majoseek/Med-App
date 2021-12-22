@@ -1,7 +1,7 @@
 package com.example.backend.patient;
 
 
-import com.example.backend.illness.IllnessMap;
+import com.example.backend.illness.Illness;
 import com.example.backend.prescription.Prescription;
 import com.example.backend.user.User;
 import com.example.backend.visit.Visit;
@@ -18,14 +18,14 @@ public class Patient {
     private String name;
     private String surname;
     private String pesel;
-    private Collection<IllnessMap> illnessMapsByUserId;
+    private Collection<Illness> illnessesByUserId;
     @JsonBackReference
-    private User userByUserId;
+    private User userByPatientId;
     private Collection<Prescription> prescriptsByUserId;
     private Collection<Visit> visitsByUserId;
 
     @Id
-    @Column(name = "PAP_USER_ID", nullable = false)
+    @Column(name = "USER_ID", nullable = false)
     public Long getUserId() {
         return UserId;
     }
@@ -93,13 +93,13 @@ public class Patient {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "PAP_USER_ID", referencedColumnName = "ID", nullable = false)
-    public User getUserByUserId() {
-        return userByUserId;
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", nullable = false)
+    public User getUserByPatientId() {
+        return userByPatientId;
     }
 
-    public void setUserByUserId(User UserByUserId) {
-        this.userByUserId = UserByUserId;
+    public void setUserByPatientId(User UserByUserId) {
+        this.userByPatientId = UserByUserId;
     }
 
     @OneToMany(mappedBy = "patientByPatientUserId")
