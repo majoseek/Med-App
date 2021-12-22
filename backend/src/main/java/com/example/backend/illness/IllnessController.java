@@ -41,5 +41,15 @@ public class IllnessController {
         }
     }
 
-
+    @PutMapping("/update/{illnessId}")
+    @ResponseBody
+    public ResponseEntity<?> editIllnessName(@PathVariable Long illnessId,
+                                             @RequestParam String name) {
+        try {
+            final Illness illness = service.editIllnessName(illnessId, name);
+            return ResponseEntity.ok(illness);
+        } catch (IllnessNotFound illnessNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(illnessNotFound.getLocalizedMessage());
+        }
+    }
 }

@@ -26,4 +26,13 @@ public class IllnessService {
     public Illness getIllnessById(Long illnessId) throws IllnessNotFound {
         return repository.findById(illnessId).orElseThrow(()->new IllnessNotFound("Could not find illness of id "+illnessId));
     }
+
+    public Illness editIllnessName(Long illnessId, String name) throws IllnessNotFound {
+        final Illness illness = repository.findById(illnessId).orElseThrow(
+                ()->new IllnessNotFound(String.format("Illness with id=%d does not exist", illnessId))
+        );
+        illness.setName(name);
+        repository.save(illness);
+        return getIllnessById(illnessId);
+    }
 }
