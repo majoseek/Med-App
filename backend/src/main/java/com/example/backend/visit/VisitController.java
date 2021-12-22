@@ -7,10 +7,12 @@ import com.example.backend.patient.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class VisitController {
@@ -78,9 +80,15 @@ public class VisitController {
     }
 
     @PutMapping("/visits/{visitId}")
-    public ResponseEntity<?> updateVisitDate(@PathVariable Long visitId, @RequestBody Date newDate) {
+    public ResponseEntity<?> editVisitData(@PathVariable Long visitId,
+                                           @RequestBody(required = false) Optional<Date> date,
+                                           @RequestBody(required = false) Optional<String> description,
+                                           @RequestBody(required = false) Optional<String> location,
+                                           @RequestBody(required = false) Optional<Doctor> doctor,
+                                           @RequestBody(required = false) Optional<Patient> patient
+                                           ) {
         try {
-            Visit visit = service.updateVisitDate(visitId, newDate);
+            Visit visit = service.editVisitData(visitId, date, description, location, doctor, patient);
             return ResponseEntity.ok(visit);
         } catch (VisitNotFound visitNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body((visitNotFound.getLocalizedMessage()));

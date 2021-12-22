@@ -9,11 +9,13 @@ import com.example.backend.patient.PatientService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VisitService {
@@ -59,12 +61,16 @@ public class VisitService {
         return repository.findAllByDoctorByDoctorUserId(doctor);
     }
 
-    public Visit updateVisitDate(Long visitId, Date newDate) throws VisitNotFound {
+    public Visit editVisitData(Long visitId, Optional<Date> date, Optional<String> description, Optional<String> location, Optional<Doctor> doctor, Optional<Patient> patient) throws VisitNotFound {
         Visit visit = repository.findById(visitId)
                 .orElseThrow(() -> new VisitNotFound("Visit not found on :: "+ visitId));
-        visit.setDate(newDate);
-        final Visit updatedVisit = repository.save(visit);
-        return ResponseEntity.ok(updatedVisit).getBody();
+        date.ifPresent(visit::setDate);
+        description.ifPresent(visit::setDescription);
+        location.ifPresent(visit::setLocation);
+        doctor.ifPresent(visit::setDoctorByDoctorUserId);
+        patient.ifPresent(visit::setPatientByPatientUserId);
+        repository.save(visit);
+        return getVisitById(visitId);
     }
 
     public Visit save(Visit newVisit) {
