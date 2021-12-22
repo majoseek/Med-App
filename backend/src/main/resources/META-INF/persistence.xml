@@ -7,11 +7,11 @@
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <class>com.example.backend.doctor.Doctor</class>
     <class>com.example.backend.illness.Illness</class>
-    <class>com.example.backend.illness.IllnessMap</class>
     <class>com.example.backend.patient.Patient</class>
     <class>com.example.backend.prescription.Prescription</class>
     <class>com.example.backend.user.User</class>
     <class>com.example.backend.visit.Visit</class>
+    <class>com.example.backend.medication.Medication</class>
     <properties>
       <property name="connection.url" value="jdbc:oracle:thin:@ora4.ii.pw.edu.pl:1521/pdb1.ii.pw.edu.pl"/>
       <property name="connection.username" value="z14"/>
