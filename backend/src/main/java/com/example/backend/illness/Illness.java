@@ -46,12 +46,12 @@ public class Illness {
         return Objects.hash(id, name);
     }
 
-    @OneToMany(mappedBy = "illnessByIllnessId")
-    public Collection<IllnessMap> getIllnessMapsById() {
-        return illnessMapsById;
+    @ManyToMany(mappedBy = "illnessesByUserId")
+    public Collection<Patient> getPatientsByIlnessId() {
+        return patientsByIlnessId;
     }
 
-    public void setIllnessMapsById(Collection<IllnessMap> illnessMapsById) {
-        this.illnessMapsById = illnessMapsById;
+    public void setPatientsByIlnessId(Collection<Patient> patientsByIlnessId) {
+        this.patientsByIlnessId = patientsByIlnessId;
     }
 }

@@ -77,13 +77,18 @@ public class Patient {
         return Objects.hash(UserId, name, surname, pesel);
     }
 
-    @OneToMany(mappedBy = "patientByPatientUserId")
-    public Collection<IllnessMap> getIllnessMapsByUserId() {
-        return illnessMapsByUserId;
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "PAP_ILLNESS_MAP",
+            joinColumns = { @JoinColumn(name = "PATIENT_ID") },
+            inverseJoinColumns = { @JoinColumn(name = "ILLNESS_ID") }
+    )
+    public Collection<Illness> getIllnessesByUserId() {
+        return illnessesByUserId;
     }
 
-    public void setIllnessMapsByUserId(Collection<IllnessMap> IllnessMapsByUserId) {
-        this.illnessMapsByUserId = IllnessMapsByUserId;
+    public void setIllnessesByUserId(Collection<Illness> illnessesByUserId) {
+        this.illnessesByUserId = illnessesByUserId;
     }
 
     @OneToOne
