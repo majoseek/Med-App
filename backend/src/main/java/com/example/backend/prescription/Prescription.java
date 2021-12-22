@@ -1,19 +1,21 @@
 package com.example.backend.prescription;
 
 import com.example.backend.doctor.Doctor;
+import com.example.backend.medication.Medication;
 import com.example.backend.patient.Patient;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name = "PAP_PRESCRIPT", schema = "Z14")
 public class Prescription {
     private Long id;
-    private String medicationName;
     private Long amount;
     private Doctor doctorByDoctorUserId;
     private Patient patientByPatientUserId;
+    private Collection<Medication> medicationsByPrescriptId;
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -25,16 +27,6 @@ public class Prescription {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "MEDICATION_NAME", nullable = false, length = 20)
-    public String getMedicationName() {
-        return medicationName;
-    }
-
-    public void setMedicationName(String medicationName) {
-        this.medicationName = medicationName;
     }
 
     @Basic
@@ -57,7 +49,21 @@ public class Prescription {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, medicationName, amount);
+        return Objects.hash(id, amount);
+    }
+
+    @ManyToMany( cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "PAP_MEDICSMAP",
+            joinColumns = { @JoinColumn(name = "PRESCRIPT_ID")},
+            inverseJoinColumns = { @JoinColumn(name = "MEDICATION_ID") }
+    )
+    public Collection<Medication> getMedicationsByPrescriptId() {
+        return medicationsByPrescriptId;
+    }
+
+    public void setMedicationsByPrescriptId(Collection<Medication> medicationsByPrescriptId) {
+        this.medicationsByPrescriptId = medicationsByPrescriptId;
     }
 
     @ManyToOne
