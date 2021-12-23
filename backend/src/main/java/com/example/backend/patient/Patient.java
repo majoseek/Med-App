@@ -119,4 +119,12 @@ public class Patient {
     public void setVisitsByUserId(Collection<Visit> VisitsByUserId) {
         this.visitsByUserId = VisitsByUserId;
     }
+
+    public void addPatientsIllness(Collection<Illness> illnesses) {
+        illnessesByUserId.addAll(illnesses);
+    }
+
+    public void removePatientsIllnesses(Collection<Illness> illnesses) {
+        illnessesByUserId.removeAll(illnesses);
+    }
 }
