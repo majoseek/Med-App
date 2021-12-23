@@ -37,14 +37,14 @@ public class PatientController {
         return ResponseEntity.ok(patientList);
     }
 
-    @GetMapping("/allByNames")
+    @GetMapping("/allByName")
     @ResponseBody
     public ResponseEntity<?> getPatientsByName(@RequestParam String name) {
         List<PatientDto> patientList = patientService.getPatientByName(name.toUpperCase()).stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(patientList);
     }
 
-    @GetMapping("/getByPesel")
+    @GetMapping("/allByPesel")
     @ResponseBody
     public ResponseEntity<?> getPatientByPesel(@RequestParam String pesel) {
         if (pesel.length() != 11) {
@@ -70,7 +70,7 @@ public class PatientController {
     }
 
 
-    @GetMapping("/illness/{illnessId}")
+    @GetMapping("/allByIllness/{illnessId}")
     @ResponseBody
     public ResponseEntity<?> getPatientByIllnessId(@PathVariable Long illnessId) {
         try {

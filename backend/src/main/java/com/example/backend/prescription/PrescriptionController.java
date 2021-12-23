@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @Transactional
+@RequestMapping("/prescriptions")
 public class PrescriptionController {
 
     private final PrescriptionService service;
@@ -53,7 +54,7 @@ public class PrescriptionController {
         return mapper.map(prescription, PrescriptionDto.class);
     }
 
-    @GetMapping("/{patientId}/prescriptions")
+    @GetMapping("/allByPatient/{patientId}")
     @ResponseBody
     public ResponseEntity<?> getPatientPrescription(@PathVariable Long patientId) {
         try{
@@ -64,7 +65,7 @@ public class PrescriptionController {
         }
     }
 
-    @GetMapping("/{doctorId}/prescription")
+    @GetMapping("/allByDoctor/{doctorId}")
     @ResponseBody
     public ResponseEntity<?> getDoctorPrescription(@PathVariable Long doctorId) {
         try {
@@ -75,7 +76,7 @@ public class PrescriptionController {
         }
     }
 
-    @GetMapping("/prescriptions/{prescriptionId}")
+    @GetMapping("/id/{prescriptionId}")
     @ResponseBody
     public ResponseEntity<?> getPrescriptionById(@PathVariable Long prescriptionId) {
         try {
@@ -86,7 +87,7 @@ public class PrescriptionController {
         }
     }
 
-    @PostMapping("/prescriptions")
+    @PostMapping("/create")
     public ResponseEntity<?> createPrescription(@RequestBody CreatePrescriptionDto prescriptionDto) {
         try {
             PrescriptionDto prescription = convertToDto(service.createPrescription(prescriptionDto));
@@ -96,7 +97,7 @@ public class PrescriptionController {
         }
     }
 
-    @PostMapping("/prescriptionByPesel")
+    @PostMapping("/createByPesel")
     public ResponseEntity<?> createByPatientPesel(@RequestBody CreateByPeselPrescriptionDto prescriptionDto) {
         try{
             PrescriptionDto prescription = convertToDto(service.createByPatientPesel(prescriptionDto));
@@ -107,7 +108,7 @@ public class PrescriptionController {
 
     }
 
-    @DeleteMapping("/prescriptions/{prescriptionId}")
+    @DeleteMapping("/{prescriptionId}")
     public ResponseEntity<?> deletePrescription(
             @PathVariable Long prescriptionId) {
         service.delete(prescriptionId);

@@ -9,10 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -37,7 +45,7 @@ public class VisitController {
         return ResponseEntity.ok(allVisits);
     }
 
-    @GetMapping("/visits/{visitId}")
+    @GetMapping("/visits/id/{visitId}")
     @ResponseBody
     public ResponseEntity<?> getVisitById(@PathVariable Long visitId) {
         try {
@@ -48,22 +56,24 @@ public class VisitController {
         }
     }
 
-    // czy Date czy tylko dzien
-    @GetMapping("/visits/{dateOfVisits}") // czy to potrzebuje wyjatkow
+    //TODO make it work
+    @GetMapping("/visits/allByDate/{dateOfVisits}")
     @ResponseBody
-    public ResponseEntity<?> getVisitsByDate(@PathVariable Date dateOfVisits) {
-        List<VisitDto> visits = service.getVisitsByDate(dateOfVisits).stream().map(this::convertToDto).collect(Collectors.toList());
+    public ResponseEntity<?> getVisitsByDate(@PathVariable String dateOfVisits) {
+        Date date = java.sql.Date.valueOf(dateOfVisits);
+        List<VisitDto> visits = service.getVisitsByDate(date).stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(visits);
     }
 
-    @GetMapping("/visits/{location}") // czy to potrzebuje wyjatkow
+    @GetMapping("/visits/allByLocation/{location}")
     @ResponseBody
     public ResponseEntity<?> getVisitsByLocation(@PathVariable String location) {
         List<VisitDto> visits = service.getVisitsByLocation(location).stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(visits);
     }
 
-    @GetMapping("/patient/{patientId}/visits")
+    @Transactional
+    @GetMapping("/visits/allByPatient/{patientId}")
     @ResponseBody
     public ResponseEntity<?> getPatientVisits(@PathVariable Long patientId) {
         try {
@@ -74,7 +84,7 @@ public class VisitController {
         }
     }
 
-    @GetMapping("/doctor/{doctorId}/visits")
+    @GetMapping("/visits/allByDoctor/{doctorId}")
     @ResponseBody
     public ResponseEntity<?> getDoctorVisit(@PathVariable Long doctorId) {
         try {
@@ -85,7 +95,8 @@ public class VisitController {
         }
     }
 
-    @PutMapping("/visits/{visitId}")
+    //TODO make it work
+    @PutMapping("/visits/update/{visitId}")
     public ResponseEntity<?> editVisitData(@PathVariable Long visitId,
                                            @RequestBody(required = false) Optional<Date> date,
                                            @RequestBody(required = false) Optional<String> description,
@@ -101,13 +112,13 @@ public class VisitController {
         }
     }
 
-    @PostMapping("/visits")
+    @PostMapping("/visits/create")
     public ResponseEntity<?> createVisit(@RequestBody CreateVisitDto createVisitDto) {
         //Visit visit = service.createVisit(date, description, location, doctor, patient);
         return ResponseEntity.ok("ok");
     }
 
-    @DeleteMapping("/visits/{visitId}")
+    @DeleteMapping("/visits/id/{visitId}")
     public ResponseEntity<?> deleteVisit(@PathVariable Long visitId) {
         service.delete(visitId);
         return ResponseEntity.ok(visitId);

@@ -44,7 +44,7 @@ public class DoctorController {
         return ResponseEntity.ok(doctorList);
     }
 
-    @GetMapping(path = "/allGetBy")
+    @GetMapping(path = "/allGetByName")
     @ResponseBody
     ResponseEntity<?> getDoctorsByNames(@RequestParam String name) {
         List<DoctorDto> doctorList = doctorService.getAllDoctorsByNameOrSurname(name).stream().map(this::convertToDto).collect(Collectors.toList());
