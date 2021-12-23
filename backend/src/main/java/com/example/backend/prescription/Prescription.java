@@ -54,7 +54,7 @@ public class Prescription {
         return Objects.hash(id, amount);
     }
 
-    @ManyToMany( cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @ManyToMany( cascade = {CascadeType.ALL})
     @JoinTable(
             name = "PAP_MEDICSMAP",
             joinColumns = { @JoinColumn(name = "PRESCRIPT_ID")},
