@@ -30,7 +30,7 @@ public class Visit {
     }
 
     @Basic
-    @Column(name = "date", nullable = false)
+    @Column(name = "VISIT_DATE", nullable = false)
     public Date getDate() {
         return date;
     }
