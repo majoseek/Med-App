@@ -1,14 +1,18 @@
 package com.example.backend.prescription;
 
-import com.example.backend.doctor.Doctor;
-import com.example.backend.patient.Patient;
+import com.example.backend.medication.Medication;
+import com.example.backend.medication.MedicationDto;
+
+import java.util.List;
 
 public class PrescriptionDto {
     private Long id;
-    private String medicationName;
+    private List<Medication> medicationDto;
     private Long amount;
     private Long doctorId;
     private Long patientId;
+
+    public PrescriptionDto() {}
 
     public Long getId() {
         return id;
@@ -18,12 +22,12 @@ public class PrescriptionDto {
         this.id = id;
     }
 
-    public String getMedicationName() {
-        return medicationName;
+    public List<Medication> getMedicationDto() {
+        return medicationDto;
     }
 
-    public void setMedicationName(String medicationName) {
-        this.medicationName = medicationName;
+    public void setMedicationDto(List<Medication> medicationDto) {
+        this.medicationDto = medicationDto;
     }
 
     public Long getAmount() {

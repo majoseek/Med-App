@@ -20,7 +20,7 @@ public class User {
     private Patient patientById;
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "USER_ID", nullable = false)
     @SequenceGenerator(name = "USER", sequenceName = "USER_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER")
     public Long getId() {
@@ -74,7 +74,7 @@ public class User {
         return Objects.hash(id, email, password, role);
     }
 
-    @OneToOne(mappedBy = "userByUserId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "userByDoctorId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     public Doctor getDoctorById() {
         return doctorById;
@@ -84,7 +84,7 @@ public class User {
         this.doctorById = doctorById;
     }
 
-    @OneToOne(mappedBy = "userByUserId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "userByPatientId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     public Patient getPatientById() {
         return patientById;

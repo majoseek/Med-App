@@ -17,12 +17,12 @@ public class Doctor {
     private String surname;
     private String specialization;
     @JsonBackReference
-    private User userByUserId;
+    private User userByDoctorId;
     private Collection<Prescription> prescriptsByUserId;
     private Collection<Visit> visitsByUserId;
 
     @Id
-    @Column(name = "PAP_USER_ID", nullable = false)
+    @Column(name = "USER_ID", nullable = false)
     @SequenceGenerator(name = "DOCTOR", sequenceName = "DOCTOR_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DOCTOR")
     public Long getUserId() {
@@ -78,13 +78,13 @@ public class Doctor {
 
     @OneToOne(cascade = {CascadeType.ALL})
     @MapsId
-    @JoinColumn(name = "PAP_USER_ID", referencedColumnName = "ID", nullable = false)
-    public User getUserByUserId() {
-        return userByUserId;
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", nullable = false)
+    public User getUserByDoctorId() {
+        return userByDoctorId;
     }
 
-    public void setUserByUserId(User UserByUserId) {
-        this.userByUserId = UserByUserId;
+    public void setUserByDoctorId(User UserByUserId) {
+        this.userByDoctorId = UserByUserId;
     }
 
     @OneToMany(mappedBy = "doctorByDoctorUserId")

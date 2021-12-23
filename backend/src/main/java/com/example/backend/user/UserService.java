@@ -37,7 +37,7 @@ public class UserService {
         newDoctor.setSpecialization(doctor.getSpecialization());
         newDoctor.setName(doctor.getName());
         newDoctor.setSurname(doctor.getSurname());
-        newDoctor.setUserByUserId(newUser);
+        newDoctor.setUserByDoctorId(newUser);
         newUser.setDoctorById(newDoctor);
         userRepository.save(newUser);
         return newUser;
@@ -56,7 +56,7 @@ public class UserService {
         newPatient.setSurname(patient.getSurname());
         newPatient.setPesel(patient.getpesel());
         newUser.setPatientById(newPatient);
-        newPatient.setUserByUserId(newUser);
+        newPatient.setUserByPatientId(newUser);
         userRepository.save(newUser);
         return newUser;
     }

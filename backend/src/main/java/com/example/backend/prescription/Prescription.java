@@ -1,22 +1,26 @@
 package com.example.backend.prescription;
 
 import com.example.backend.doctor.Doctor;
+import com.example.backend.medication.Medication;
 import com.example.backend.patient.Patient;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name = "PAP_PRESCRIPT", schema = "Z14")
 public class Prescription {
     private Long id;
-    private String medicationName;
     private Long amount;
     private Doctor doctorByDoctorUserId;
     private Patient patientByPatientUserId;
+    private Collection<Medication> medicationsByPrescriptId;
+
+    public Prescription() {}
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "PRESCRIPT_ID", nullable = false)
     @SequenceGenerator(name = "PRESCRIPTION", sequenceName = "PRESCRIPT_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRESCRIPTION")
     public Long getId() {
@@ -25,16 +29,6 @@ public class Prescription {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "MEDICATION_NAME", nullable = false, length = 20)
-    public String getMedicationName() {
-        return medicationName;
-    }
-
-    public void setMedicationName(String medicationName) {
-        this.medicationName = medicationName;
     }
 
     @Basic
@@ -52,16 +46,30 @@ public class Prescription {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Prescription that = (Prescription) o;
-        return Objects.equals(id, that.id) && Objects.equals(medicationName, that.medicationName) && Objects.equals(amount, that.amount);
+        return Objects.equals(id, that.id) && Objects.equals(amount, that.amount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, medicationName, amount);
+        return Objects.hash(id, amount);
+    }
+
+    @ManyToMany( cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "PAP_MEDICSMAP",
+            joinColumns = { @JoinColumn(name = "PRESCRIPT_ID")},
+            inverseJoinColumns = { @JoinColumn(name = "MEDICATION_ID") }
+    )
+    public Collection<Medication> getMedicationsByPrescriptId() {
+        return medicationsByPrescriptId;
+    }
+
+    public void setMedicationsByPrescriptId(Collection<Medication> medicationsByPrescriptId) {
+        this.medicationsByPrescriptId = medicationsByPrescriptId;
     }
 
     @ManyToOne
-    @JoinColumn(name = "PAP_DOCTOR_PAP_USER_ID", referencedColumnName = "PAP_USER_ID", nullable = false)
+    @JoinColumn(name = "DOCTOR_ID", referencedColumnName = "USER_ID", nullable = false)
     public Doctor getDoctorByDoctorUserId() {
         return doctorByDoctorUserId;
     }
@@ -71,7 +79,7 @@ public class Prescription {
     }
 
     @ManyToOne
-    @JoinColumn(name = "PAP_PATIENT_PAP_USER_ID", referencedColumnName = "PAP_USER_ID", nullable = false)
+    @JoinColumn(name = "PATIENT_ID", referencedColumnName = "USER_ID", nullable = false)
     public Patient getPatientByPatientUserId() {
         return patientByPatientUserId;
     }
