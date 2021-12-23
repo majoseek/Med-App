@@ -6,8 +6,6 @@ import com.example.backend.exceptions.VisitNotFound;
 import com.example.backend.patient.Patient;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,7 +62,7 @@ public class VisitController {
         return ResponseEntity.ok(visits);
     }
 
-    @GetMapping("/{patientId}/visits")
+    @GetMapping("/patient/{patientId}/visits")
     @ResponseBody
     public ResponseEntity<?> getPatientVisits(@PathVariable Long patientId) {
         try {
@@ -75,7 +73,7 @@ public class VisitController {
         }
     }
 
-    @GetMapping("/{doctorId}/visits")
+    @GetMapping("/doctor/{doctorId}/visits")
     @ResponseBody
     public ResponseEntity<?> getDoctorVisit(@PathVariable Long doctorId) {
         try {
