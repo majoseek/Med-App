@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Illness {
     private Long id;
     private String name;
-    private Collection<Patient> patientsByIlnessId;
+    private Collection<Patient> patientsByIllnessId;
 
     @Id
     @Column(name = "ILLNESS_ID", nullable = false)
@@ -49,11 +49,11 @@ public class Illness {
     }
 
     @ManyToMany(mappedBy = "illnessesByUserId")
-    public Collection<Patient> getPatientsByIlnessId() {
-        return patientsByIlnessId;
+    public Collection<Patient> getPatientsByIllnessId() {
+        return patientsByIllnessId;
     }
 
-    public void setPatientsByIlnessId(Collection<Patient> patientsByIlnessId) {
-        this.patientsByIlnessId = patientsByIlnessId;
+    public void setPatientsByIllnessId(Collection<Patient> patientsByIlnessId) {
+        this.patientsByIllnessId = patientsByIlnessId;
     }
 }
