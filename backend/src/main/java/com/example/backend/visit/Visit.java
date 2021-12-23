@@ -18,7 +18,7 @@ public class Visit {
     private Patient patientByPatientUserId;
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "VISIT_ID", nullable = false)
     @SequenceGenerator(name = "VISIT", sequenceName = "VISIT_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "VISIT")
     public Long getId() {
@@ -30,7 +30,7 @@ public class Visit {
     }
 
     @Basic
-    @Column(name = "date", nullable = false)
+    @Column(name = "VISIT_DATE", nullable = false)
     public Date getDate() {
         return date;
     }
@@ -73,7 +73,7 @@ public class Visit {
     }
 
     @ManyToOne
-    @JoinColumn(name = "PAP_DOCTOR_PAP_USER_ID", referencedColumnName = "PAP_USER_ID", nullable = false)
+    @JoinColumn(name = "DOCTOR_ID", referencedColumnName = "USER_ID", nullable = false)
     public Doctor getDoctorByDoctorUserId() {
         return doctorByDoctorUserId;
     }
@@ -83,7 +83,7 @@ public class Visit {
     }
 
     @ManyToOne
-    @JoinColumn(name = "PAP_PATIENT_PAP_USER_ID", referencedColumnName = "PAP_USER_ID", nullable = false)
+    @JoinColumn(name = "PATIENT_ID", referencedColumnName = "USER_ID", nullable = false)
     public Patient getPatientByPatientUserId() {
         return patientByPatientUserId;
     }

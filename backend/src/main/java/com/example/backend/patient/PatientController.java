@@ -1,5 +1,6 @@
 package com.example.backend.patient;
 
+import com.example.backend.exceptions.IllnessNotFound;
 import com.example.backend.exceptions.UserNotFound;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class PatientController {
 
     private final PatientService patientService;
     private final ModelMapper modelMapper;
+
 
     @Autowired
     public PatientController(PatientService patientService, ModelMapper modelMapper) {
@@ -64,6 +66,18 @@ public class PatientController {
             return ResponseEntity.ok(patient);
         } catch (UserNotFound userNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userNotFound.getLocalizedMessage());
+        }
+    }
+
+
+    @GetMapping("/illness/{illnessId}")
+    @ResponseBody
+    public ResponseEntity<?> getPatientByIllnessId(@PathVariable Long illnessId) {
+        try {
+            List<PatientDto> patients = patientService.getPatientsByIllnessId(illnessId).stream().map(this::convertToDto).collect(Collectors.toList());
+            return ResponseEntity.ok(patients);
+        } catch (IllnessNotFound illnessNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", illnessNotFound.getLocalizedMessage()));
         }
     }
 }

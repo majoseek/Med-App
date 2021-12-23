@@ -4,34 +4,53 @@ package com.example.backend.prescription;
 import com.example.backend.doctor.Doctor;
 import com.example.backend.exceptions.PrescriptionNotFound;
 import com.example.backend.exceptions.UserNotFound;
-import com.example.backend.patient.Patient;
-import com.example.backend.patient.PatientDto;
-import com.example.backend.visit.Visit;
+import com.example.backend.medication.Medication;
+import com.example.backend.medication.MedicationDto;
+import org.hibernate.collection.spi.PersistentCollection;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
+import org.modelmapper.TypeMap;
+import org.modelmapper.TypeToken;
+import org.modelmapper.config.Configuration;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RestController
+@Transactional
 public class PrescriptionController {
 
     private final PrescriptionService service;
-    private final ModelMapper modelMapper;
+    private final ModelMapper mapper;
+
+    private MedicationDto convertMedToDto(Medication med) {
+        return mapper.map(med, MedicationDto.class);
+    }
+
 
     @Autowired
     public PrescriptionController(PrescriptionService service, ModelMapper modelMapper) {
         this.service = service;
-        this.modelMapper = modelMapper;
+        this.mapper = modelMapper;
+        this.mapper.typeMap(Prescription.class, PrescriptionDto.class)
+                .addMappings(m -> m.using(ctx -> ((Collection<Medication>) ctx.getSource()).stream().map(this::convertMedToDto).collect(Collectors.toList()))
+                        .map(Prescription::getMedicationsByPrescriptId, PrescriptionDto::setMedicationDto));
     }
 
     private PrescriptionDto convertToDto(Prescription prescription) {
-        return modelMapper.map(prescription, PrescriptionDto.class);
+
+        return mapper.map(prescription, PrescriptionDto.class);
     }
 
     @GetMapping("/{patientId}/prescriptions")
