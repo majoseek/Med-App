@@ -17,6 +17,8 @@ public class Prescription {
     private Patient patientByPatientUserId;
     private Collection<Medication> medicationsByPrescriptId;
 
+    public Prescription() {}
+
     @Id
     @Column(name = "PRESCRIPT_ID", nullable = false)
     @SequenceGenerator(name = "PRESCRIPTION", sequenceName = "PRESCRIPT_SEQ", allocationSize = 1)
@@ -52,7 +54,7 @@ public class Prescription {
         return Objects.hash(id, amount);
     }
 
-    @ManyToMany( cascade = {CascadeType.ALL})
+    @ManyToMany( cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "PAP_MEDICSMAP",
             joinColumns = { @JoinColumn(name = "PRESCRIPT_ID")},
