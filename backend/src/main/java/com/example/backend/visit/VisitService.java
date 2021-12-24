@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,10 +63,16 @@ public class VisitService {
         return repository.findAllByDoctorByDoctorUserId(doctor);
     }
 
-    public Visit editVisitData(Long visitId, Optional<Date> date, Optional<String> description, Optional<String> location, Optional<Doctor> doctor, Optional<Patient> patient) throws VisitNotFound {
+    public Visit editVisitData(Long visitId, Optional<String> dateString, Optional<String> description, Optional<String> location, Optional<Doctor> doctor, Optional<Patient> patient) throws VisitNotFound {
         Visit visit = repository.findById(visitId)
                 .orElseThrow(() -> new VisitNotFound("Visit not found on :: "+ visitId));
-        date.ifPresent(visit::setDate);
+        if(dateString.isPresent()){
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date(format.parse(dateString.get()).getTime());
+                visit.setDate(date);
+            } catch (ParseException parseException) {} // cos tu powinno byc?
+        }
         description.ifPresent(visit::setDescription);
         location.ifPresent(visit::setLocation);
         doctor.ifPresent(visit::setDoctorByDoctorUserId);

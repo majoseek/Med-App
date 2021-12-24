@@ -56,13 +56,17 @@ public class VisitController {
         }
     }
 
-    //TODO make it work
     @GetMapping("/visits/allByDate/{dateOfVisits}")
     @ResponseBody
     public ResponseEntity<?> getVisitsByDate(@PathVariable String dateOfVisits) {
-        Date date = java.sql.Date.valueOf(dateOfVisits);
-        List<VisitDto> visits = service.getVisitsByDate(date).stream().map(this::convertToDto).collect(Collectors.toList());
-        return ResponseEntity.ok(visits);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date = new Date(format.parse( dateOfVisits ).getTime());
+            List<VisitDto> visits = service.getVisitsByDate((Date) date).stream().map(this::convertToDto).collect(Collectors.toList());
+            return ResponseEntity.ok(visits);
+        } catch (ParseException parseException) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(parseException.getLocalizedMessage());
+        }
     }
 
     @GetMapping("/visits/allByLocation/{location}")
@@ -98,14 +102,14 @@ public class VisitController {
     //TODO make it work
     @PutMapping("/visits/update/{visitId}")
     public ResponseEntity<?> editVisitData(@PathVariable Long visitId,
-                                           @RequestBody(required = false) Optional<Date> date,
+                                           @RequestBody(required = false) Optional<String> dateString,
                                            @RequestBody(required = false) Optional<String> description,
                                            @RequestBody(required = false) Optional<String> location,
                                            @RequestBody(required = false) Optional<Doctor> doctor,
                                            @RequestBody(required = false) Optional<Patient> patient
                                            ) {
         try {
-            VisitDto visit = convertToDto(service.editVisitData(visitId, date, description, location, doctor, patient));
+            VisitDto visit = convertToDto(service.editVisitData(visitId, dateString, description, location, doctor, patient));
             return ResponseEntity.ok(visit);
         } catch (VisitNotFound visitNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body((visitNotFound.getLocalizedMessage()));
