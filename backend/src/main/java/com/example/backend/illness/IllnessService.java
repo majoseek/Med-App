@@ -50,4 +50,13 @@ public class IllnessService {
         patientRepository.save(patient);
         return illness;
     }
+
+    public Illness editIllnessName(Long illnessId, String name) throws IllnessNotFound {
+        final Illness illness = illnessRepository.findById(illnessId).orElseThrow(
+                ()->new IllnessNotFound(String.format("Illness with id=%d does not exist", illnessId))
+        );
+        illness.setName(name);
+        illnessRepository.save(illness);
+        return getIllnessById(illnessId);
+    }
 }

@@ -6,6 +6,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -36,7 +38,7 @@ public class VisitController {
         return ResponseEntity.ok(allVisits);
     }
 
-    @GetMapping("/visitsById/{visitId}")
+    @GetMapping("/visits/id/{visitId}")
     @ResponseBody
     public ResponseEntity<?> getVisitById(@PathVariable Long visitId) {
         try {
@@ -47,8 +49,7 @@ public class VisitController {
         }
     }
 
-    // czy Date czy tylko dzien
-    @GetMapping("/visitsByDate/{dateOfVisits}") // czy to potrzebuje wyjatkow
+    @GetMapping("/visits/allByDate/{dateOfVisits}")
     @ResponseBody
     public ResponseEntity<?> getVisitsByDate(@PathVariable String dateOfVisits) {
         List<VisitDto> visits = service.getVisitsByDate(LocalDate.parse(dateOfVisits, DateTimeFormatter.ISO_DATE)).stream().map(this::convertToDto).collect(Collectors.toList());
@@ -84,7 +85,7 @@ public class VisitController {
         }
     }
 
-    @PutMapping("/visits/{visitId}")
+    @PutMapping("/visits/updateDate/{visitId}")
     public ResponseEntity<?> updateVisitDate(@PathVariable Long visitId, @RequestBody Map<String, String> newDate) {
         try {
             VisitDto visit = convertToDto(service.updateVisitDate(visitId, LocalDateTime.parse(newDate.get("newDate"), DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
@@ -94,7 +95,27 @@ public class VisitController {
         }
     }
 
-    @PostMapping("/visits")
+    @PutMapping("/visits/updateLocation/{visitId}")
+    public ResponseEntity<?> updateVisitLocation(@PathVariable Long visitId, @RequestBody Map<String, String> newLocation) {
+        try {
+            VisitDto visit = convertToDto(service.updateVisitLocation(visitId, newLocation.get("newLocation")));
+            return ResponseEntity.ok(visit);
+        } catch (VisitNotFound visitNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((visitNotFound.getLocalizedMessage()));
+        }
+    }
+
+    @PutMapping("/visits/updateDescription/{visitId}")
+    public ResponseEntity<?> updateVisitDescription(@PathVariable Long visitId, @RequestBody Map<String, String> newDescription) {
+        try {
+            VisitDto visit = convertToDto(service.updateVisitDescription(visitId, newDescription.get("newDescription")));
+            return ResponseEntity.ok(visit);
+        } catch (VisitNotFound visitNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((visitNotFound.getLocalizedMessage()));
+        }
+    }
+
+    @PostMapping("/visits/create")
     public ResponseEntity<?> createVisit(@RequestBody CreateVisitDto createVisitDto) {
         try {
             VisitDto visit = convertToDto(service.createVisit(createVisitDto.getDate(),
@@ -108,7 +129,7 @@ public class VisitController {
 
     }
 
-    @DeleteMapping("/visits/{visitId}")
+    @DeleteMapping("/visits/id/{visitId}")
     public ResponseEntity<?> deleteVisit(@PathVariable Long visitId) {
         service.delete(visitId);
         return ResponseEntity.ok(visitId);
