@@ -10,79 +10,82 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class VisitService {
 
-    private final VisitRepository repository;
+    private final VisitRepository visitRepository;
     private final PatientService patientService;
     private final DoctorService doctorService;
 
 
     @Autowired
-    VisitService(VisitRepository repository,
+    VisitService(VisitRepository visitRepository,
                  PatientService patientService,
                  DoctorService doctorService) {
-        this.repository = repository;
+        this.visitRepository = visitRepository;
         this.patientService = patientService;
         this.doctorService = doctorService;
     }
 
     public List<Visit> getAllVisits() {
-        return repository.findAllBy();
+        return visitRepository.findAllBy();
     }
 
     public Visit getVisitById(Long visitId) throws VisitNotFound{
-        return repository.findById(visitId).orElseThrow(()-> new VisitNotFound("Could not find visit " + visitId));
+        return visitRepository.findById(visitId).orElseThrow(()-> new VisitNotFound("Could not find visit " + visitId));
     }
 
-    public List<Visit> getVisitsByDate(Date dateOfVisits) {
-        return repository.findAllByDate(dateOfVisits);
+    public List<Visit> getVisitsByDate(LocalDate dateOfVisits) {
+        return visitRepository.findAllByDateBetween(dateOfVisits.atStartOfDay(), dateOfVisits.atTime(23, 59));
     }
 
     public List<Visit> getVisitsByLocation(String location) {
-        return  repository.findAllByLocation(location);
+        return  visitRepository.findAllByLocation(location);
     }
 
     public List<Visit> getPatientVisits(Long patientId) throws UserNotFound {
         Patient patient = patientService.getPatientById(patientId);
         Hibernate.initialize(patient.getVisitsByUserId());
-        return repository.findAllByPatientByPatientUserId(patient);
+        return visitRepository.findAllByPatientByPatientUserId(patient);
     }
 
     public List<Visit> getDoctorVisits(Long doctorId) throws UserNotFound{
         Doctor doctor = doctorService.getDoctorById(doctorId);
-        return repository.findAllByDoctorByDoctorUserId(doctor);
+        return visitRepository.findAllByDoctorByDoctorUserId(doctor);
     }
 
-    public Visit updateVisitDate(Long visitId, Date newDate) throws VisitNotFound {
-        Visit visit = repository.findById(visitId)
+    public Visit updateVisitDate(Long visitId, LocalDateTime newDate) throws VisitNotFound {
+        Visit visit = visitRepository.findById(visitId)
                 .orElseThrow(() -> new VisitNotFound("Visit not found on :: "+ visitId));
         visit.setDate(newDate);
-        final Visit updatedVisit = repository.save(visit);
+        final Visit updatedVisit = visitRepository.save(visit);
         return ResponseEntity.ok(updatedVisit).getBody();
     }
 
     public Visit save(Visit newVisit) {
-        return repository.save(newVisit);
+        return visitRepository.save(newVisit);
     }
 
     public void delete(Long visitId){
-        repository.deleteById(visitId);
+        visitRepository.deleteById(visitId);
     }
 
-    public Visit createVisit(Date date, String description, String location, Doctor doctor, Patient patient) {
+    public Visit createVisit(LocalDateTime date, String description, String location, Long doctorId, Long patientId) throws UserNotFound {
         Visit newVisit = new Visit();
+        Doctor doctor = doctorService.getDoctorById(doctorId);
+        Patient patient = patientService.getPatientById(patientId);
         newVisit.setDate(date);
         newVisit.setDescription(description);
         newVisit.setLocation(location);
         newVisit.setDoctorByDoctorUserId(doctor);
         newVisit.setPatientByPatientUserId(patient);
-        repository.save(newVisit);
+        visitRepository.save(newVisit);
         return newVisit;
     }
 

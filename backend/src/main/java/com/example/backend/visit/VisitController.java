@@ -1,18 +1,18 @@
 package com.example.backend.visit;
 
-import com.example.backend.doctor.Doctor;
 import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.exceptions.VisitNotFound;
-import com.example.backend.patient.Patient;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -36,7 +36,7 @@ public class VisitController {
         return ResponseEntity.ok(allVisits);
     }
 
-    @GetMapping("/visits/{visitId}")
+    @GetMapping("/visitsById/{visitId}")
     @ResponseBody
     public ResponseEntity<?> getVisitById(@PathVariable Long visitId) {
         try {
@@ -48,10 +48,10 @@ public class VisitController {
     }
 
     // czy Date czy tylko dzien
-    @GetMapping("/visits/{dateOfVisits}") // czy to potrzebuje wyjatkow
+    @GetMapping("/visitsByDate/{dateOfVisits}") // czy to potrzebuje wyjatkow
     @ResponseBody
-    public ResponseEntity<?> getVisitsByDate(@PathVariable Date dateOfVisits) {
-        List<VisitDto> visits = service.getVisitsByDate(dateOfVisits).stream().map(this::convertToDto).collect(Collectors.toList());
+    public ResponseEntity<?> getVisitsByDate(@PathVariable String dateOfVisits) {
+        List<VisitDto> visits = service.getVisitsByDate(LocalDate.parse(dateOfVisits, DateTimeFormatter.ISO_DATE)).stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(visits);
     }
 
@@ -85,9 +85,9 @@ public class VisitController {
     }
 
     @PutMapping("/visits/{visitId}")
-    public ResponseEntity<?> updateVisitDate(@PathVariable Long visitId, @RequestBody Date newDate) {
+    public ResponseEntity<?> updateVisitDate(@PathVariable Long visitId, @RequestBody Map<String, String> newDate) {
         try {
-            VisitDto visit = convertToDto(service.updateVisitDate(visitId, newDate));
+            VisitDto visit = convertToDto(service.updateVisitDate(visitId, LocalDateTime.parse(newDate.get("newDate"), DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
             return ResponseEntity.ok(visit);
         } catch (VisitNotFound visitNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body((visitNotFound.getLocalizedMessage()));
@@ -96,8 +96,16 @@ public class VisitController {
 
     @PostMapping("/visits")
     public ResponseEntity<?> createVisit(@RequestBody CreateVisitDto createVisitDto) {
-        //Visit visit = service.createVisit(date, description, location, doctor, patient);
-        return ResponseEntity.ok("ok");
+        try {
+            VisitDto visit = convertToDto(service.createVisit(createVisitDto.getDate(),
+                    createVisitDto.getDescription(), createVisitDto.getLocation(),
+                    createVisitDto.getDoctor_id(),
+                    createVisitDto.getPatient_id()));
+            return ResponseEntity.ok(visit);
+        } catch (UserNotFound userNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((userNotFound.getLocalizedMessage()));
+        }
+
     }
 
     @DeleteMapping("/visits/{visitId}")
