@@ -21,11 +21,11 @@ export default function Patients(props) {
                 </TableHead>
                 <TableBody>
                     {props.data.map((row) => (
-                        <TableRow key={row.id}>
+                        <TableRow key={`patient_${row.id}`}>
                             <TableCell>{row.date}</TableCell>
                             <TableCell>{row.patient_name}</TableCell>
                             <TableCell>{row.visit_len}</TableCell>
-                            <TableCell align="right">{`$${row.price}`}</TableCell>
+                            <TableCell align="right">{`${row.price}$`}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

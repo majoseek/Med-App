@@ -150,7 +150,6 @@ function DashboardContent() {
                             <ChevronLeftIcon />
                         </IconButton>
                     </Toolbar>
-                    <Divider />
                     <List>{LeftButtons}</List>
                     <Divider />
                     <List>{Reports}</List>

@@ -2,10 +2,12 @@ import { useState } from "react";
 import "./LoginPage.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 export default function LoginPage() {
     const [email, set_email] = useState("");
     const [password, set_password] = useState("");
     const [remember_me, set_remember] = useState(true);
+    const [cookies, setCookie] = useCookies(["access_token"]);
     function sign_in() {
         console.log(email, password);
         axios
@@ -14,8 +16,7 @@ export default function LoginPage() {
                 password: password,
             })
             .then((response) => {
-                console.log("LOGIN SUCCESSFUL");
-                //TODO: ADD REDIRECTING
+                setCookie("access_token", response);
                 console.log(response);
             })
             .catch((error) => {
