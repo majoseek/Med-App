@@ -1,11 +1,7 @@
 import * as React from "react";
-import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import Title from "./Title";
 
-function preventDefault(event) {
-    event.preventDefault();
-}
 const monthNames = [
     "January",
     "February",
@@ -23,7 +19,7 @@ const monthNames = [
 function getCurrentMonthName() {
     return monthNames[new Date().getMonth()];
 }
-export default function Deposits(props) {
+export default function Stats(props) {
     return (
         <React.Fragment>
             <Title>{getCurrentMonthName()} earnings</Title>

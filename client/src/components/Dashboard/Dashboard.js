@@ -9,17 +9,15 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import { mainListItems, secondaryListItems } from "./listItems";
-import Deposits from "./Deposits";
-import Orders from "./Orders";
+import { Reports, LeftButtons } from "./LeftMenu";
+import Stats from "./Stats";
+import Patients from "./Patients";
 
 function Copyright(props) {
     return (
@@ -83,6 +81,22 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const mdTheme = createTheme();
+const data = [
+    {
+        id: 1,
+        date: "2020-12-09",
+        patient_name: "Jan Kowalski",
+        visit_len: "30",
+        price: 50,
+    },
+    {
+        id: 2,
+        date: "2020-12-10",
+        patient_name: "Adam Kowalski",
+        visit_len: "60",
+        price: 100,
+    },
+];
 
 function DashboardContent() {
     const [open, setOpen] = React.useState(true);
@@ -137,9 +151,9 @@ function DashboardContent() {
                         </IconButton>
                     </Toolbar>
                     <Divider />
-                    <List>{mainListItems}</List>
+                    <List>{LeftButtons}</List>
                     <Divider />
-                    <List>{secondaryListItems}</List>
+                    <List>{Reports}</List>
                 </Drawer>
                 <Box
                     component="main"
@@ -178,7 +192,7 @@ function DashboardContent() {
                                         height: 240,
                                     }}
                                 >
-                                    <Deposits earnings={3000} />
+                                    <Stats earnings={3000} />
                                 </Paper>
                             </Grid>
                             {/* Recent Orders */}
@@ -190,7 +204,7 @@ function DashboardContent() {
                                         flexDirection: "column",
                                     }}
                                 >
-                                    <Orders />
+                                    <Patients data={data} />
                                 </Paper>
                             </Grid>
                         </Grid>

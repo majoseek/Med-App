@@ -6,7 +6,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Title from "./Title";
 
-export default function Orders(props) {
+export default function Patients(props) {
     return (
         <React.Fragment>
             <Title>My patients</Title>
@@ -15,7 +15,7 @@ export default function Orders(props) {
                     <TableRow>
                         <TableCell>Date</TableCell>
                         <TableCell>Patient</TableCell>
-                        <TableCell>Visit length</TableCell>
+                        <TableCell>Visit length [min]</TableCell>
                         <TableCell align="right">Price</TableCell>
                     </TableRow>
                 </TableHead>
