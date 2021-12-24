@@ -5,13 +5,14 @@ import com.example.backend.patient.Patient;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "PAP_VISIT", schema = "Z14")
 public class Visit {
     private Long id;
-    private Date date;
+    private LocalDateTime date;
     private String description;
     private String location;
     private Doctor doctorByDoctorUserId;
@@ -31,11 +32,11 @@ public class Visit {
 
     @Basic
     @Column(name = "VISIT_DATE", nullable = false)
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
