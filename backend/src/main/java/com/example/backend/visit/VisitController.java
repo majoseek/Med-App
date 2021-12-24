@@ -1,9 +1,7 @@
 package com.example.backend.visit;
 
-import com.example.backend.doctor.Doctor;
 import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.exceptions.VisitNotFound;
-import com.example.backend.patient.Patient;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,16 +10,11 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -38,7 +31,7 @@ public class VisitController {
 
     public VisitDto convertToDto(Visit visit) { return modelMapper.map(visit, VisitDto.class); }
 
-    @GetMapping("/visits/all")
+    @GetMapping("/visits")
     @ResponseBody
     public ResponseEntity<?> getAllVisits() {
         List<VisitDto> allVisits = service.getAllVisits().stream().map(this::convertToDto).collect(Collectors.toList());
@@ -59,25 +52,18 @@ public class VisitController {
     @GetMapping("/visits/allByDate/{dateOfVisits}")
     @ResponseBody
     public ResponseEntity<?> getVisitsByDate(@PathVariable String dateOfVisits) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            Date date = new Date(format.parse( dateOfVisits ).getTime());
-            List<VisitDto> visits = service.getVisitsByDate((Date) date).stream().map(this::convertToDto).collect(Collectors.toList());
-            return ResponseEntity.ok(visits);
-        } catch (ParseException parseException) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(parseException.getLocalizedMessage());
-        }
+        List<VisitDto> visits = service.getVisitsByDate(LocalDate.parse(dateOfVisits, DateTimeFormatter.ISO_DATE)).stream().map(this::convertToDto).collect(Collectors.toList());
+        return ResponseEntity.ok(visits);
     }
 
-    @GetMapping("/visits/allByLocation/{location}")
+    @GetMapping("/visits/{location}") // czy to potrzebuje wyjatkow
     @ResponseBody
     public ResponseEntity<?> getVisitsByLocation(@PathVariable String location) {
         List<VisitDto> visits = service.getVisitsByLocation(location).stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(visits);
     }
 
-    @Transactional
-    @GetMapping("/visits/allByPatient/{patientId}")
+    @GetMapping("/patient/{patientId}/visits")
     @ResponseBody
     public ResponseEntity<?> getPatientVisits(@PathVariable Long patientId) {
         try {
@@ -88,7 +74,7 @@ public class VisitController {
         }
     }
 
-    @GetMapping("/visits/allByDoctor/{doctorId}")
+    @GetMapping("/doctor/{doctorId}/visits")
     @ResponseBody
     public ResponseEntity<?> getDoctorVisit(@PathVariable Long doctorId) {
         try {
@@ -99,17 +85,10 @@ public class VisitController {
         }
     }
 
-    //TODO make it work
-    @PutMapping("/visits/update/{visitId}")
-    public ResponseEntity<?> editVisitData(@PathVariable Long visitId,
-                                           @RequestBody(required = false) Optional<String> dateString,
-                                           @RequestBody(required = false) Optional<String> description,
-                                           @RequestBody(required = false) Optional<String> location,
-                                           @RequestBody(required = false) Optional<Doctor> doctor,
-                                           @RequestBody(required = false) Optional<Patient> patient
-                                           ) {
+    @PutMapping("/visits/{visitId}")
+    public ResponseEntity<?> updateVisitDate(@PathVariable Long visitId, @RequestBody Map<String, String> newDate) {
         try {
-            VisitDto visit = convertToDto(service.editVisitData(visitId, dateString, description, location, doctor, patient));
+            VisitDto visit = convertToDto(service.updateVisitDate(visitId, LocalDateTime.parse(newDate.get("newDate"), DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
             return ResponseEntity.ok(visit);
         } catch (VisitNotFound visitNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body((visitNotFound.getLocalizedMessage()));
@@ -118,8 +97,16 @@ public class VisitController {
 
     @PostMapping("/visits/create")
     public ResponseEntity<?> createVisit(@RequestBody CreateVisitDto createVisitDto) {
-        //Visit visit = service.createVisit(date, description, location, doctor, patient);
-        return ResponseEntity.ok("ok");
+        try {
+            VisitDto visit = convertToDto(service.createVisit(createVisitDto.getDate(),
+                    createVisitDto.getDescription(), createVisitDto.getLocation(),
+                    createVisitDto.getDoctor_id(),
+                    createVisitDto.getPatient_id()));
+            return ResponseEntity.ok(visit);
+        } catch (UserNotFound userNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((userNotFound.getLocalizedMessage()));
+        }
+
     }
 
     @DeleteMapping("/visits/id/{visitId}")

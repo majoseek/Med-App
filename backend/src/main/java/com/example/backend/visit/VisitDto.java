@@ -1,12 +1,12 @@
 package com.example.backend.visit;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class VisitDto {
     private Long visitId;
     private Long patientId;
     private Long doctorId;
-    private Date visitDate;
+    private LocalDateTime visitDate;
     private String description;
 
     public Long getVisitId() {
@@ -33,11 +33,11 @@ public class VisitDto {
         this.doctorId = doctorId;
     }
 
-    public Date getVisitDate() {
+    public LocalDateTime getVisitDate() {
         return visitDate;
     }
 
-    public void setVisitDate(Date visitDate) {
+    public void setVisitDate(LocalDateTime visitDate) {
         this.visitDate = visitDate;
     }
 
