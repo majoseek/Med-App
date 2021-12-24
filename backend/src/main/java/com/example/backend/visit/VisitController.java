@@ -85,10 +85,30 @@ public class VisitController {
         }
     }
 
-    @PutMapping("/visits/{visitId}")
+    @PutMapping("/visits/updateDate/{visitId}")
     public ResponseEntity<?> updateVisitDate(@PathVariable Long visitId, @RequestBody Map<String, String> newDate) {
         try {
             VisitDto visit = convertToDto(service.updateVisitDate(visitId, LocalDateTime.parse(newDate.get("newDate"), DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
+            return ResponseEntity.ok(visit);
+        } catch (VisitNotFound visitNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((visitNotFound.getLocalizedMessage()));
+        }
+    }
+
+    @PutMapping("/visits/updateLocation/{visitId}")
+    public ResponseEntity<?> updateVisitLocation(@PathVariable Long visitId, @RequestBody Map<String, String> newLocation) {
+        try {
+            VisitDto visit = convertToDto(service.updateVisitLocation(visitId, newLocation.get("newLocation")));
+            return ResponseEntity.ok(visit);
+        } catch (VisitNotFound visitNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((visitNotFound.getLocalizedMessage()));
+        }
+    }
+
+    @PutMapping("/visits/updateDescription/{visitId}")
+    public ResponseEntity<?> updateVisitDescription(@PathVariable Long visitId, @RequestBody Map<String, String> newDescription) {
+        try {
+            VisitDto visit = convertToDto(service.updateVisitDescription(visitId, newDescription.get("newDescription")));
             return ResponseEntity.ok(visit);
         } catch (VisitNotFound visitNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body((visitNotFound.getLocalizedMessage()));

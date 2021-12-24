@@ -68,6 +68,22 @@ public class VisitService {
         return ResponseEntity.ok(updatedVisit).getBody();
     }
 
+    public Visit updateVisitLocation(Long visitId, String location) throws VisitNotFound {
+        Visit visit = visitRepository.findById(visitId)
+                .orElseThrow(() -> new VisitNotFound("Visit not found on :: "+ visitId));
+        visit.setLocation(location);
+        final Visit updatedVisit = visitRepository.save(visit);
+        return ResponseEntity.ok(updatedVisit).getBody();
+    }
+
+    public Visit updateVisitDescription(Long visitId, String description) throws VisitNotFound {
+        Visit visit = visitRepository.findById(visitId)
+                .orElseThrow(() -> new VisitNotFound("Visit not found on :: "+ visitId));
+        visit.setDescription(description);
+        final Visit updatedVisit = visitRepository.save(visit);
+        return ResponseEntity.ok(updatedVisit).getBody();
+    }
+
     public Visit save(Visit newVisit) {
         return visitRepository.save(newVisit);
     }
