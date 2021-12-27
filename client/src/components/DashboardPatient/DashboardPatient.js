@@ -17,7 +17,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Reports, LeftButtons } from "./LeftMenu";
 import Stats from "./Stats";
-import Patients from "./Patients";
+import Visits from "./Visits";
 
 function Copyright(props) {
     return (
@@ -203,7 +203,7 @@ function DashboardContent() {
                                         flexDirection: "column",
                                     }}
                                 >
-                                    <Patients data={data} />
+                                    <Visits data={data} />
                                 </Paper>
                             </Grid>
                         </Grid>
@@ -215,6 +215,6 @@ function DashboardContent() {
     );
 }
 
-export default function Dashboard() {
+export default function DashboardPatient() {
     return <DashboardContent />;
 }

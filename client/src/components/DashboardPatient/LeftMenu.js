@@ -6,7 +6,7 @@ import ListSubheader from "@mui/material/ListSubheader";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-
+import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 export const LeftButtons = (
     <div>
         <ListItem button>
@@ -15,11 +15,18 @@ export const LeftButtons = (
             </ListItemIcon>
             <ListItemText primary="Home" />
         </ListItem>
+
         <ListItem button>
             <ListItemIcon>
                 <PeopleIcon />
             </ListItemIcon>
             <ListItemText primary="My profile" />
+        </ListItem>
+        <ListItem button>
+            <ListItemIcon>
+                <MedicalServicesIcon />
+            </ListItemIcon>
+            <ListItemText primary="My prescriptions" />
         </ListItem>
     </div>
 );
