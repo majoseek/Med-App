@@ -4,11 +4,11 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import RegisterPage from "./components/RegisterPage/RegisterPage";
-import DashboardDoctor from "./components/DashboardDoctor/DashboardDoctor";
 import Home from "./components/DashboardPatient/Home";
 import { useEffect, useState } from "react";
+import HomeDoctor from "./components/DashboardDoctor/HomeDoctor";
 const App = () => {
-    const [isDoctor, setIsDoctor] = useState(false);
+    const [isDoctor, setIsDoctor] = useState(true);
     return (
         <BrowserRouter>
             <Routes>
@@ -17,7 +17,7 @@ const App = () => {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route
                     path="/dashboard/*"
-                    element={isDoctor ? <DashboardDoctor /> : <Home />}
+                    element={isDoctor ? <HomeDoctor /> : <Home />}
                 />{" "}
             </Routes>
         </BrowserRouter>
