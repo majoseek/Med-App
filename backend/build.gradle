@@ -17,6 +17,7 @@ ext {
     springSecurityTestVersion = "5.5.1"
     oracleDriverVersion = "21.1.0.0"
     modelMapperVersion = "2.4.2"
+    keycloakVersion = "16.0.0"
 }
 
 dependencies {
@@ -29,8 +30,14 @@ dependencies {
     runtimeOnly "com.oracle.database.jdbc:ojdbc8:$oracleDriverVersion"
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
     testImplementation "org.springframework.security:spring-security-test:$springSecurityTestVersion"
+    implementation 'org.keycloak:keycloak-spring-boot-starter'
 
+}
 
+dependencyManagement {
+    imports {
+        mavenBom "org.keycloak.bom:keycloak-adapter-bom:${keycloakVersion}"
+    }
 }
 
 test {
