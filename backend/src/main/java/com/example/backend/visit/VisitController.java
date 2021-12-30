@@ -78,11 +78,19 @@ public class VisitController {
     @ResponseBody
     public ResponseEntity<?> getDoctorVisit(@PathVariable Long doctorId) {
         try {
-            List<VisitDto> patientsVisits = service.getDoctorVisits(doctorId).stream().map(this::convertToDto).collect(Collectors.toList());
-            return ResponseEntity.ok(patientsVisits);
+            List<VisitDto> doctorsVisits = service.getDoctorVisits(doctorId).stream().map(this::convertToDto).collect(Collectors.toList());
+            return ResponseEntity.ok(doctorsVisits);
         } catch (UserNotFound userNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userNotFound.getLocalizedMessage());
         }
+    }
+
+    @GetMapping("/doctor/{doctorId}/countVisits")
+    @ResponseBody
+    public ResponseEntity<?> getVisitCountByMonth(@PathVariable Long doctorId,
+                                                  @RequestBody Map<String, String> month) {
+        Integer visitCount = service.getVisitCountByMonth(doctorId, month);
+        return ResponseEntity.ok(visitCount);
     }
 
     @PutMapping("/visits/updateDate/{visitId}")
