@@ -23,5 +23,5 @@ public interface VisitRepository extends CrudRepository<Visit, Long> {
     List<Visit> findAllByLocation(String location);
 
     @Query(value = "select count(v) from Visit v where v.doctorByDoctorUserId.userId = :doctorId and SUBSTRING(v.date, 4, 2) = :month")
-    Integer countVisitByMonthAndDoctor(Long doctorId, Map<String, String> month);
+    Integer countVisitByMonthAndDoctor(Long doctorId, String month);
 }
