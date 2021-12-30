@@ -1,19 +1,19 @@
 package com.example.backend.visit;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class CreateVisitDto {
-    private Date date;
+    private LocalDateTime date;
     private String description;
     private String location;
-    private int doctor_id;
-    private int patient_id;
+    private Long doctor_id;
+    private Long patient_id;
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -33,19 +33,19 @@ public class CreateVisitDto {
         this.location = location;
     }
 
-    public int getDoctor_id() {
+    public Long getDoctor_id() {
         return doctor_id;
     }
 
-    public void setDoctor_id(int doctor_id) {
+    public void setDoctor_id(Long doctor_id) {
         this.doctor_id = doctor_id;
     }
 
-    public int getPatient_id() {
+    public Long getPatient_id() {
         return patient_id;
     }
 
-    public void setPatient_id(int patient_id) {
+    public void setPatient_id(Long patient_id) {
         this.patient_id = patient_id;
     }
 }
