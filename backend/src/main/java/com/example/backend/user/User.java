@@ -42,7 +42,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "PASSWORD", nullable = false, length = 20)
+    @Column(name = "PASSWORD", nullable = false, length = 60)
     public String getPassword() {
         return password;
     }
@@ -74,7 +74,7 @@ public class User {
         return Objects.hash(id, email, password, role);
     }
 
-    @OneToOne(mappedBy = "userByDoctorId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "userByDoctorId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @PrimaryKeyJoinColumn
     public Doctor getDoctorById() {
         return doctorById;
@@ -84,7 +84,7 @@ public class User {
         this.doctorById = doctorById;
     }
 
-    @OneToOne(mappedBy = "userByPatientId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "userByPatientId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @PrimaryKeyJoinColumn
     public Patient getPatientById() {
         return patientById;

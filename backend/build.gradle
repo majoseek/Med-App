@@ -15,8 +15,8 @@ repositories {
 ext {
     springBootVersion = "2.6.1"
     springSecurityTestVersion = "5.5.1"
-    oracleDriverVersion = "21.1.0.0"
-    modelMapperVersion = "2.4.2"
+    oracleDriverVersion = '21.4.0.0'
+    modelMapperVersion = '2.4.5'
 }
 
 dependencies {
@@ -24,7 +24,10 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-data-rest:$springBootVersion"
     implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
     implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation 'org.jetbrains:annotations:22.0.0'
+    implementation 'org.keycloak:keycloak-admin-client:16.0.0'
+    implementation 'org.keycloak:keycloak-spring-boot-starter:16.0.0'
+    implementation 'org.keycloak.bom:keycloak-adapter-bom:15.0.2'
     implementation "org.modelmapper:modelmapper:$modelMapperVersion"
     runtimeOnly "com.oracle.database.jdbc:ojdbc8:$oracleDriverVersion"
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
