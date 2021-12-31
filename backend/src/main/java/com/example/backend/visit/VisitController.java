@@ -1,102 +1,135 @@
 package com.example.backend.visit;
 
-import com.example.backend.doctor.Doctor;
 import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.exceptions.VisitNotFound;
-import com.example.backend.patient.Patient;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 public class VisitController {
 
     private final VisitService service;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public VisitController(VisitService service) {
+    public VisitController(VisitService service, ModelMapper modelMapper) {
         this.service = service;
+        this.modelMapper = modelMapper;
     }
+
+    public VisitDto convertToDto(Visit visit) { return modelMapper.map(visit, VisitDto.class); }
 
     @GetMapping("/visits")
     @ResponseBody
     public ResponseEntity<?> getAllVisits() {
-        List<Visit> allVisits = service.getAllVisits();
+        List<VisitDto> allVisits = service.getAllVisits().stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(allVisits);
     }
 
-    @GetMapping("/visits/{visitId}")
+    @GetMapping("/visits/id/{visitId}")
     @ResponseBody
     public ResponseEntity<?> getVisitById(@PathVariable Long visitId) {
         try {
-            Visit visit = service.getVisitById(visitId);
+            VisitDto visit = convertToDto(service.getVisitById(visitId));
             return ResponseEntity.ok(visit);
         } catch (VisitNotFound visitNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(visitNotFound.getLocalizedMessage());
         }
     }
 
-    // czy Date czy tylko dzien
-    @GetMapping("/visits/{dateOfVisits}") // czy to potrzebuje wyjatkow
+    @GetMapping("/visits/allByDate/{dateOfVisits}")
     @ResponseBody
-    public ResponseEntity<?> getVisitsByDate(@PathVariable Date dateOfVisits) {
-        List<Visit> visits = service.getVisitsByDate(dateOfVisits);
+    public ResponseEntity<?> getVisitsByDate(@PathVariable String dateOfVisits) {
+        List<VisitDto> visits = service.getVisitsByDate(LocalDate.parse(dateOfVisits, DateTimeFormatter.ISO_DATE)).stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(visits);
     }
 
     @GetMapping("/visits/{location}") // czy to potrzebuje wyjatkow
     @ResponseBody
     public ResponseEntity<?> getVisitsByLocation(@PathVariable String location) {
-        List<Visit> visits = service.getVisitsByLocation(location);
+        List<VisitDto> visits = service.getVisitsByLocation(location).stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(visits);
     }
 
-    @GetMapping("/{patientId}/visits")
+    @GetMapping("/patient/{patientId}/visits")
     @ResponseBody
     public ResponseEntity<?> getPatientVisits(@PathVariable Long patientId) {
         try {
-            List<Visit> patientsVisits = service.getPatientVisits(patientId);
+            List<VisitDto> patientsVisits = service.getPatientVisits(patientId).stream().map(this::convertToDto).collect(Collectors.toList());
             return ResponseEntity.ok(patientsVisits);
         } catch (UserNotFound userNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userNotFound.getLocalizedMessage());
         }
     }
 
-    @GetMapping("/{doctorId}/visits")
+    @GetMapping("/doctor/{doctorId}/visits")
     @ResponseBody
     public ResponseEntity<?> getDoctorVisit(@PathVariable Long doctorId) {
         try {
-            List<Visit> patientsVisits = service.getDoctorVisits(doctorId);
+            List<VisitDto> patientsVisits = service.getDoctorVisits(doctorId).stream().map(this::convertToDto).collect(Collectors.toList());
             return ResponseEntity.ok(patientsVisits);
         } catch (UserNotFound userNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userNotFound.getLocalizedMessage());
         }
     }
 
-    @PutMapping("/visits/{visitId}")
-    public ResponseEntity<?> updateVisitDate(@PathVariable Long visitId, @RequestBody Date newDate) {
+    @PutMapping("/visits/updateDate/{visitId}")
+    public ResponseEntity<?> updateVisitDate(@PathVariable Long visitId, @RequestBody Map<String, String> newDate) {
         try {
-            Visit visit = service.updateVisitDate(visitId, newDate);
+            VisitDto visit = convertToDto(service.updateVisitDate(visitId, LocalDateTime.parse(newDate.get("newDate"), DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
             return ResponseEntity.ok(visit);
         } catch (VisitNotFound visitNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body((visitNotFound.getLocalizedMessage()));
         }
     }
 
-    @PostMapping("/visits")
-    public ResponseEntity<?> createVisit(@RequestBody CreateVisitDto createVisitDto) {
-        //Visit visit = service.createVisit(date, description, location, doctor, patient);
-        return ResponseEntity.ok("ok");
+    @PutMapping("/visits/updateLocation/{visitId}")
+    public ResponseEntity<?> updateVisitLocation(@PathVariable Long visitId, @RequestBody Map<String, String> newLocation) {
+        try {
+            VisitDto visit = convertToDto(service.updateVisitLocation(visitId, newLocation.get("newLocation")));
+            return ResponseEntity.ok(visit);
+        } catch (VisitNotFound visitNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((visitNotFound.getLocalizedMessage()));
+        }
     }
 
-    @DeleteMapping("/visits/{visitId}")
+    @PutMapping("/visits/updateDescription/{visitId}")
+    public ResponseEntity<?> updateVisitDescription(@PathVariable Long visitId, @RequestBody Map<String, String> newDescription) {
+        try {
+            VisitDto visit = convertToDto(service.updateVisitDescription(visitId, newDescription.get("newDescription")));
+            return ResponseEntity.ok(visit);
+        } catch (VisitNotFound visitNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((visitNotFound.getLocalizedMessage()));
+        }
+    }
+
+    @PostMapping("/visits/create")
+    public ResponseEntity<?> createVisit(@RequestBody CreateVisitDto createVisitDto) {
+        try {
+            VisitDto visit = convertToDto(service.createVisit(createVisitDto.getDate(),
+                    createVisitDto.getDescription(), createVisitDto.getLocation(),
+                    createVisitDto.getDoctor_id(),
+                    createVisitDto.getPatient_id()));
+            return ResponseEntity.ok(visit);
+        } catch (UserNotFound userNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((userNotFound.getLocalizedMessage()));
+        }
+
+    }
+
+    @DeleteMapping("/visits/id/{visitId}")
     public ResponseEntity<?> deleteVisit(@PathVariable Long visitId) {
         service.delete(visitId);
         return ResponseEntity.ok(visitId);

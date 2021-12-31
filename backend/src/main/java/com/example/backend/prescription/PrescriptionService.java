@@ -6,10 +6,9 @@ import com.example.backend.exceptions.PrescriptionNotFound;
 import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.patient.Patient;
 import com.example.backend.patient.PatientRepository;
-import com.example.backend.patient.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,11 +29,11 @@ public class PrescriptionService {
         this.doctorRepository = doctorRepository;
     }
 
-    public List<Prescription> getPatientPrescription(Long patientId) {
+    public List<Prescription> getPatientPrescription (Long patientId) throws UserNotFound{
         return repository.findAllByPatientId(patientId);
     }
 
-    public List<Prescription> getDoctorPrescription(Long doctorId) {
+    public List<Prescription> getDoctorPrescription(Long doctorId) throws UserNotFound{
         return repository.findAllByDoctorByDoctorUserId(doctorId);
     }
 
@@ -46,8 +45,8 @@ public class PrescriptionService {
         return repository.save(newPrescription);
     }
 
-    public void delete(Long prescriptionId) {
-        if (repository.existsById(prescriptionId)) {
+    public void delete(Long prescriptionId){
+        if(repository.existsById(prescriptionId)) {
             repository.deleteById(prescriptionId);
         }
     }
@@ -55,7 +54,7 @@ public class PrescriptionService {
 
     public Prescription createPrescription(CreatePrescriptionDto prescriptionDto) throws UserNotFound {
         final Prescription newPrescription = new Prescription();
-        newPrescription.setMedicationName(prescriptionDto.getMedicationName());
+//        newPrescription.setMedicationName(prescriptionDto.getMedicationName()); #### Replace to setMedication
         newPrescription.setAmount(prescriptionDto.getAmount());
         newPrescription.setDoctorByDoctorUserId(doctorRepository.findById(prescriptionDto.getDoctorId()).orElseThrow(() -> new UserNotFound("Doctor with this id was not found")));
         newPrescription.setPatientByPatientUserId(patientRepository.findById(prescriptionDto.getPatientId()).orElseThrow(() -> new UserNotFound("Patient with this id was not found")));
@@ -74,7 +73,8 @@ public class PrescriptionService {
         newPrescription.setPatientByPatientUserId(newPatient);
         newPrescription.setDoctorByDoctorUserId(newDoctor);
         newPrescription.setAmount(prescriptionDto.getAmount());
-        newPrescription.setMedicationName(prescriptionDto.getMedicationName());
+//        newPrescription.setMedicationName(prescriptionDto.getMedicationName()); #### Replace to setMedication
+        repository.save(newPrescription);
         return newPrescription;
     }
 }

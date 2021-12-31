@@ -5,20 +5,21 @@ import com.example.backend.patient.Patient;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "PAP_VISIT", schema = "Z14")
 public class Visit {
     private Long id;
-    private Date date;
+    private LocalDateTime date;
     private String description;
     private String location;
     private Doctor doctorByDoctorUserId;
     private Patient patientByPatientUserId;
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "VISIT_ID", nullable = false)
     @SequenceGenerator(name = "VISIT", sequenceName = "VISIT_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "VISIT")
     public Long getId() {
@@ -30,12 +31,12 @@ public class Visit {
     }
 
     @Basic
-    @Column(name = "date", nullable = false)
-    public Date getDate() {
+    @Column(name = "VISIT_DATE", nullable = false)
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -73,7 +74,7 @@ public class Visit {
     }
 
     @ManyToOne
-    @JoinColumn(name = "PAP_DOCTOR_PAP_USER_ID", referencedColumnName = "PAP_USER_ID", nullable = false)
+    @JoinColumn(name = "DOCTOR_ID", referencedColumnName = "USER_ID", nullable = false)
     public Doctor getDoctorByDoctorUserId() {
         return doctorByDoctorUserId;
     }
@@ -83,7 +84,7 @@ public class Visit {
     }
 
     @ManyToOne
-    @JoinColumn(name = "PAP_PATIENT_PAP_USER_ID", referencedColumnName = "PAP_USER_ID", nullable = false)
+    @JoinColumn(name = "PATIENT_ID", referencedColumnName = "USER_ID", nullable = false)
     public Patient getPatientByPatientUserId() {
         return patientByPatientUserId;
     }
