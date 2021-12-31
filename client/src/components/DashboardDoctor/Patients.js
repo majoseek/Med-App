@@ -16,7 +16,7 @@ export default function Patients(props) {
                         <TableCell>Date</TableCell>
                         <TableCell>Patient</TableCell>
                         <TableCell>Visit length [min]</TableCell>
-                        <TableCell align="right">Price</TableCell>
+                        <TableCell align="right">Action</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -25,7 +25,14 @@ export default function Patients(props) {
                             <TableCell>{row.date}</TableCell>
                             <TableCell>{row.patient_name}</TableCell>
                             <TableCell>{row.visit_len}</TableCell>
-                            <TableCell align="right">{`${row.price}$`}</TableCell>
+                            <TableCell align="right">
+                                <button
+                                    className="btn btn-primary text-uppercase rounded-pill"
+                                    style={{ fontSize: "14px" }}
+                                >
+                                    Add prescription
+                                </button>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

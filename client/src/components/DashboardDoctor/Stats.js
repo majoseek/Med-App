@@ -20,12 +20,12 @@ const monthNames = [
 function getCurrentMonthName() {
     return monthNames[new Date().getMonth()];
 }
-export default function Stats({ earnings }) {
+export default function Stats({ numberOfPatients }) {
     return (
         <React.Fragment>
-            <Title>{getCurrentMonthName()} earnings</Title>
+            <Title>Number of patients</Title>
             <Typography component="p" variant="h4">
-                {earnings}$
+                {numberOfPatients}
             </Typography>
             <Typography color="text.secondary" sx={{ flex: 1 }}>
                 since 1st {getCurrentMonthName()}, {new Date().getFullYear()}

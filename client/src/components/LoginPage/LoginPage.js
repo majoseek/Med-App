@@ -16,7 +16,7 @@ export default function LoginPage() {
                 password: password,
             })
             .then((response) => {
-                setCookie("access_token", response);
+                //setCookie("access_token", response);
                 console.log(response);
             })
             .catch((error) => {

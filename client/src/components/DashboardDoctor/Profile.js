@@ -47,6 +47,55 @@ export default function Profile() {
                             />
                         </Grid>
                     </Grid>
+                    <Grid
+                        container
+                        spacing={3}
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="center"
+                    >
+                        <Grid item>
+                            <TextField
+                                id="standard-read-only-input"
+                                label="Pesel"
+                                defaultValue="1234567890"
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                variant="standard"
+                            />
+                        </Grid>
+                        <Grid item>
+                            <TextField
+                                id="standard-read-only-input"
+                                label="E-mail"
+                                defaultValue="cos.tam@gmail.com"
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                variant="standard"
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid
+                        container
+                        spacing={3}
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="center"
+                    >
+                        <Grid item>
+                            <TextField
+                                id="standard-read-only-input"
+                                label="Specialization"
+                                defaultValue="Cardiology"
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                variant="standard"
+                            />
+                        </Grid>
+                    </Grid>
                 </Paper>
             </Grid>
         </Grid>

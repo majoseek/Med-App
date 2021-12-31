@@ -29,12 +29,6 @@ export const LeftButtons = (
             </ListItemIcon>
             <ListItemText primary="Drugs" />
         </ListItem>
-        <ListItem button component={Link} to="prescription">
-            <ListItemIcon>
-                <PostAddIcon />
-            </ListItemIcon>
-            <ListItemText primary="Add prescription" />
-        </ListItem>
     </div>
 );
 
