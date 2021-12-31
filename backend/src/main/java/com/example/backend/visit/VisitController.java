@@ -10,6 +10,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -31,6 +32,7 @@ public class VisitController {
 
     public VisitDto convertToDto(Visit visit) { return modelMapper.map(visit, VisitDto.class); }
 
+    @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
     @GetMapping("/visits")
     @ResponseBody
     public ResponseEntity<?> getAllVisits() {
@@ -38,6 +40,7 @@ public class VisitController {
         return ResponseEntity.ok(allVisits);
     }
 
+    @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
     @GetMapping("/visits/id/{visitId}")
     @ResponseBody
     public ResponseEntity<?> getVisitById(@PathVariable Long visitId) {
@@ -49,6 +52,7 @@ public class VisitController {
         }
     }
 
+    @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
     @GetMapping("/visits/allByDate/{dateOfVisits}")
     @ResponseBody
     public ResponseEntity<?> getVisitsByDate(@PathVariable String dateOfVisits) {
@@ -56,6 +60,7 @@ public class VisitController {
         return ResponseEntity.ok(visits);
     }
 
+    @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
     @GetMapping("/visits/{location}") // czy to potrzebuje wyjatkow
     @ResponseBody
     public ResponseEntity<?> getVisitsByLocation(@PathVariable String location) {
@@ -63,6 +68,7 @@ public class VisitController {
         return ResponseEntity.ok(visits);
     }
 
+    @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
     @GetMapping("/patient/{patientId}/visits")
     @ResponseBody
     public ResponseEntity<?> getPatientVisits(@PathVariable Long patientId) {
@@ -74,6 +80,7 @@ public class VisitController {
         }
     }
 
+    @RolesAllowed("ROLE_doctor")
     @GetMapping("/doctor/{doctorId}/visits")
     @ResponseBody
     public ResponseEntity<?> getDoctorVisit(@PathVariable Long doctorId) {
@@ -85,6 +92,7 @@ public class VisitController {
         }
     }
 
+    @RolesAllowed("ROLE_doctor")
     @GetMapping("/doctor/{doctorId}/countVisits")
     @ResponseBody
     public ResponseEntity<?> getVisitCountByMonth(@PathVariable Long doctorId,
@@ -94,6 +102,8 @@ public class VisitController {
         return ResponseEntity.ok(visitCount);
     }
 
+
+    @RolesAllowed({"ROLE_doctor", "ROLE_patient"}) //kto moze zmienic date wizyty
     @PutMapping("/visits/updateDate/{visitId}")
     public ResponseEntity<?> updateVisitDate(@PathVariable Long visitId, @RequestBody Map<String, String> newDate) {
         try {
@@ -104,6 +114,7 @@ public class VisitController {
         }
     }
 
+    @RolesAllowed("ROLE_doctor")
     @PutMapping("/visits/updateLocation/{visitId}")
     public ResponseEntity<?> updateVisitLocation(@PathVariable Long visitId, @RequestBody Map<String, String> newLocation) {
         try {
@@ -114,6 +125,7 @@ public class VisitController {
         }
     }
 
+    @RolesAllowed("ROLE_doctor")
     @PutMapping("/visits/updateDescription/{visitId}")
     public ResponseEntity<?> updateVisitDescription(@PathVariable Long visitId, @RequestBody Map<String, String> newDescription) {
         try {
@@ -124,6 +136,7 @@ public class VisitController {
         }
     }
 
+    @RolesAllowed({"ROLE_doctor", "ROLE_patient"}) //kto moze stworzyc wizyte
     @PostMapping("/visits/create")
     public ResponseEntity<?> createVisit(@RequestBody CreateVisitDto createVisitDto) {
         try {
@@ -138,6 +151,7 @@ public class VisitController {
 
     }
 
+    @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
     @DeleteMapping("/visits/id/{visitId}")
     public ResponseEntity<?> deleteVisit(@PathVariable Long visitId) {
         service.delete(visitId);
