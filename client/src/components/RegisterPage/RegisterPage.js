@@ -21,6 +21,7 @@ export default function RegisterPage() {
             .then((result) => {
                 console.log("REGISTERED SUCCESSFULL");
                 console.log(result);
+                //TODO: ADD REDIRECTING
             })
             .catch((err) => {
                 console.log("REGISTER FAILED");

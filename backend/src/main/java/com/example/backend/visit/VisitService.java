@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class VisitService {
@@ -106,4 +107,8 @@ public class VisitService {
     }
 
 
+    public Integer getVisitCountByMonth(Long doctorId, Integer month) {
+        Integer visitCount = visitRepository.countVisitByMonthAndDoctor(doctorId, month);
+        return visitCount;
+    }
 }
