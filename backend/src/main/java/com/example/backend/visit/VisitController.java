@@ -88,9 +88,9 @@ public class VisitController {
     @GetMapping("/doctor/{doctorId}/countVisits")
     @ResponseBody
     public ResponseEntity<?> getVisitCountByMonth(@PathVariable Long doctorId,
-                                                  @RequestBody Map<String, String> month) {
-        String monthStr = month.get("month");
-        Integer visitCount = service.getVisitCountByMonth(doctorId, monthStr);
+                                                  @RequestParam Map<String, Integer> month) {
+        Integer monthInt = month.get("month");
+        Integer visitCount = service.getVisitCountByMonth(doctorId, monthInt);
         return ResponseEntity.ok(visitCount);
     }
 
