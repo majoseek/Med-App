@@ -16,6 +16,7 @@ export default function LoginPage() {
                 password: password,
             })
             .then((response) => {
+                //TODO: add cookies handling, connect frontend with server
                 //setCookie("access_token", response);
                 console.log(response);
             })
