@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +58,7 @@ public class IllnessController {
         }
     }
 
+    @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
     @GetMapping("/byPatient/{patientId}")
     @ResponseBody
     public ResponseEntity<?> getIllnessByPatientId(@PathVariable Long patientId) {
@@ -68,6 +70,7 @@ public class IllnessController {
         }
     }
 
+    @RolesAllowed("ROLE_doctor")
     @Transactional
     @PutMapping("/{patientId}")
     @ResponseBody
@@ -81,6 +84,7 @@ public class IllnessController {
         }
     }
 
+    @RolesAllowed("ROLE_doctor")
     @Transactional
     @PutMapping("/update/{illnessId}")
     @ResponseBody

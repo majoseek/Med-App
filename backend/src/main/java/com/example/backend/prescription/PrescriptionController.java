@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Collections;
@@ -54,6 +55,7 @@ public class PrescriptionController {
         return mapper.map(prescription, PrescriptionDto.class);
     }
 
+    @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
     @GetMapping("/allByPatient/{patientId}")
     @ResponseBody
     public ResponseEntity<?> getPatientPrescription(@PathVariable Long patientId) {
@@ -65,6 +67,7 @@ public class PrescriptionController {
         }
     }
 
+    @RolesAllowed("ROLE_doctor")
     @GetMapping("/allByDoctor/{doctorId}")
     @ResponseBody
     public ResponseEntity<?> getDoctorPrescription(@PathVariable Long doctorId) {
@@ -87,6 +90,7 @@ public class PrescriptionController {
         }
     }
 
+    @RolesAllowed("ROLE_doctor")
     @PostMapping("/create")
     public ResponseEntity<?> createPrescription(@RequestBody CreatePrescriptionDto prescriptionDto) {
         try {
@@ -97,6 +101,7 @@ public class PrescriptionController {
         }
     }
 
+    @RolesAllowed("ROLE_doctor")
     @PostMapping("/createByPesel")
     public ResponseEntity<?> createByPatientPesel(@RequestBody CreateByPeselPrescriptionDto prescriptionDto) {
         try{
@@ -108,6 +113,7 @@ public class PrescriptionController {
 
     }
 
+    @RolesAllowed("ROLE_doctor")
     @DeleteMapping("/{prescriptionId}")
     public ResponseEntity<?> deletePrescription(
             @PathVariable Long prescriptionId) {
