@@ -8,7 +8,7 @@ import Home from "./components/DashboardPatient/Home";
 import { useEffect, useState } from "react";
 import HomeDoctor from "./components/DashboardDoctor/HomeDoctor";
 const App = () => {
-    const [isDoctor, setIsDoctor] = useState(true);
+    const [isDoctor, setIsDoctor] = useState(false);
     return (
         <BrowserRouter>
             <Routes>
