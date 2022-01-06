@@ -1,13 +1,14 @@
 import { useState } from "react";
 import "./RegisterPage.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function RegisterPage() {
     const [email, set_email] = useState("");
     const [name, set_name] = useState("");
     const [surname, set_surname] = useState("");
     const [pesel, set_pesel] = useState("");
     const [password, set_password] = useState("");
+    const navigate = useNavigate();
     function register() {
         console.log(email, name, surname, pesel, password);
         axios
@@ -21,7 +22,7 @@ export default function RegisterPage() {
             .then((result) => {
                 console.log("REGISTERED SUCCESSFULL");
                 console.log(result);
-                //TODO: ADD REDIRECTING
+                navigate("/");
             })
             .catch((err) => {
                 console.log("REGISTER FAILED");

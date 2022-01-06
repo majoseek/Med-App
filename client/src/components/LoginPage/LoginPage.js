@@ -3,11 +3,13 @@ import "./LoginPage.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
-export default function LoginPage() {
+import { useNavigate } from "react-router-dom";
+export default function LoginPage({ setIsDoctor }) {
     const [email, set_email] = useState("");
     const [password, set_password] = useState("");
     const [remember_me, set_remember] = useState(true);
     const [cookies, setCookie] = useCookies(["access_token"]);
+    const navigate = useNavigate();
     function sign_in() {
         console.log(email, password);
         axios
@@ -19,6 +21,8 @@ export default function LoginPage() {
                 //TODO: add cookies handling, connect frontend with server
                 //setCookie("access_token", response);
                 console.log(response);
+                setIsDoctor(true);
+                navigate("/dashboard");
             })
             .catch((error) => {
                 console.log("LOGIN FAILED");
