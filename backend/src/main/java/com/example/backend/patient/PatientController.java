@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class PatientController {
         return modelMapper.map(patient, PatientDto.class);
     }
 
+    @RolesAllowed("doctor")
     @GetMapping("/all")
     @ResponseBody
     public ResponseEntity<?> getAllPatients() {
@@ -37,6 +39,7 @@ public class PatientController {
         return ResponseEntity.ok(patientList);
     }
 
+    @RolesAllowed("doctor")
     @GetMapping("/allByName")
     @ResponseBody
     public ResponseEntity<?> getPatientsByName(@RequestParam String name) {
@@ -44,6 +47,7 @@ public class PatientController {
         return ResponseEntity.ok(patientList);
     }
 
+    @RolesAllowed("ROLE_doctor")
     @GetMapping("/allByPesel")
     @ResponseBody
     public ResponseEntity<?> getPatientByPesel(@RequestParam String pesel) {
@@ -58,6 +62,7 @@ public class PatientController {
         }
     }
 
+    @RolesAllowed("ROLE_doctor")
     @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<?> getPatientById(@PathVariable Long id) {
@@ -69,7 +74,7 @@ public class PatientController {
         }
     }
 
-
+    @RolesAllowed("ROLE_doctor")
     @GetMapping("/allByIllness/{illnessId}")
     @ResponseBody
     public ResponseEntity<?> getPatientByIllnessId(@PathVariable Long illnessId) {
