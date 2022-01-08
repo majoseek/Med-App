@@ -31,29 +31,25 @@ public class DoctorController {
         return modelMapper.map(doctor, DoctorDto.class);
     }
 
-    @GetMapping(path = "/all")
-    @ResponseBody
+    @GetMapping(path = "/all", produces="application/json")
     ResponseEntity<?> getAllDoctors() {
         List<DoctorDto> doctorList = doctorService.getListOfDoctors().stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(doctorList);
     }
 
-    @GetMapping(path = "/allGetBySpec")
-    @ResponseBody
+    @GetMapping(path = "/allGetBySpec", produces="application/json")
     ResponseEntity<?> getDoctorsBySpecialization(@RequestParam String specialization) {
         List<DoctorDto> doctorList = doctorService.getAllDoctorsBySpecialization(specialization).stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(doctorList);
     }
 
-    @GetMapping(path = "/allGetByName")
-    @ResponseBody
+    @GetMapping(path = "/allGetByName", produces="application/json")
     ResponseEntity<?> getDoctorsByNames(@RequestParam String name) {
         List<DoctorDto> doctorList = doctorService.getAllDoctorsByNameOrSurname(name).stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(doctorList);
     }
 
-    @GetMapping(path = "/{id}")
-    @ResponseBody
+    @GetMapping(path = "/{id}", produces="application/json")
     ResponseEntity<?> getDoctorById(@PathVariable Long id) {
         try {
             DoctorDto doctor = convertToDto(doctorService.getDoctorById(id));
@@ -64,8 +60,7 @@ public class DoctorController {
     }
 
     @RolesAllowed("ROLE_doctor")
-    @PutMapping(path="/update/{id}")
-    @ResponseBody
+    @PutMapping(path="/update/{id}", produces="application/json")
     ResponseEntity<?> editSpecialization(@PathVariable Long id,
                                          @RequestParam String specialization) {
         try {

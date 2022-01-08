@@ -3,7 +3,6 @@ package com.example.backend.patient;
 import com.example.backend.exceptions.IllnessNotFound;
 import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.illness.IllnessRepository;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

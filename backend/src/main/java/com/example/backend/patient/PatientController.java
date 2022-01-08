@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/patients")
+@RequestMapping(path="/patients")
 public class PatientController {
 
     private final PatientService patientService;
@@ -32,24 +32,21 @@ public class PatientController {
     }
 
     @RolesAllowed("doctor")
-    @GetMapping("/all")
-    @ResponseBody
+    @GetMapping(path="/all", produces="application/json")
     public ResponseEntity<?> getAllPatients() {
         List<PatientDto> patientList = patientService.getAllPatients().stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(patientList);
     }
 
     @RolesAllowed("doctor")
-    @GetMapping("/allByName")
-    @ResponseBody
+    @GetMapping(path="/allByName", produces="application/json")
     public ResponseEntity<?> getPatientsByName(@RequestParam String name) {
         List<PatientDto> patientList = patientService.getPatientByName(name.toUpperCase()).stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(patientList);
     }
 
     @RolesAllowed("ROLE_doctor")
-    @GetMapping("/allByPesel")
-    @ResponseBody
+    @GetMapping(path="/allByPesel", produces="application/json")
     public ResponseEntity<?> getPatientByPesel(@RequestParam String pesel) {
         if (pesel.length() != 11) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", "PESEL must be 11 characters long"));
@@ -63,8 +60,7 @@ public class PatientController {
     }
 
     @RolesAllowed("ROLE_doctor")
-    @GetMapping("/{id}")
-    @ResponseBody
+    @GetMapping(path="/{id}", produces="application/json")
     public ResponseEntity<?> getPatientById(@PathVariable Long id) {
         try {
             PatientDto patient = convertToDto(patientService.getPatientById(id));
@@ -75,8 +71,7 @@ public class PatientController {
     }
 
     @RolesAllowed("ROLE_doctor")
-    @GetMapping("/allByIllness/{illnessId}")
-    @ResponseBody
+    @GetMapping(path="/allByIllness/{illnessId}", produces="application/json")
     public ResponseEntity<?> getPatientByIllnessId(@PathVariable Long illnessId) {
         try {
             List<PatientDto> patients = patientService.getPatientsByIllnessId(illnessId).stream().map(this::convertToDto).collect(Collectors.toList());

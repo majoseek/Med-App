@@ -1,36 +1,28 @@
 package com.example.backend.prescription;
 
-
-import com.example.backend.doctor.Doctor;
+import com.example.backend.exceptions.InvalidPrincipal;
 import com.example.backend.exceptions.PrescriptionNotFound;
 import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.medication.Medication;
 import com.example.backend.medication.MedicationDto;
-import org.hibernate.collection.spi.PersistentCollection;
+import com.example.backend.Utilities;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
-import org.modelmapper.TypeMap;
-import org.modelmapper.TypeToken;
-import org.modelmapper.config.Configuration;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
-import java.lang.reflect.Type;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RestController
 @Transactional
-@RequestMapping("/prescriptions")
+@RequestMapping(path="/prescriptions")
 public class PrescriptionController {
 
     private final PrescriptionService service;
@@ -51,25 +43,18 @@ public class PrescriptionController {
     }
 
     private PrescriptionDto convertToDto(Prescription prescription) {
-
         return mapper.map(prescription, PrescriptionDto.class);
     }
 
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
-    @GetMapping("/allByPatient/{patientId}")
-    @ResponseBody
+    @GetMapping(path="/allByPatient/{patientId}", produces="application/json")
     public ResponseEntity<?> getPatientPrescription(@PathVariable Long patientId) {
-        try{
-            List<PrescriptionDto> prescriptions = service.getPatientPrescription(patientId).stream().map(this::convertToDto).collect(Collectors.toList());
-            return ResponseEntity.ok(prescriptions);
-        } catch (UserNotFound userNotFound) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((userNotFound.getLocalizedMessage()));
-        }
+        List<PrescriptionDto> prescriptions = service.getPatientPrescription(patientId).stream().map(this::convertToDto).collect(Collectors.toList());
+        return ResponseEntity.ok(prescriptions);
     }
 
-    @RolesAllowed("ROLE_doctor")
-    @GetMapping("/allByDoctor/{doctorId}")
-    @ResponseBody
+    @RolesAllowed({"ROLE_doctor"})
+    @GetMapping(path="/allByDoctor/{doctorId}", produces = "application/json")
     public ResponseEntity<?> getDoctorPrescription(@PathVariable Long doctorId) {
         try {
             List<PrescriptionDto> prescriptions = service.getDoctorPrescription(doctorId).stream().map(this::convertToDto).collect(Collectors.toList());
@@ -79,8 +64,7 @@ public class PrescriptionController {
         }
     }
 
-    @GetMapping("/id/{prescriptionId}")
-    @ResponseBody
+    @GetMapping(path="/id/{prescriptionId}", produces = "application/json")
     public ResponseEntity<?> getPrescriptionById(@PathVariable Long prescriptionId) {
         try {
             PrescriptionDto prescription = convertToDto(service.getPrescriptionById(prescriptionId));
@@ -91,7 +75,7 @@ public class PrescriptionController {
     }
 
     @RolesAllowed("ROLE_doctor")
-    @PostMapping("/create")
+    @PostMapping(path="/create", produces = "application/json")
     public ResponseEntity<?> createPrescription(@RequestBody CreatePrescriptionDto prescriptionDto) {
         try {
             PrescriptionDto prescription = convertToDto(service.createPrescription(prescriptionDto));
@@ -102,7 +86,7 @@ public class PrescriptionController {
     }
 
     @RolesAllowed("ROLE_doctor")
-    @PostMapping("/createByPesel")
+    @PostMapping(path="/createByPesel", produces = "application/json")
     public ResponseEntity<?> createByPatientPesel(@RequestBody CreateByPeselPrescriptionDto prescriptionDto) {
         try{
             PrescriptionDto prescription = convertToDto(service.createByPatientPesel(prescriptionDto));
@@ -114,9 +98,20 @@ public class PrescriptionController {
     }
 
     @RolesAllowed("ROLE_doctor")
-    @DeleteMapping("/{prescriptionId}")
+    @DeleteMapping(path="/{prescriptionId}", produces = "application/json")
     public ResponseEntity<?> deletePrescription(
             @PathVariable Long prescriptionId) {
         service.delete(prescriptionId);
         return ResponseEntity.ok(prescriptionId);}
+
+    @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
+    @GetMapping(path="/myPrescriptions", produces = "application/json")
+    public ResponseEntity<?> getUserPrescriptions(Principal principal) {
+        try {
+            Long userId = Utilities.getUserDbIdFromPrincipal(principal);
+            return ResponseEntity.ok(service.getUserPrescriptions(userId).stream().map(this::convertToDto).collect(Collectors.toList()));
+        } catch (InvalidPrincipal invalidPrincipal) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", invalidPrincipal.getLocalizedMessage()));
+        }
+    }
 }

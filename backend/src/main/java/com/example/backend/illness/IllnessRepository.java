@@ -1,7 +1,7 @@
 package com.example.backend.illness;
 
 import com.example.backend.patient.Patient;
-import org.springframework.data.jpa.repository.Query;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IllnessRepository extends CrudRepository<Illness, Long> {
-    List<Illness> findAll();
+    @NotNull List<Illness> findAll();
 
     List<Illness> findAllByName(String illnessName);
 
-    Optional<Illness> findById(Long id);
+    @NotNull Optional<Illness> findById(@NotNull Long id);
 
     List<Illness> findAllByPatientsByIllnessIdIn(Collection<Patient> patientsByIllnessId);
 }

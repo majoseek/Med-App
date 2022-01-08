@@ -11,11 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class VisitService {
@@ -106,9 +104,12 @@ public class VisitService {
         return newVisit;
     }
 
+    public List<Visit> getUserVisits(Long userId) {
+        return visitRepository.findAllByUserId(userId);
+    }
+
 
     public Integer getVisitCountByMonth(Long doctorId, Integer month) {
-        Integer visitCount = visitRepository.countVisitByMonthAndDoctor(doctorId, month);
-        return visitCount;
+        return visitRepository.countVisitByMonthAndDoctor(doctorId, month);
     }
 }
