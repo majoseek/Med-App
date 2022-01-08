@@ -1,7 +1,5 @@
 package com.example.backend.prescription;
 
-import org.springframework.web.bind.annotation.RequestBody;
-
 public class CreateByPeselPrescriptionDto {
     private String pesel;
     private String medicationName;

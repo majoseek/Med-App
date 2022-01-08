@@ -1,7 +1,5 @@
 package com.example.backend.prescription;
 
-import com.example.backend.doctor.Doctor;
-import com.example.backend.patient.Patient;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

@@ -5,11 +5,8 @@ import com.example.backend.patient.Patient;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 public interface VisitRepository extends CrudRepository<Visit, Long> {
     List<Visit> findAllBy();

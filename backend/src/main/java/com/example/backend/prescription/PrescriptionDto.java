@@ -1,7 +1,6 @@
 package com.example.backend.prescription;
 
 import com.example.backend.medication.Medication;
-import com.example.backend.medication.MedicationDto;
 
 import java.util.List;
 

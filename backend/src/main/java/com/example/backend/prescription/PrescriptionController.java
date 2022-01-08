@@ -49,12 +49,8 @@ public class PrescriptionController {
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
     @GetMapping(path="/allByPatient/{patientId}", produces="application/json")
     public ResponseEntity<?> getPatientPrescription(@PathVariable Long patientId) {
-        try{
-            List<PrescriptionDto> prescriptions = service.getPatientPrescription(patientId).stream().map(this::convertToDto).collect(Collectors.toList());
-            return ResponseEntity.ok(prescriptions);
-        } catch (UserNotFound userNotFound) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((userNotFound.getLocalizedMessage()));
-        }
+        List<PrescriptionDto> prescriptions = service.getPatientPrescription(patientId).stream().map(this::convertToDto).collect(Collectors.toList());
+        return ResponseEntity.ok(prescriptions);
     }
 
     @RolesAllowed({"ROLE_doctor"})

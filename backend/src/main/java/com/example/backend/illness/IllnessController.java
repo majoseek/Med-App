@@ -4,8 +4,6 @@ import com.example.backend.Utilities;
 import com.example.backend.exceptions.IllnessNotFound;
 import com.example.backend.exceptions.InvalidPrincipal;
 import com.example.backend.exceptions.UserNotFound;
-import com.example.backend.patient.Patient;
-import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
