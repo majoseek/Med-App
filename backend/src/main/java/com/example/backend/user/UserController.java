@@ -1,5 +1,6 @@
 package com.example.backend.user;
 
+import com.example.backend.Utilities;
 import com.example.backend.doctor.DoctorSignUpDto;
 import com.example.backend.exceptions.*;
 import com.example.backend.patient.PatientSignUpDto;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.core.Response;
+import java.security.Principal;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -80,6 +82,17 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(Collections.singletonMap("error", error.getLocalizedMessage()));
         } catch (DataIntegrityViolationException error) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(Collections.singletonMap("error", "Email is already used"));
+        }
+    }
+
+    @GetMapping(path = "/myData", produces = "application/json")
+    ResponseEntity<?> getMyUserData(Principal principal) {
+        try {
+            Long userId = Utilities.getUserDbIdFromPrincipal(principal);
+            UserDataDto.UserData data = userService.getUserData(userId);
+            return ResponseEntity.ok(data);
+        } catch (UserNotFound | InvalidRole | InvalidPrincipal invalidParam) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", invalidParam.getLocalizedMessage()));
         }
     }
 }

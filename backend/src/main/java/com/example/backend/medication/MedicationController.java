@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @Transactional
-@RequestMapping("/medications")
+@RequestMapping(path="/medications")
 public class MedicationController {
     private final MedicationService service;
     private final ModelMapper mapper;
@@ -29,15 +29,15 @@ public class MedicationController {
         return mapper.map(medication, MedicationDto.class);
     }
 
-    @GetMapping("/all")
-    @ResponseBody
+    @GetMapping(path="/all", produces = "application/json")
+    
     public ResponseEntity<?> getAll() {
         List<MedicationDto> medications = service.getAll().stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(medications);
     }
 
-    @GetMapping("/id/{id}")
-    @ResponseBody
+    @GetMapping(path="/id/{id}")
+    
     @Transactional
     public ResponseEntity<?> getById(@PathVariable Long id) {
         try {

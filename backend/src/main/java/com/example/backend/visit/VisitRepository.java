@@ -24,4 +24,7 @@ public interface VisitRepository extends CrudRepository<Visit, Long> {
 
     @Query(value = "select count(v) from Visit v where v.doctorByDoctorUserId.userId = :doctorId and month(v.date) = :month")
     Integer countVisitByMonthAndDoctor(Long doctorId, Integer month);
+
+    @Query(value="select v from Visit v where v.doctorByDoctorUserId.userId = :userId or v.patientByPatientUserId.userId = :userId")
+    List<Visit> findAllByUserId(Long userId);
 }

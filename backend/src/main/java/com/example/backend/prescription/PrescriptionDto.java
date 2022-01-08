@@ -9,8 +9,42 @@ public class PrescriptionDto {
     private Long id;
     private List<Medication> medicationDto;
     private Long amount;
-    private Long doctorId;
-    private Long patientId;
+    private String patientName;
+    private String patientSurname;
+    private String doctorName;
+    private String doctorSurname;
+
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
+    }
+
+    public String getPatientSurname() {
+        return patientSurname;
+    }
+
+    public void setPatientSurname(String patientSurname) {
+        this.patientSurname = patientSurname;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
+
+    public String getDoctorSurname() {
+        return doctorSurname;
+    }
+
+    public void setDoctorSurname(String doctorSurname) {
+        this.doctorSurname = doctorSurname;
+    }
 
     public PrescriptionDto() {}
 
@@ -38,19 +72,4 @@ public class PrescriptionDto {
         this.amount = amount;
     }
 
-    public Long getDoctorId() {
-        return doctorId;
-    }
-
-    public void setDoctorId(Long doctorId) {
-        this.doctorId = doctorId;
-    }
-
-    public Long getPatientId() {
-        return patientId;
-    }
-
-    public void setPatientId(Long patientId) {
-        this.patientId = patientId;
-    }
 }

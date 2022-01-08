@@ -14,4 +14,7 @@ public interface PrescriptionRepository extends CrudRepository<Prescription, Lon
 
     @Query(value = "select p from Prescription p where p.doctorByDoctorUserId.userId = :doctorId")
     List<Prescription> findAllByDoctorByDoctorUserId(Long doctorId);
+
+    @Query(value = "select p from Prescription p where p.doctorByDoctorUserId.userId = :userId or p.patientByPatientUserId.userId = :userId")
+    List<Prescription> findAllByUserId(Long userId);
 }

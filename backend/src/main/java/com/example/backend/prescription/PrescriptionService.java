@@ -37,6 +37,10 @@ public class PrescriptionService {
         return repository.findAllByDoctorByDoctorUserId(doctorId);
     }
 
+    public List<Prescription> getUserPrescriptions(Long userId) {
+        return repository.findAllByUserId(userId);
+    }
+
     public Prescription getPrescriptionById(Long prescriptionId) throws PrescriptionNotFound {
         return repository.findById(prescriptionId).orElseThrow(() -> new PrescriptionNotFound("Could not find prescription " + prescriptionId));
     }

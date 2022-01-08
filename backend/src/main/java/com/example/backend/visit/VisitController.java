@@ -1,5 +1,7 @@
 package com.example.backend.visit;
 
+import com.example.backend.Utilities;
+import com.example.backend.exceptions.InvalidPrincipal;
 import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.exceptions.VisitNotFound;
 import org.modelmapper.ModelMapper;
@@ -11,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,16 +37,14 @@ public class VisitController {
     public VisitDto convertToDto(Visit visit) { return modelMapper.map(visit, VisitDto.class); }
 
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
-    @GetMapping("/visits")
-    @ResponseBody
+    @GetMapping(path="/visits", produces="application/json")
     public ResponseEntity<?> getAllVisits() {
         List<VisitDto> allVisits = service.getAllVisits().stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(allVisits);
     }
 
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
-    @GetMapping("/visits/id/{visitId}")
-    @ResponseBody
+    @GetMapping(path="/visits/id/{visitId}", produces="application/json")
     public ResponseEntity<?> getVisitById(@PathVariable Long visitId) {
         try {
             VisitDto visit = convertToDto(service.getVisitById(visitId));
@@ -53,24 +55,21 @@ public class VisitController {
     }
 
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
-    @GetMapping("/visits/allByDate/{dateOfVisits}")
-    @ResponseBody
+    @GetMapping(path="/visits/allByDate/{dateOfVisits}", produces = "application/json")
     public ResponseEntity<?> getVisitsByDate(@PathVariable String dateOfVisits) {
         List<VisitDto> visits = service.getVisitsByDate(LocalDate.parse(dateOfVisits, DateTimeFormatter.ISO_DATE)).stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(visits);
     }
 
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
-    @GetMapping("/visits/{location}") // czy to potrzebuje wyjatkow
-    @ResponseBody
+    @GetMapping(path="/visits/{location}", produces = "application/json") // czy to potrzebuje wyjatkow
     public ResponseEntity<?> getVisitsByLocation(@PathVariable String location) {
         List<VisitDto> visits = service.getVisitsByLocation(location).stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(visits);
     }
 
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
-    @GetMapping("/patient/{patientId}/visits")
-    @ResponseBody
+    @GetMapping(path="/patient/{patientId}/visits", produces = "application/json")
     public ResponseEntity<?> getPatientVisits(@PathVariable Long patientId) {
         try {
             List<VisitDto> patientsVisits = service.getPatientVisits(patientId).stream().map(this::convertToDto).collect(Collectors.toList());
@@ -81,8 +80,7 @@ public class VisitController {
     }
 
     @RolesAllowed("ROLE_doctor")
-    @GetMapping("/doctor/{doctorId}/visits")
-    @ResponseBody
+    @GetMapping(path="/doctor/{doctorId}/visits", produces = "application/json")
     public ResponseEntity<?> getDoctorVisit(@PathVariable Long doctorId) {
         try {
             List<VisitDto> doctorsVisits = service.getDoctorVisits(doctorId).stream().map(this::convertToDto).collect(Collectors.toList());
@@ -93,8 +91,7 @@ public class VisitController {
     }
 
     @RolesAllowed("ROLE_doctor")
-    @GetMapping("/doctor/{doctorId}/countVisits")
-    @ResponseBody
+    @GetMapping(path="/doctor/{doctorId}/countVisits", produces = "application/json")
     public ResponseEntity<?> getVisitCountByMonth(@PathVariable Long doctorId,
                                                   @RequestParam Map<String, Integer> month) {
         Integer monthInt = month.get("month");
@@ -104,7 +101,7 @@ public class VisitController {
 
 
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"}) //kto moze zmienic date wizyty
-    @PutMapping("/visits/updateDate/{visitId}")
+    @PutMapping(path="/visits/updateDate/{visitId}", produces = "application/json")
     public ResponseEntity<?> updateVisitDate(@PathVariable Long visitId, @RequestBody Map<String, String> newDate) {
         try {
             VisitDto visit = convertToDto(service.updateVisitDate(visitId, LocalDateTime.parse(newDate.get("newDate"), DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
@@ -115,7 +112,7 @@ public class VisitController {
     }
 
     @RolesAllowed("ROLE_doctor")
-    @PutMapping("/visits/updateLocation/{visitId}")
+    @PutMapping(path="/visits/updateLocation/{visitId}", produces = "application/json")
     public ResponseEntity<?> updateVisitLocation(@PathVariable Long visitId, @RequestBody Map<String, String> newLocation) {
         try {
             VisitDto visit = convertToDto(service.updateVisitLocation(visitId, newLocation.get("newLocation")));
@@ -126,7 +123,7 @@ public class VisitController {
     }
 
     @RolesAllowed("ROLE_doctor")
-    @PutMapping("/visits/updateDescription/{visitId}")
+    @PutMapping(path="/visits/updateDescription/{visitId}", produces = "application/json")
     public ResponseEntity<?> updateVisitDescription(@PathVariable Long visitId, @RequestBody Map<String, String> newDescription) {
         try {
             VisitDto visit = convertToDto(service.updateVisitDescription(visitId, newDescription.get("newDescription")));
@@ -137,7 +134,7 @@ public class VisitController {
     }
 
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"}) //kto moze stworzyc wizyte
-    @PostMapping("/visits/create")
+    @PostMapping(path="/visits/create", produces = "application/json")
     public ResponseEntity<?> createVisit(@RequestBody CreateVisitDto createVisitDto) {
         try {
             VisitDto visit = convertToDto(service.createVisit(createVisitDto.getDate(),
@@ -152,9 +149,20 @@ public class VisitController {
     }
 
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
-    @DeleteMapping("/visits/id/{visitId}")
+    @DeleteMapping(path="/visits/id/{visitId}", produces = "application/json")
     public ResponseEntity<?> deleteVisit(@PathVariable Long visitId) {
         service.delete(visitId);
         return ResponseEntity.ok(visitId);
+    }
+
+    @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
+    @GetMapping(path="/myVisits", produces = "application/json")
+    public ResponseEntity<?> getUserVisits(Principal principal) {
+        try {
+            Long userId = Utilities.getUserDbIdFromPrincipal(principal);
+            return ResponseEntity.ok(service.getUserVisits(userId).stream().map(this::convertToDto).collect(Collectors.toList()));
+        } catch (InvalidPrincipal invalidPrincipal) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", invalidPrincipal.getLocalizedMessage()));
+        }
     }
 }
