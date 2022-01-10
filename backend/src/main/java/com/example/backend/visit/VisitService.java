@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VisitService {
@@ -112,4 +114,8 @@ public class VisitService {
     public Integer getVisitCountByMonth(Long doctorId) {
         return visitRepository.countVisitByMonthAndDoctor(doctorId);
     }
+
+    public Visit getNextVisit(Long patientId) throws VisitNotFound {
+        return visitRepository.getNextVisit(patientId)
+                .orElseThrow(()-> new VisitNotFound("No upcomming visits"));}
 }

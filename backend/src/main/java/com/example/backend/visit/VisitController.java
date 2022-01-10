@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -150,6 +151,22 @@ public class VisitController {
     public ResponseEntity<?> deleteVisit(@PathVariable Long visitId) {
         service.delete(visitId);
         return ResponseEntity.ok(visitId);
+    }
+
+
+    @RolesAllowed("ROLE_patient")
+    @GetMapping(path="/nextVisit/1")
+    public ResponseEntity<?> getNextVisit(Principal principal)
+    {
+        try {
+            Long patientId = Utilities.getUserDbIdFromPrincipal(principal);
+            return ResponseEntity.ok(convertToDto(service.getNextVisit(patientId)));
+        } catch (InvalidPrincipal invalidPrincipal) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", invalidPrincipal.getLocalizedMessage()));
+        }
+        catch (VisitNotFound visitNotFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((visitNotFound.getLocalizedMessage()));
+        }
     }
 
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})

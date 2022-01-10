@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface VisitRepository extends CrudRepository<Visit, Long> {
     List<Visit> findAllBy();
@@ -24,4 +25,9 @@ public interface VisitRepository extends CrudRepository<Visit, Long> {
 
     @Query(value="select v from Visit v where v.doctorByDoctorUserId.userId = :userId or v.patientByPatientUserId.userId = :userId")
     List<Visit> findAllByUserId(Long userId);
+
+    @Query(value="select v from Visit v " +
+            "where v.patientByPatientUserId.userId = :patientId " +
+            "and v.date = (select min(v2.date) from Visit v2 where v2.date>sysdate())")
+    Optional<Visit> getNextVisit(Long patientId);
 }
