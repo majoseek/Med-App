@@ -5,11 +5,8 @@ import com.example.backend.patient.Patient;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 public interface VisitRepository extends CrudRepository<Visit, Long> {
     List<Visit> findAllBy();
@@ -24,4 +21,7 @@ public interface VisitRepository extends CrudRepository<Visit, Long> {
 
     @Query(value = "select count(v) from Visit v where v.doctorByDoctorUserId.userId = :doctorId and month(v.date) = :month")
     Integer countVisitByMonthAndDoctor(Long doctorId, Integer month);
+
+    @Query(value="select v from Visit v where v.doctorByDoctorUserId.userId = :userId or v.patientByPatientUserId.userId = :userId")
+    List<Visit> findAllByUserId(Long userId);
 }

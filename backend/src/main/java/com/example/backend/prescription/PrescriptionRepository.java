@@ -1,7 +1,5 @@
 package com.example.backend.prescription;
 
-import com.example.backend.doctor.Doctor;
-import com.example.backend.patient.Patient;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -14,4 +12,7 @@ public interface PrescriptionRepository extends CrudRepository<Prescription, Lon
 
     @Query(value = "select p from Prescription p where p.doctorByDoctorUserId.userId = :doctorId")
     List<Prescription> findAllByDoctorByDoctorUserId(Long doctorId);
+
+    @Query(value = "select p from Prescription p where p.doctorByDoctorUserId.userId = :userId or p.patientByPatientUserId.userId = :userId")
+    List<Prescription> findAllByUserId(Long userId);
 }

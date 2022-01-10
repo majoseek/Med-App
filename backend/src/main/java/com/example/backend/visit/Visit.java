@@ -4,7 +4,6 @@ import com.example.backend.doctor.Doctor;
 import com.example.backend.patient.Patient;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Objects;
 

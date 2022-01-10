@@ -8,10 +8,8 @@ import com.example.backend.patient.Patient;
 import com.example.backend.patient.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PrescriptionService {
@@ -29,12 +27,16 @@ public class PrescriptionService {
         this.doctorRepository = doctorRepository;
     }
 
-    public List<Prescription> getPatientPrescription (Long patientId) throws UserNotFound{
+    public List<Prescription> getPatientPrescription (Long patientId) {
         return repository.findAllByPatientId(patientId);
     }
 
     public List<Prescription> getDoctorPrescription(Long doctorId) throws UserNotFound{
         return repository.findAllByDoctorByDoctorUserId(doctorId);
+    }
+
+    public List<Prescription> getUserPrescriptions(Long userId) {
+        return repository.findAllByUserId(userId);
     }
 
     public Prescription getPrescriptionById(Long prescriptionId) throws PrescriptionNotFound {

@@ -6,13 +6,11 @@ public class UserDataDto {
     public static class UserData {
         private Long id;
         private String email;
-        private String password;
         private String role;
 
         public UserData(User user) {
             this.id = user.getId();
             this.email = user.getEmail();
-            this.password = user.getPassword();
             this.role = user.getRole();
         }
 
@@ -30,14 +28,6 @@ public class UserDataDto {
 
         public void setEmail(String email) {
             this.email = email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
         }
 
         public String getRole() {
@@ -58,7 +48,7 @@ public class UserDataDto {
             super(user);
             this.name = user.getPatientById().getName();
             this.surname = user.getPatientById().getSurname();
-            this.pesel = user.getPatientById().getSurname();
+            this.pesel = user.getPatientById().getPesel();
         }
 
         public String getName() {
