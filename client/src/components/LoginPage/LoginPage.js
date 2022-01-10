@@ -4,29 +4,35 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 export default function LoginPage({ setIsDoctor }) {
     const [email, set_email] = useState("");
     const [password, set_password] = useState("");
     const [remember_me, set_remember] = useState(true);
     const [cookies, setCookie] = useCookies(["access_token"]);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     function sign_in() {
-        console.log(email, password);
+        setIsLoading(true);
         axios
-            .post("/users/login", {
-                email: email,
-                password: password,
-            })
+            .post(
+                "/users/login",
+                new URLSearchParams({
+                    email: email,
+                    password: password,
+                })
+            )
             .then((response) => {
                 //TODO: add cookies handling, connect frontend with server
-                //setCookie("access_token", response);
-                console.log(response);
+                setCookie("access_token", response.data.access_token);
                 setIsDoctor(true);
                 navigate("/dashboard");
             })
             .catch((error) => {
                 console.log("LOGIN FAILED");
-                console.log(error.response.status);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }
     return (
@@ -100,13 +106,19 @@ export default function LoginPage({ setIsDoctor }) {
                                                     Remember password
                                                 </label>
                                             </div>
-                                            <div className="d-grid gap-2 mt-2 m-auto w-75">
-                                                <button
-                                                    className="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm"
-                                                    onClick={() => sign_in()}
-                                                >
-                                                    Sign in
-                                                </button>
+                                            <div className="d-grid gap-2 mt-2 m-auto w-75 text-center">
+                                                {isLoading ? (
+                                                    <CircularProgress />
+                                                ) : (
+                                                    <button
+                                                        className="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm"
+                                                        onClick={() =>
+                                                            sign_in()
+                                                        }
+                                                    >
+                                                        Sign in
+                                                    </button>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

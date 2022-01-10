@@ -69,20 +69,28 @@ export default function Patients(props) {
                     <TableRow>
                         <TableCell>Date</TableCell>
                         <TableCell>Patient</TableCell>
-                        <TableCell>Visit length [min]</TableCell>
+                        <TableCell>Description</TableCell>
                         <TableCell align="right">Action</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {props.data.map((row) => (
-                        <TableRow key={`patient_${row.id}`}>
-                            <TableCell>{row.date}</TableCell>
-                            <TableCell>{row.patient_name}</TableCell>
-                            <TableCell>{row.visit_len}</TableCell>
+                        <TableRow key={`patient_${row.visitId}`}>
+                            <TableCell>
+                                {new Date(row.visitDate).getFullYear()}-
+                                {new Date(row.visitDate).getMonth() + 1}-
+                                {new Date(row.visitDate).getDay()}{" "}
+                                {new Date(row.visitDate).getHours()}:
+                                {new Date(row.visitDate).getMinutes()}
+                            </TableCell>
+                            <TableCell>
+                                {row.doctorName} {row.doctorSurname}
+                            </TableCell>
+                            <TableCell>{row.description}</TableCell>
                             <TableCell align="right">
                                 <button
                                     className="btn btn-primary text-uppercase rounded-pill"
-                                    style={{ fontSize: "14px" }}
+                                    style={{ fontSize: "12px" }}
                                     onClick={handleClickOpen}
                                 >
                                     Add prescription

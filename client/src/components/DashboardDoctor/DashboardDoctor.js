@@ -12,6 +12,8 @@ import {
 } from "recharts";
 import Title from "./Title";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 const month_patients_number = [52, 63, 72, 40, 30, 51, 60, 60, 80, 79, 65, 52];
 const months = [
     "Jan",
@@ -45,12 +47,29 @@ const data = [
 ];
 export default function DashboardDoctor() {
     const [chartData, setChartData] = useState([]);
+    const [myVisits, setMyVisits] = useState([]);
+    const [numberOfPatients, setNumberOfPatients] = useState(0);
+    const [cookies, setCookie] = useCookies(["access_token"]);
     useEffect(() => {
         setChartData(
             month_patients_number.map((num, index) => {
                 return { month: months[index], number: num };
             })
         );
+        axios
+            .get("/myVisits", {
+                headers: { Authorization: `Bearer ${cookies.access_token}` },
+            })
+            .then((result) => {
+                setMyVisits(result.data);
+            });
+        axios
+            .get("/doctor/countVisits", {
+                headers: { Authorization: `Bearer ${cookies.access_token}` },
+            })
+            .then((result) => {
+                setNumberOfPatients(result.data);
+            });
     }, []);
     return (
         <Grid container spacing={3}>
@@ -88,7 +107,7 @@ export default function DashboardDoctor() {
                         height: 240,
                     }}
                 >
-                    <Stats numberOfPatients={127} />
+                    <Stats numberOfPatients={numberOfPatients} />
                 </Paper>
             </Grid>
             <Grid item xs={12}>
@@ -99,7 +118,7 @@ export default function DashboardDoctor() {
                         flexDirection: "column",
                     }}
                 >
-                    <Patients data={data} />
+                    <Patients data={myVisits} />
                 </Paper>
             </Grid>
         </Grid>

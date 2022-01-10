@@ -102,7 +102,7 @@ public class UserController {
     ResponseEntity<?> login(UserLogInDto credentials)  {
         try {
             ResponseEntity<String> response=userService.logInUser(credentials.getEmail(), credentials.getPassword());
-            return ResponseEntity.status(HttpStatus.OK).body(response.getBody());
+            return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
         } catch (IOException | InterruptedException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", e.getLocalizedMessage()));
         }

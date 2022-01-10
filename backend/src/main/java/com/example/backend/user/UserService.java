@@ -175,8 +175,8 @@ public class UserService {
 
         map.add("grant_type", "password");
         map.add("client_id", "clinic-springSecurity");
-        map.add("username", "testowy@test.com");
-        map.add("password", "123");
+        map.add("username", username);
+        map.add("password", password);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
         RestTemplate restTemplate=new RestTemplate();

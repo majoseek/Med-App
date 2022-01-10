@@ -2,7 +2,24 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Title from "./Title";
 import { TextField } from "@mui/material";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 export default function Profile() {
+    const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
+    const [surname, setSurname] = useState("");
+    const [specialization, setSpecialization] = useState("");
+    const [cookies, setCookie] = useCookies(["access_token"]);
+    useEffect(() => {
+        axios
+            .get("/users/myData", {
+                headers: { Authorization: `Bearer ${cookies.access_token}` },
+            })
+            .then((result) => {
+                console.log(result.data);
+            });
+    }, []);
     return (
         <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -28,7 +45,7 @@ export default function Profile() {
                             <TextField
                                 id="standard-read-only-input"
                                 label="Name"
-                                defaultValue="Jan"
+                                defaultValue={name}
                                 InputProps={{
                                     readOnly: true,
                                 }}
@@ -39,7 +56,7 @@ export default function Profile() {
                             <TextField
                                 id="standard-read-only-input"
                                 label="Surname"
-                                defaultValue="Kowalski"
+                                defaultValue={surname}
                                 InputProps={{
                                     readOnly: true,
                                 }}
@@ -54,41 +71,22 @@ export default function Profile() {
                         alignItems="center"
                         justifyContent="center"
                     >
-                        <Grid item>
-                            <TextField
-                                id="standard-read-only-input"
-                                label="Pesel"
-                                defaultValue="1234567890"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                variant="standard"
-                            />
-                        </Grid>
                         <Grid item>
                             <TextField
                                 id="standard-read-only-input"
                                 label="E-mail"
-                                defaultValue="cos.tam@gmail.com"
+                                defaultValue={email}
                                 InputProps={{
                                     readOnly: true,
                                 }}
                                 variant="standard"
                             />
                         </Grid>
-                    </Grid>
-                    <Grid
-                        container
-                        spacing={3}
-                        direction="row"
-                        alignItems="center"
-                        justifyContent="center"
-                    >
                         <Grid item>
                             <TextField
                                 id="standard-read-only-input"
                                 label="Specialization"
-                                defaultValue="Cardiology"
+                                defaultValue={specialization}
                                 InputProps={{
                                     readOnly: true,
                                 }}

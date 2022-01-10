@@ -14,11 +14,13 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Reports, LeftButtons } from "./LeftButtons";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import DashboardDoctor from "./DashboardDoctor";
 import Profile from "./Profile";
 import Drugs from "./Drugs";
 import Prescription from "./Prescription";
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
 
 const data_drugs = [
     {
@@ -100,10 +102,14 @@ const mdTheme = createTheme();
 
 export default function HomeDoctor() {
     const [open, setOpen] = React.useState(true);
+    const [cookies, setCookie] = useCookies(["access_token"]);
+    const navigate = useNavigate();
     const toggleDrawer = () => {
         setOpen(!open);
     };
-
+    useEffect(() => {
+        if (!cookies.access_token) navigate("/");
+    }, []);
     return (
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: "flex" }}>

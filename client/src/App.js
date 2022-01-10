@@ -7,23 +7,26 @@ import RegisterPage from "./components/RegisterPage/RegisterPage";
 import Home from "./components/DashboardPatient/Home";
 import { useState } from "react";
 import HomeDoctor from "./components/DashboardDoctor/HomeDoctor";
+import { CookiesProvider } from "react-cookie";
 const App = () => {
     const [isDoctor, setIsDoctor] = useState(true);
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route exact path="/" element={<LandingPage />} />
-                <Route
-                    path="/login"
-                    element={<LoginPage setIsDoctor={setIsDoctor} />}
-                />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route
-                    path="/dashboard/*"
-                    element={isDoctor ? <HomeDoctor /> : <Home />}
-                />{" "}
-            </Routes>
-        </BrowserRouter>
+        <CookiesProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route exact path="/" element={<LandingPage />} />
+                    <Route
+                        path="/login"
+                        element={<LoginPage setIsDoctor={setIsDoctor} />}
+                    />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route
+                        path="/dashboard/*"
+                        element={isDoctor ? <HomeDoctor /> : <Home />}
+                    />{" "}
+                </Routes>
+            </BrowserRouter>
+        </CookiesProvider>
     );
 };
 
