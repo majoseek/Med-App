@@ -101,8 +101,8 @@ public class UserController {
     @PostMapping(path = "/login", produces = "application/json")
     ResponseEntity<?> login(UserLogInDto credentials)  {
         try {
-            HttpResponse<String> response = userService.logInUser(credentials.getEmail(), credentials.getPassword());
-            return ResponseEntity.status(response.statusCode()).contentType(MediaType.APPLICATION_JSON).body(response.body());
+            ResponseEntity<String> response=userService.logInUser(credentials.getEmail(), credentials.getPassword());
+            return ResponseEntity.status(HttpStatus.OK).body(response.getBody());
         } catch (IOException | InterruptedException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", e.getLocalizedMessage()));
         }

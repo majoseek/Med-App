@@ -109,7 +109,7 @@ public class VisitService {
     }
 
 
-    public Integer getVisitCountByMonth(Long doctorId, Integer month) {
-        return visitRepository.countVisitByMonthAndDoctor(doctorId, month);
+    public Integer getVisitCountByMonth(Long doctorId) {
+        return visitRepository.countVisitByMonthAndDoctor(doctorId);
     }
 }

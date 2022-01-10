@@ -16,8 +16,15 @@ import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import javax.ws.rs.core.Request;
@@ -160,15 +167,20 @@ public class UserService {
         return userRepository.deleteUserById(id);
     }
 
-    public HttpResponse<String> logInUser(String username, String password) throws IOException, InterruptedException {
-        String formUrlEncoded = String.format("grant_type=password&client_id=clinic-springSecurity&username=%s&password=%s", username, password);
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .POST(HttpRequest.BodyPublishers.ofString(formUrlEncoded))
-                .uri(URI.create("http://localhost:8080/auth/realms/clinic-spring/protocol/openid-connect/token"))
-                .setHeader("User-Agent", "Java Spring Boot") // add request header
-                .header("Content-Type", "application/x-www-form-urlencoded")
-                .build();
-        return client.send(request, HttpResponse.BodyHandlers.ofString());
+    public ResponseEntity<String> logInUser(String username, String password) throws IOException, InterruptedException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
+
+        map.add("grant_type", "password");
+        map.add("client_id", "clinic-springSecurity");
+        map.add("username", "testowy@test.com");
+        map.add("password", "123");
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+        RestTemplate restTemplate=new RestTemplate();
+        ResponseEntity<String> response = restTemplate.postForEntity( "http://localhost:8080/auth/realms/clinic-spring/protocol/openid-connect/token", request , String.class );
+        return response;
     }
 }

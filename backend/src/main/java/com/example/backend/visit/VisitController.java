@@ -89,11 +89,10 @@ public class VisitController {
     }
 
     @RolesAllowed("ROLE_doctor")
-    @GetMapping(path="/doctor/{doctorId}/countVisits", produces = "application/json")
-    public ResponseEntity<?> getVisitCountByMonth(@PathVariable Long doctorId,
-                                                  @RequestParam Map<String, Integer> month) {
-        Integer monthInt = month.get("month");
-        Integer visitCount = service.getVisitCountByMonth(doctorId, monthInt);
+    @GetMapping(path="/doctor/countVisits", produces = "application/json")
+    public ResponseEntity<?> getVisitCountByMonth(Principal principal) throws InvalidPrincipal {
+        Long doctorId = Utilities.getUserDbIdFromPrincipal(principal);
+        Integer visitCount = service.getVisitCountByMonth(doctorId);
         return ResponseEntity.ok(visitCount);
     }
 
