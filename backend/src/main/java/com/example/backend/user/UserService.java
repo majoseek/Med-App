@@ -5,6 +5,7 @@ import com.example.backend.doctor.DoctorSignUpDto;
 import com.example.backend.exceptions.*;
 import com.example.backend.patient.Patient;
 import com.example.backend.patient.PatientSignUpDto;
+import org.apache.http.util.EntityUtils;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
@@ -19,11 +20,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.*;
+
 @Transactional
 @Service
 public class UserService {
@@ -153,5 +158,17 @@ public class UserService {
 
     public Integer removeUser(Long id) {
         return userRepository.deleteUserById(id);
+    }
+
+    public HttpResponse<String> logInUser(String username, String password) throws IOException, InterruptedException {
+        String formUrlEncoded = String.format("grant_type=password&client_id=clinic-springSecurity&username=%s&password=%s", username, password);
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .POST(HttpRequest.BodyPublishers.ofString(formUrlEncoded))
+                .uri(URI.create("http://localhost:8080/auth/realms/clinic-spring/protocol/openid-connect/token"))
+                .setHeader("User-Agent", "Java Spring Boot") // add request header
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .build();
+        return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 }
