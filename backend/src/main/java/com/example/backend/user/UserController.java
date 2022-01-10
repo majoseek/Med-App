@@ -7,10 +7,13 @@ import com.example.backend.patient.PatientSignUpDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.Optional;
@@ -93,6 +96,15 @@ public class UserController {
             return ResponseEntity.ok(data);
         } catch (UserNotFound | InvalidRole | InvalidPrincipal invalidParam) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", invalidParam.getLocalizedMessage()));
+        }
+    }
+    @PostMapping(path = "/login", produces = "application/json")
+    ResponseEntity<?> login(UserLogInDto credentials)  {
+        try {
+            HttpResponse<String> response = userService.logInUser(credentials.getEmail(), credentials.getPassword());
+            return ResponseEntity.status(response.statusCode()).contentType(MediaType.APPLICATION_JSON).body(response.body());
+        } catch (IOException | InterruptedException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", e.getLocalizedMessage()));
         }
     }
 }
