@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,10 +92,19 @@ public class VisitController {
 
     @RolesAllowed("ROLE_doctor")
     @GetMapping(path="/doctor/countVisits", produces = "application/json")
-    public ResponseEntity<?> getVisitCountByMonth(Principal principal) throws InvalidPrincipal {
+    public ResponseEntity<?> getVisitCount(Principal principal) throws InvalidPrincipal {
         Long doctorId = Utilities.getUserDbIdFromPrincipal(principal);
         Integer visitCount = service.getVisitCountByMonth(doctorId);
         return ResponseEntity.ok(visitCount);
+    }
+
+
+    @RolesAllowed("ROLE_doctor")
+    @GetMapping(path="/doctor/monthlyVisitCount")
+    public ResponseEntity<?> getMonthlyVisitCount(Principal principal) throws InvalidPrincipal {
+        Long doctorId = Utilities.getUserDbIdFromPrincipal(principal);
+        List<Integer> monthlyCount = service.getMonthlyVisitCount(doctorId);
+        return ResponseEntity.ok(monthlyCount);
     }
 
 
