@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.security.Principal;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -51,7 +52,6 @@ public class UserController {
             User user = userService.createUserAsPatient(patient);
             Response keycloak = userService.registerUserCredentials(patient.getEmail(), patient.getPassword(), user.getId(), UserRole.PATIENT);
             if (keycloak.getStatus() != 201) {
-                userService.removeUser(user.getId());
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to register user credentials(email may be used)"));
             }
             return ResponseEntity.status(HttpStatus.CREATED).body(new UserDataDto.PatientData(user));
@@ -101,9 +101,11 @@ public class UserController {
     @PostMapping(path = "/login", produces = "application/json")
     ResponseEntity<?> login(UserLogInDto credentials)  {
         try {
-            ResponseEntity<String> response=userService.logInUser(credentials.getEmail(), credentials.getPassword());
+            User user = userService.findMatchingUser(credentials.getEmail(), credentials.getPassword());
+            ResponseEntity<Map> response=userService.logInUser(credentials.getEmail(), credentials.getPassword());
+            response.getBody().put("role", user.getRole());
             return ResponseEntity.status(HttpStatus.OK).body(response.getBody());
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException | UserNotFound | InvalidCredentials e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", e.getLocalizedMessage()));
         }
     }
