@@ -1,0 +1,58 @@
+version: '3'
+
+volumes:
+  postgres_data:
+      driver: local
+networks:
+  local-network:
+    driver: bridge
+services:
+  postgres:
+      image: postgres
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      environment:
+        POSTGRES_DB: keycloak
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: password
+      networks: 
+        - local-network
+  keycloak:
+      volumes:
+        - ./configs:/etc/configs/keycloak
+      image: quay.io/keycloak/keycloak:latest
+      environment:
+        DB_VENDOR: POSTGRES
+        DB_ADDR: postgres
+        DB_DATABASE: keycloak
+        DB_USER: keycloak
+        DB_SCHEMA: public
+        DB_PASSWORD: password
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: admin#
+        #KEYCLOAK_IMPORT: /etc/configs/keycloak/clinic-spring-realm.json
+      ports:
+        - 8080:8080
+      command:
+      - "-b 0.0.0.0"
+      - "-Dkeycloak.migration.action=import"
+      - "-Dkeycloak.migration.provider=singleFile"
+      - "-Dkeycloak.migration.file=/etc/configs/keycloak/clinic-spring-realm.json"
+      - "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING"
+      depends_on:
+        - postgres
+      networks: 
+        - local-network
+  springAPI:
+    image: backend
+    build: 
+      context: ./backend
+    environment:
+      KEYCLOAK_AUTH-SERVER-URL: "http://keycloak:8080/auth"
+    ports:
+      - 9090:9090
+    restart: always
+    depends_on:
+      - keycloak
+    networks: 
+      - local-network
