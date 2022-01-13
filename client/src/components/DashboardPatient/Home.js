@@ -11,13 +11,16 @@ import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { LeftButtons } from "./LeftButtons";
+import LeftButtons from "./LeftButtons";
 import DashboardPatient from "./DashboardPatient";
 import { Link } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import Profile from "./Profile";
 import Prescriptions from "./Prescriptions";
 import NewVisit from "./NewVisit";
+import { Navigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { useEffect } from "react";
 
 function Copyright(props) {
     return (
@@ -84,11 +87,15 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme();
 
 export default function Home() {
+    const navigate = Navigate();
     const [open, setOpen] = React.useState(true);
+    const [cookies, setCookie] = useCookies(["access_token"]);
     const toggleDrawer = () => {
         setOpen(!open);
     };
-
+    useEffect(() => {
+        if (!cookies.access_token) navigate("/");
+    }, []);
     return (
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: "flex" }}>
@@ -135,7 +142,9 @@ export default function Home() {
                             <ChevronLeftIcon />
                         </IconButton>
                     </Toolbar>
-                    <List>{LeftButtons}</List>
+                    <List>
+                        <LeftButtons />
+                    </List>
                 </Drawer>
                 <Box
                     component="main"

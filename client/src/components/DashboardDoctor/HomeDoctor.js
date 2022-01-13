@@ -13,7 +13,6 @@ import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { Reports, LeftButtons } from "./LeftButtons";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import DashboardDoctor from "./DashboardDoctor";
 import Profile from "./Profile";
@@ -21,6 +20,7 @@ import Drugs from "./Drugs";
 import Prescription from "./Prescription";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
+import LeftButtons from "./LeftButtons";
 
 const data_drugs = [
     {
@@ -156,9 +156,10 @@ export default function HomeDoctor() {
                             <ChevronLeftIcon />
                         </IconButton>
                     </Toolbar>
-                    <List>{LeftButtons}</List>
+                    <List>
+                        <LeftButtons />
+                    </List>
                     <Divider />
-                    <List>{Reports}</List>
                 </Drawer>
                 <Box
                     component="main"

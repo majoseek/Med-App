@@ -23,13 +23,13 @@ export default function LoginPage({ setIsDoctor }) {
                 })
             )
             .then((response) => {
-                //TODO: add cookies handling, connect frontend with server
                 setCookie("access_token", response.data.access_token);
+                console.log(response);
                 setIsDoctor(true);
                 navigate("/dashboard");
             })
-            .catch((error) => {
-                console.log("LOGIN FAILED");
+            .catch((err) => {
+                console.log("Login failed", err);
             })
             .finally(() => {
                 setIsLoading(false);

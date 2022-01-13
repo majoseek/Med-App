@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./RegisterPage.css";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
 import { Link, useNavigate } from "react-router-dom";
 export default function RegisterPage() {
     const [email, set_email] = useState("");
@@ -8,26 +9,30 @@ export default function RegisterPage() {
     const [surname, set_surname] = useState("");
     const [pesel, set_pesel] = useState("");
     const [password, set_password] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     function register() {
-        console.log(email, name, surname, pesel, password);
+        setIsLoading(true);
         axios
-            .post("/users/create/patient", {
-                email: email,
-                name: name,
-                surname: surname,
-                pesel: pesel,
-                password: password,
-            })
+            .post(
+                "/users/create/patient",
+                new URLSearchParams({
+                    email: email,
+                    name: name,
+                    surname: surname,
+                    pesel: pesel,
+                    password: password,
+                })
+            )
             .then((result) => {
-                console.log("REGISTERED SUCCESSFULL");
                 console.log(result);
-                navigate("/");
+                navigate("/login");
             })
             .catch((err) => {
                 console.log("REGISTER FAILED");
                 console.log(err);
-            });
+            })
+            .finally(setIsLoading(false));
     }
     return (
         <div className="maincontainer">
@@ -122,13 +127,19 @@ export default function RegisterPage() {
                                                     className="form-control rounded-pill border-0 shadow-sm px-4 text-primary"
                                                 />
                                             </div>
-                                            <div className="d-grid gap-2 mt-2 w-75 m-auto">
-                                                <button
-                                                    onClick={() => register()}
-                                                    className="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm"
-                                                >
-                                                    Register
-                                                </button>
+                                            <div className="d-grid gap-2 mt-2 w-75 m-auto text-center">
+                                                {isLoading ? (
+                                                    <CircularProgress />
+                                                ) : (
+                                                    <button
+                                                        onClick={() =>
+                                                            register()
+                                                        }
+                                                        className="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm"
+                                                    >
+                                                        Register
+                                                    </button>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
