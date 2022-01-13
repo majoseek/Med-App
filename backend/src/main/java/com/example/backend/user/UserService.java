@@ -15,6 +15,7 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -24,16 +25,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
-import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.*;
 
 @Transactional
@@ -42,6 +39,9 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passEncoder;
+
+    @Value("${keycloak.auth-server-url}")
+    private String authPath;
 
     @Autowired
     UserService(UserRepository userRepository, PasswordEncoder passEncoder) {
@@ -69,7 +69,7 @@ public class UserService {
 
     public Response registerUserCredentials(String email, String password, Long id, UserRole role) {
         Keycloak keycloak = KeycloakBuilder.builder()
-                .serverUrl("http://localhost:8080/auth")
+                .serverUrl(authPath)
                 .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
                 .realm("clinic-spring")
                 .clientId("clinic-springSecurityAdmin")
@@ -175,7 +175,7 @@ public class UserService {
         throw new InvalidCredentials("Invalid password");
     }
 
-    public ResponseEntity<Map> logInUser(String username, String password) throws IOException, InterruptedException {
+    public ResponseEntity<Map> logInUser(String username, String password) throws IOException, InterruptedException, InvalidCredentials {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -188,7 +188,10 @@ public class UserService {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
         RestTemplate restTemplate=new RestTemplate();
-        ResponseEntity<Map> response = restTemplate.postForEntity( "http://localhost:8080/auth/realms/clinic-spring/protocol/openid-connect/token", request , Map.class );
-        return response;
+        try {
+            return restTemplate.postForEntity(authPath + "/realms/clinic-spring/protocol/openid-connect/token", request, Map.class);
+        } catch (HttpClientErrorException.Unauthorized e) {
+            throw new InvalidCredentials("Invalid credentials");
+        }
     }
 }
