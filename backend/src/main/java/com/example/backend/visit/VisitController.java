@@ -141,7 +141,7 @@ public class VisitController {
         }
     }
 
-    @RolesAllowed({"ROLE_doctor", "ROLE_patient"}) //kto moze stworzyc wizyte
+    @RolesAllowed({"ROLE_patient"}) //kto moze stworzyc wizyte
     @PostMapping(path = "/visits/create", produces = "application/json")
     public ResponseEntity<?> createVisit(@RequestBody CreateVisitDto createVisitDto,Principal principal) {
         try {
