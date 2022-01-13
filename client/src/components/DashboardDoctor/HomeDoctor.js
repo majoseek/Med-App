@@ -22,18 +22,6 @@ import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import LeftButtons from "./LeftButtons";
 
-const data_drugs = [
-    {
-        id: 1,
-        name: "Rutinoscorbin",
-        content: "Cos tam, cos 123, elo elo",
-    },
-    {
-        id: 1,
-        name: "Rutinoscorbin 2",
-        content: "Cos elo",
-    },
-];
 function Copyright(props) {
     return (
         <Typography
@@ -178,10 +166,7 @@ export default function HomeDoctor() {
                         <Routes>
                             <Route path="/" element={<DashboardDoctor />} />
                             <Route path="/profile" element={<Profile />} />
-                            <Route
-                                path="/drugs"
-                                element={<Drugs data={data_drugs} />}
-                            />
+                            <Route path="/drugs" element={<Drugs />} />
                             <Route
                                 path="/prescription"
                                 element={<Prescription />}

@@ -15,7 +15,7 @@ public interface DoctorRepository extends CrudRepository<Doctor, Long> {
 
     List<Doctor> findAllBy();
 
-    List<Doctor> findAllBySpecialization(String specialization);
+    List<Doctor> findAllBySpecializationIgnoreCase(String specialization);
 
     List<Doctor> getAllBy();
 }

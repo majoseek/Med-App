@@ -143,7 +143,7 @@ public class VisitController {
 
     @RolesAllowed({"ROLE_patient"}) //kto moze stworzyc wizyte
     @PostMapping(path = "/visits/create", produces = "application/json")
-    public ResponseEntity<?> createVisit(@RequestBody CreateVisitDto createVisitDto,Principal principal) {
+    public ResponseEntity<?> createVisit(@RequestBody CreateVisitDto createVisitDto, Principal principal) {
         try {
             Long patientId = Utilities.getUserDbIdFromPrincipal(principal);
             VisitDto visit = convertToDto(service.createVisit(createVisitDto.getDate(),
@@ -190,8 +190,8 @@ public class VisitController {
     }
 
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
-    @GetMapping(path="/available", produces = "application/json")
-    public ResponseEntity<?> getAvailableHours(@RequestParam String startDate, @RequestParam String endDate) {
-        return ResponseEntity.ok(service.getAvailableHours(LocalDateTime.parse(startDate), LocalDateTime.parse(endDate)));
+    @GetMapping(path = "/available", produces = "application/json")
+    public ResponseEntity<?> getAvailableHours(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String spec) {
+        return ResponseEntity.ok(service.getAvailableHours(LocalDateTime.parse(startDate), LocalDateTime.parse(endDate), spec));
     }
 }

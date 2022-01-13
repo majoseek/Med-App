@@ -5,8 +5,16 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import Title from "./Title";
-export default function Drugs(props) {
+export default function Drugs() {
+    useEffect(() => {
+        axios.get("/medications/all").then((result) => {
+            setDrugs(result.data);
+        });
+    }, []);
+    const [drugs, setDrugs] = useState([]);
     return (
         <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -28,10 +36,10 @@ export default function Drugs(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {props.data.map((row) => (
-                                <TableRow key={`drug_${row.id}`}>
-                                    <TableCell>{row.name}</TableCell>
-                                    <TableCell>{row.content}</TableCell>
+                            {drugs.map((row, index) => (
+                                <TableRow key={`drug_${index}`}>
+                                    <TableCell>{row.medicationName}</TableCell>
+                                    <TableCell>{row.dosage}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

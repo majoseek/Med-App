@@ -23,15 +23,15 @@ public class DoctorService {
         this.userService = userService;
     }
 
-    List<Doctor> getListOfDoctors() {
+    public List<Doctor> getListOfDoctors() {
         return doctorRepository.findAllBy();
     }
 
-    List<Doctor> getAllDoctorsBySpecialization(String specialization) {
-        return doctorRepository.findAllBySpecialization(specialization);
+    public List<Doctor> getAllDoctorsBySpecialization(String specialization) {
+        return doctorRepository.findAllBySpecializationIgnoreCase(specialization);
     }
 
-    List<Doctor> getAllDoctorsByNameOrSurname(String text) {
+    public List<Doctor> getAllDoctorsByNameOrSurname(String text) {
         return doctorRepository.findDoctorsByNames(text.toUpperCase());
     }
 

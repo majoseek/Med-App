@@ -70,7 +70,7 @@ export default function DashboardDoctor() {
             .then((result) => {
                 setNumberOfPatients(result.data);
             });
-    }, []);
+    }, [cookies.access_token]);
     return (
         <Grid container spacing={3}>
             <Grid item xs={12} md={8} lg={9}>

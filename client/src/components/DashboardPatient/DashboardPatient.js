@@ -71,7 +71,7 @@ export default function DashboardPatient() {
                         height: 240,
                     }}
                 >
-                    <Stats next_visit_date={new Date("2022-22-02")} />
+                    <Stats next_visit_date={nextVisit} />
                 </Paper>
             </Grid>
         </Grid>

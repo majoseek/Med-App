@@ -17,7 +17,10 @@ export default function Profile() {
                 headers: { Authorization: `Bearer ${cookies.access_token}` },
             })
             .then((result) => {
-                console.log(result.data);
+                setEmail(result.data.email);
+                setName(result.data.name);
+                setSurname(result.data.surname);
+                setSpecialization(result.data.specialization);
             });
     }, []);
     return (
@@ -46,6 +49,7 @@ export default function Profile() {
                                 id="standard-read-only-input"
                                 label="Name"
                                 defaultValue={name}
+                                value={name}
                                 InputProps={{
                                     readOnly: true,
                                 }}
@@ -57,6 +61,7 @@ export default function Profile() {
                                 id="standard-read-only-input"
                                 label="Surname"
                                 defaultValue={surname}
+                                value={surname}
                                 InputProps={{
                                     readOnly: true,
                                 }}
@@ -76,6 +81,7 @@ export default function Profile() {
                                 id="standard-read-only-input"
                                 label="E-mail"
                                 defaultValue={email}
+                                value={email}
                                 InputProps={{
                                     readOnly: true,
                                 }}
@@ -87,6 +93,7 @@ export default function Profile() {
                                 id="standard-read-only-input"
                                 label="Specialization"
                                 defaultValue={specialization}
+                                value={specialization}
                                 InputProps={{
                                     readOnly: true,
                                 }}

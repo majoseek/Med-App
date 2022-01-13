@@ -132,14 +132,14 @@ public class VisitService {
         return monthlyCount;
     }
 
-    public List<VisitAvailableDto> getAvailableHours(LocalDateTime startDate, LocalDateTime endDate) {
+    public List<VisitAvailableDto> getAvailableHours(LocalDateTime startDate, LocalDateTime endDate, String spec) {
         List<Pair<Doctor, LocalDateTime>> occupiedHours = visitRepository.findAllByDate(startDate, endDate).stream().map(Visit::returnPair).collect(Collectors.toList());
         endDate = endDate.plusHours(17);
         startDate = startDate.plusHours(8);
         // 8-16 wizyta trwa 15 min
-        List<Doctor> ids = doctorService.getAll();
+        List<Doctor> ids = doctorService.getAllDoctorsBySpecialization(spec);
         List<Pair<Doctor, LocalDateTime>> availableHours = new ArrayList<>();
-        while(startDate.isBefore(endDate)) {
+        while (startDate.isBefore(endDate)) {
             if (startDate.getHour() >= 17) {
                 startDate = startDate.plusDays(1).minusHours(9);
             }
