@@ -6,17 +6,6 @@ const initialState = {
     message: "",
 };
 export const Contact = () => {
-    const [{ name, email, message }, setState] = useState(initialState);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setState((prevState) => ({ ...prevState, [name]: value }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(name, email, message);
-    };
     return (
         <div>
             <div id="contact">
@@ -31,7 +20,7 @@ export const Contact = () => {
                                     possible.
                                 </p>
                             </div>
-                            <form name="sentMessage" onSubmit={handleSubmit}>
+                            <form name="sentMessage">
                                 <div className="row">
                                     <div className="col-md-6">
                                         <div className="form-group">
@@ -42,7 +31,6 @@ export const Contact = () => {
                                                 className="form-control"
                                                 placeholder="Name"
                                                 required
-                                                onChange={handleChange}
                                             />
                                             <p className="help-block text-danger"></p>
                                         </div>
@@ -56,7 +44,6 @@ export const Contact = () => {
                                                 className="form-control"
                                                 placeholder="Email"
                                                 required
-                                                onChange={handleChange}
                                             />
                                             <p className="help-block text-danger"></p>
                                         </div>
@@ -70,7 +57,6 @@ export const Contact = () => {
                                         rows="4"
                                         placeholder="Message"
                                         required
-                                        onChange={handleChange}
                                     ></textarea>
                                     <p className="help-block text-danger"></p>
                                 </div>

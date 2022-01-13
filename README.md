@@ -56,4 +56,4 @@ Użytkownik rejestruje się do systemu podając swoje dane osobowe oraz e-mail i
 ### Narzędzia
 
 -   SQL Developer
--   Docker (?)
+-   Docker
