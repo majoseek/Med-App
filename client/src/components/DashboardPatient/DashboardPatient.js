@@ -24,7 +24,7 @@ const data = [
 ];
 export default function DashboardPatient() {
     const [cookies, setCookie] = useCookies("access_token");
-    const [nextVisit, setNextVisit] = useState("No visits");
+    const [nextVisit, setNextVisit] = useState(null);
     const [myVisits, setMyVisits] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
@@ -33,8 +33,7 @@ export default function DashboardPatient() {
                 headers: { Authorization: `Bearer ${cookies.access_token}` },
             })
             .then((result) => {
-                //setNextVisit(result.data);
-                console.log(result.data);
+                setNextVisit(result.data);
             });
         axios
             .get("/myVisits", {
@@ -42,7 +41,7 @@ export default function DashboardPatient() {
             })
             .then((result) => {
                 //setNextVisit(result.data);
-                console.log(result); //TODO
+                console.log("MOJE WIZYTY", result); //TODO
             });
     }, [cookies.access_token]);
     return (

@@ -19,7 +19,7 @@ export default function Prescriptions() {
                 headers: { Authorization: `Bearer ${cookies.access_token}` },
             })
             .then((result) => {
-                console.log(result.data);
+                console.log("MOJE RECEPTY", result.data);
             });
     }, [prescriptions, cookies.access_token]);
     return (

@@ -12,6 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import axios from "axios";
 import TableRow from "@mui/material/TableRow";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function NewVisit() {
     const [startDate, setStartDate] = useState(new Date());
@@ -19,19 +20,27 @@ export default function NewVisit() {
     const [spec, setSpec] = useState("");
     const [cookies, setCookie] = useCookies("access_token");
     const [visits, setVisits] = useState([]);
+    const navigate = useNavigate();
     function add_visit(id, date) {
-        axios.post(
-            "/visits/create",
-            {
-                date: "2022-04-14T02:20:00",
-                description: "Wizyta",
-                doctor_id: id,
-                location: "103",
-            },
-            {
-                headers: { Authorization: `Bearer ${cookies.access_token}` },
-            }
-        );
+        console.log(id, date);
+        axios
+            .post(
+                "/visits/create",
+                {
+                    date: "2022-04-14T02:20:00",
+                    description: "Wizyta",
+                    doctor_id: id,
+                    location: "103",
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${cookies.access_token}`,
+                    },
+                }
+            )
+            .then(() => {
+                navigate("/dashboard/patient");
+            });
     }
     function show_visits() {
         const resultDate = `${startDate.getFullYear()}-${(
