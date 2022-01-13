@@ -178,6 +178,33 @@ public class VisitController {
         }
     }
 
+
+    @RolesAllowed("ROLE_patient")
+    @GetMapping(path = "/nextNextVisit")
+    public ResponseEntity<?> getNextNextVisit(Principal principal) {
+        try {
+            Long patientId = Utilities.getUserDbIdFromPrincipal(principal);
+            return ResponseEntity.ok(convertToDto(service.getNextNextVisit(patientId)));
+        } catch (InvalidPrincipal invalidPrincipal) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", invalidPrincipal.getLocalizedMessage()));
+        } catch (VisitNotFound visitNotFound) {
+            return ResponseEntity.ok(0);    //no visits found
+        }
+    }
+
+    @RolesAllowed("ROLE_patient")
+    @GetMapping(path="/visitHistory")
+    public ResponseEntity<?> getVisitHistory(Principal principal) {
+        try {
+            Long patientId = Utilities.getUserDbIdFromPrincipal(principal);
+            return ResponseEntity.ok(service.getVisitHistory(patientId).stream().map(this::convertToDto).collect(Collectors.toList()));
+        }
+        catch (InvalidPrincipal invalidPrincipal) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", invalidPrincipal.getLocalizedMessage()));
+        }
+    }
+
+
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
     @GetMapping(path = "/myVisits", produces = "application/json")
     public ResponseEntity<?> getUserVisits(Principal principal) {

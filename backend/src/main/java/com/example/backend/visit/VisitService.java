@@ -121,7 +121,7 @@ public class VisitService {
 
     public Visit getNextVisit(Long patientId) throws VisitNotFound {
         return visitRepository.getNextVisit(patientId)
-                .orElseThrow(() -> new VisitNotFound("No upcomming visits"));
+                .orElseThrow(() -> new VisitNotFound("No upcoming visits"));
     }
 
     public List<Integer> getMonthlyVisitCount(Long doctorId) {
@@ -156,4 +156,16 @@ public class VisitService {
     private VisitAvailableDto convertToDto(Pair<Doctor, LocalDateTime> e) {
         return new VisitAvailableDto(e.getFirst().getName(), e.getFirst().getSurname(), e.getSecond(), e.getFirst().getUserId());
     }
+
+    public Visit getNextNextVisit(Long patientId) throws VisitNotFound {
+        List<Visit> visits = visitRepository.getNextNextVisit(patientId);
+        try {
+            Visit visit = visits.get(1);
+            return visit;
+        } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+            throw new VisitNotFound("No upcoming visits");
+        }
+    }
+
+    public List<Visit> getVisitHistory(Long patientId) { return visitRepository.getVisitHistory(patientId);}
 }
