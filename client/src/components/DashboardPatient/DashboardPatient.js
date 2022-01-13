@@ -6,22 +6,6 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import Stats from "./Stats";
 import Visits from "./Visits";
-const data = [
-    {
-        id: 1,
-        date: "2020-12-09",
-        patient_name: "Jan Kowalski",
-        visit_len: "30",
-        price: 50,
-    },
-    {
-        id: 2,
-        date: "2020-12-10",
-        patient_name: "Adam Kowalski",
-        visit_len: "60",
-        price: 100,
-    },
-];
 export default function DashboardPatient() {
     const [cookies, setCookie] = useCookies("access_token");
     const [nextVisit, setNextVisit] = useState(null);
@@ -40,8 +24,7 @@ export default function DashboardPatient() {
                 headers: { Authorization: `Bearer ${cookies.access_token}` },
             })
             .then((result) => {
-                //setNextVisit(result.data);
-                console.log("MOJE WIZYTY", result); //TODO
+                setMyVisits(result.data);
             });
     }, [cookies.access_token]);
     return (
@@ -54,7 +37,7 @@ export default function DashboardPatient() {
                         flexDirection: "column",
                     }}
                 >
-                    <Visits data={data} />
+                    <Visits data={myVisits} />
                 </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={3}>

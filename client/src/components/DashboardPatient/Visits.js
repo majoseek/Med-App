@@ -21,24 +21,35 @@ export default function Visits(props) {
                         <TableCell>Date</TableCell>
                         <TableCell>Doctor</TableCell>
                         <TableCell>Visit length [min]</TableCell>
-                        <TableCell>Price</TableCell>
+                        <TableCell>Description</TableCell>
+                        <TableCell>Room</TableCell>
                         <TableCell align="right">Action</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {props.data.map((row) => (
-                        <TableRow key={`patient_${row.id}`}>
-                            <TableCell>{row.date}</TableCell>
-                            <TableCell>{row.patient_name}</TableCell>
-                            <TableCell>{row.visit_len}</TableCell>
-                            <TableCell>{`${row.price}$`}</TableCell>
+                        <TableRow key={`myvisits_${row.id}`}>
+                            <TableCell>{`${new Date(
+                                row.visitDate
+                            ).getFullYear()}-${(
+                                "0" +
+                                (new Date(row.visitDate).getMonth() + 1)
+                            ).slice(-2)}-${new Date(
+                                row.visitDate
+                            ).getUTCDate()}`}</TableCell>
+                            <TableCell>
+                                {row.doctorName} {row.doctorSurname}
+                            </TableCell>
+                            <TableCell>15</TableCell>
+                            <TableCell>{row.description}</TableCell>
+                            <TableCell>{row.location}</TableCell>
                             <TableCell align="right">
                                 <button
                                     className="btn btn-primary text-uppercase rounded-pill"
-                                    style={{ fontSize: "14px" }}
+                                    style={{ fontSize: "12px" }}
                                     onClick={() => cancel_visit(row.id)}
                                 >
-                                    Cancel visit
+                                    Cancel
                                 </button>
                             </TableCell>
                         </TableRow>
