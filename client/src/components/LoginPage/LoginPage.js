@@ -23,14 +23,15 @@ export default function LoginPage() {
                 })
             )
             .then((response) => {
+                setCookie("role", response.data.role);
+                setCookie("access_token", response.data.access_token);
                 if (response.data.role === "PATIENT")
                     navigate("/dashboard/patient");
                 else navigate("/dashboard/doctor");
-                setCookie("role", response.data.role);
-                setCookie("access_token", response.data.access_token);
             })
             .catch((err) => {
                 console.log("Login failed", err);
+                setIsLoading(false);
             });
     }
     return (

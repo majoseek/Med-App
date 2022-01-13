@@ -33,7 +33,7 @@ export default function LeftButtons() {
             <ListItem
                 button
                 onClick={() => {
-                    removeCookie("access_token");
+                    removeCookie("access_token", { path: "/" });
                 }}
             >
                 <ListItemIcon>

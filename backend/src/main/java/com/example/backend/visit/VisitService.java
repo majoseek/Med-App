@@ -39,16 +39,16 @@ public class VisitService {
         return visitRepository.findAllBy();
     }
 
-    public Visit getVisitById(Long visitId) throws VisitNotFound{
-        return visitRepository.findById(visitId).orElseThrow(()-> new VisitNotFound("Could not find visit " + visitId));
+    public Visit getVisitById(Long visitId) throws VisitNotFound {
+        return visitRepository.findById(visitId).orElseThrow(() -> new VisitNotFound("Could not find visit " + visitId));
     }
 
     public List<Visit> getVisitsByDate(LocalDate dateOfVisits) {
-        return visitRepository.findAllByDateBetween(dateOfVisits.atStartOfDay(), dateOfVisits.atTime(23, 59));
+        return visitRepository.findAllByDateBetween(dateOfVisits.atStartOfDay(), dateOfVisits.plusDays(8).atStartOfDay());
     }
 
     public List<Visit> getVisitsByLocation(String location) {
-        return  visitRepository.findAllByLocation(location);
+        return visitRepository.findAllByLocation(location);
     }
 
     public List<Visit> getPatientVisits(Long patientId) throws UserNotFound {
@@ -57,14 +57,14 @@ public class VisitService {
         return visitRepository.findAllByPatientByPatientUserId(patient);
     }
 
-    public List<Visit> getDoctorVisits(Long doctorId) throws UserNotFound{
+    public List<Visit> getDoctorVisits(Long doctorId) throws UserNotFound {
         Doctor doctor = doctorService.getDoctorById(doctorId);
         return visitRepository.findAllByDoctorByDoctorUserId(doctor);
     }
 
     public Visit updateVisitDate(Long visitId, LocalDateTime newDate) throws VisitNotFound {
         Visit visit = visitRepository.findById(visitId)
-                .orElseThrow(() -> new VisitNotFound("Visit not found on :: "+ visitId));
+                .orElseThrow(() -> new VisitNotFound("Visit not found on :: " + visitId));
         visit.setDate(newDate);
         final Visit updatedVisit = visitRepository.save(visit);
         return ResponseEntity.ok(updatedVisit).getBody();
@@ -72,7 +72,7 @@ public class VisitService {
 
     public Visit updateVisitLocation(Long visitId, String location) throws VisitNotFound {
         Visit visit = visitRepository.findById(visitId)
-                .orElseThrow(() -> new VisitNotFound("Visit not found on :: "+ visitId));
+                .orElseThrow(() -> new VisitNotFound("Visit not found on :: " + visitId));
         visit.setLocation(location);
         final Visit updatedVisit = visitRepository.save(visit);
         return ResponseEntity.ok(updatedVisit).getBody();
@@ -80,7 +80,7 @@ public class VisitService {
 
     public Visit updateVisitDescription(Long visitId, String description) throws VisitNotFound {
         Visit visit = visitRepository.findById(visitId)
-                .orElseThrow(() -> new VisitNotFound("Visit not found on :: "+ visitId));
+                .orElseThrow(() -> new VisitNotFound("Visit not found on :: " + visitId));
         visit.setDescription(description);
         final Visit updatedVisit = visitRepository.save(visit);
         return ResponseEntity.ok(updatedVisit).getBody();
@@ -90,7 +90,7 @@ public class VisitService {
         return visitRepository.save(newVisit);
     }
 
-    public void delete(Long visitId){
+    public void delete(Long visitId) {
         visitRepository.deleteById(visitId);
     }
 
@@ -118,11 +118,12 @@ public class VisitService {
 
     public Visit getNextVisit(Long patientId) throws VisitNotFound {
         return visitRepository.getNextVisit(patientId)
-                .orElseThrow(()-> new VisitNotFound("No upcomming visits"));}
+                .orElseThrow(() -> new VisitNotFound("No upcomming visits"));
+    }
 
     public List<Integer> getMonthlyVisitCount(Long doctorId) {
         List<Integer> monthlyCount = new ArrayList<>();
-        for(int i=1; i<= 12; i++) {
+        for (int i = 1; i <= 12; i++) {
             monthlyCount.add(visitRepository.getMonthlyVisitCount(i, doctorId));
         }
         return monthlyCount;

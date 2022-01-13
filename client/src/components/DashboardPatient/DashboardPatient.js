@@ -1,5 +1,9 @@
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import Stats from "./Stats";
 import Visits from "./Visits";
 const data = [
@@ -19,6 +23,30 @@ const data = [
     },
 ];
 export default function DashboardPatient() {
+    const [cookies, setCookie] = useCookies("access_token");
+    const [nextVisit, setNextVisit] = useState("YYYY-MM-DD");
+    const [myVisits, setMyVisits] = useState([]);
+    const navigate = useNavigate();
+    useEffect(() => {
+        axios
+            .get("/nextVisit/1", {
+                headers: { Authorization: `Bearer ${cookies.access_token}` },
+            })
+            .then((result) => {
+                //setNextVisit(result.data);
+                console.log(result.data);
+            })
+            .catch((err) => {
+                console.log(cookies.access_token);
+            });
+        axios
+            .get("/myVisits", {
+                headers: { Authorization: `Bearer ${cookies.access_token}` },
+            })
+            .then((result) => {
+                console.log(result); //TODO
+            });
+    }, [cookies.access_token]);
     return (
         <Grid container spacing={3}>
             <Grid item xs={12} md={8} lg={9}>

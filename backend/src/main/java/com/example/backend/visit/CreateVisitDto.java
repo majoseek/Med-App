@@ -7,7 +7,6 @@ public class CreateVisitDto {
     private String description;
     private String location;
     private Long doctor_id;
-    private Long patient_id;
 
     public LocalDateTime getDate() {
         return date;
@@ -41,11 +40,4 @@ public class CreateVisitDto {
         this.doctor_id = doctor_id;
     }
 
-    public Long getPatient_id() {
-        return patient_id;
-    }
-
-    public void setPatient_id(Long patient_id) {
-        this.patient_id = patient_id;
-    }
 }

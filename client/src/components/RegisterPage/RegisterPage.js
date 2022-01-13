@@ -10,29 +10,53 @@ export default function RegisterPage() {
     const [pesel, set_pesel] = useState("");
     const [password, set_password] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [asDoctor, setAsDoctor] = useState(false);
+    const [specialization, setSpecialization] = useState("");
     const navigate = useNavigate();
     function register() {
         setIsLoading(true);
-        axios
-            .post(
-                "/users/create/patient",
-                new URLSearchParams({
-                    email: email,
-                    name: name,
-                    surname: surname,
-                    pesel: pesel,
-                    password: password,
+        if (asDoctor && specialization != "") {
+            axios
+                .post(
+                    "/users/create/doctor",
+                    new URLSearchParams({
+                        email: email,
+                        name: name,
+                        surname: surname,
+                        pesel: pesel,
+                        password: password,
+                        specialization: specialization,
+                    })
+                )
+                .then((result) => {
+                    console.log(result);
+                    navigate("/login");
                 })
-            )
-            .then((result) => {
-                console.log(result);
-                navigate("/login");
-            })
-            .catch((err) => {
-                console.log("REGISTER FAILED");
-                console.log(err);
-            })
-            .finally(setIsLoading(false));
+                .catch((err) => {
+                    console.log(err);
+                    setIsLoading(false);
+                });
+        } else {
+            axios
+                .post(
+                    "/users/create/patient",
+                    new URLSearchParams({
+                        email: email,
+                        name: name,
+                        surname: surname,
+                        pesel: pesel,
+                        password: password,
+                    })
+                )
+                .then((result) => {
+                    console.log(result);
+                    navigate("/login");
+                })
+                .catch((err) => {
+                    setIsLoading(false);
+                    console.log(err);
+                });
+        }
     }
     return (
         <div className="maincontainer">
@@ -126,6 +150,40 @@ export default function RegisterPage() {
                                                     }
                                                     className="form-control rounded-pill border-0 shadow-sm px-4 text-primary"
                                                 />
+                                            </div>
+                                            <div className="mb-3">
+                                                <input
+                                                    id="inputSpecialization"
+                                                    type="text"
+                                                    placeholder="Specialization"
+                                                    disabled={!asDoctor}
+                                                    value={specialization}
+                                                    onChange={(e) =>
+                                                        setSpecialization(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    className="form-control rounded-pill border-0 shadow-sm px-4"
+                                                />
+                                            </div>
+                                            <div className="form-check">
+                                                <input
+                                                    id="customCheck2"
+                                                    type="checkbox"
+                                                    checked={asDoctor}
+                                                    onClick={() =>
+                                                        setAsDoctor(!asDoctor)
+                                                    }
+                                                    onChange={() => {}}
+                                                    className="form-check-input"
+                                                />
+                                                <label
+                                                    htmlFor="customCheck1"
+                                                    className="form-check-label"
+                                                    style={{ fontSize: "13px" }}
+                                                >
+                                                    I'm a doctor
+                                                </label>
                                             </div>
                                             <div className="d-grid gap-2 mt-2 w-75 m-auto text-center">
                                                 {isLoading ? (
