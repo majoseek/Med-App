@@ -29,7 +29,6 @@ export default function RegisterPage() {
                     })
                 )
                 .then((result) => {
-                    console.log(result);
                     navigate("/login");
                 })
                 .catch((err) => {

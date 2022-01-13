@@ -14,7 +14,6 @@ import Title from "./Title";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-const month_patients_number = [52, 63, 72, 40, 30, 51, 60, 60, 80, 79, 65, 52];
 const months = [
     "Jan",
     "Feb",
@@ -50,9 +49,10 @@ export default function DashboardDoctor() {
     const [myVisits, setMyVisits] = useState([]);
     const [numberOfPatients, setNumberOfPatients] = useState(0);
     const [cookies, setCookie] = useCookies(["access_token"]);
+    const [monthStats, setMonthStats] = useState(Array(12).fill(0));
     useEffect(() => {
         setChartData(
-            month_patients_number.map((num, index) => {
+            monthStats.map((num, index) => {
                 return { month: months[index], number: num };
             })
         );
@@ -69,6 +69,13 @@ export default function DashboardDoctor() {
             })
             .then((result) => {
                 setNumberOfPatients(result.data);
+            });
+        axios
+            .get("/doctor/monthlyVisitCount", {
+                headers: { Authorization: `Bearer ${cookies.access_token}` },
+            })
+            .then((result) => {
+                setMonthStats(result.data);
             });
     }, [cookies.access_token]);
     return (
