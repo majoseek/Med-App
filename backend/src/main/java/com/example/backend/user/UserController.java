@@ -101,17 +101,11 @@ public class UserController {
     @PostMapping(path = "/login", produces = "application/json")
     ResponseEntity<?> login(UserLogInDto credentials)  {
         try {
-<<<<<<< HEAD
-            ResponseEntity<String> response=userService.logInUser(credentials.getEmail(), credentials.getPassword());
-            return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
-        } catch (IOException | InterruptedException e) {
-=======
             User user = userService.findMatchingUser(credentials.getEmail(), credentials.getPassword());
             ResponseEntity<Map> response=userService.logInUser(credentials.getEmail(), credentials.getPassword());
             response.getBody().put("role", user.getRole());
             return ResponseEntity.status(HttpStatus.OK).body(response.getBody());
         } catch (IOException | InterruptedException | UserNotFound | InvalidCredentials e) {
->>>>>>> debd57610a0955309e5036e13f196664c8a53445
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", e.getLocalizedMessage()));
         }
     }

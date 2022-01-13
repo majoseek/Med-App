@@ -6,9 +6,11 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import EventNoteIcon from "@mui/icons-material/EventNote";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useCookies } from "react-cookie";
 export default function LeftButtons() {
+    const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
     return (
         <div>
             <ListItem button component={Link} to="">
@@ -39,7 +41,7 @@ export default function LeftButtons() {
             <ListItem
                 button
                 onClick={() => {
-                    console.log("Logout");
+                    removeCookie("access_token");
                 }}
             >
                 <ListItemIcon>

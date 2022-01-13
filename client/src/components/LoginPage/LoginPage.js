@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
-export default function LoginPage({ setIsDoctor }) {
+export default function LoginPage() {
     const [email, set_email] = useState("");
     const [password, set_password] = useState("");
     const [remember_me, set_remember] = useState(true);
@@ -23,16 +23,14 @@ export default function LoginPage({ setIsDoctor }) {
                 })
             )
             .then((response) => {
+                if (response.data.role === "PATIENT")
+                    navigate("/dashboard/patient");
+                else navigate("/dashboard/doctor");
+                setCookie("role", response.data.role);
                 setCookie("access_token", response.data.access_token);
-                console.log(response);
-                setIsDoctor(true);
-                navigate("/dashboard");
             })
             .catch((err) => {
                 console.log("Login failed", err);
-            })
-            .finally(() => {
-                setIsLoading(false);
             });
     }
     return (

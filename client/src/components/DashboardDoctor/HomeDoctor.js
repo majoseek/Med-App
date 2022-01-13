@@ -109,7 +109,7 @@ export default function HomeDoctor() {
     };
     useEffect(() => {
         if (!cookies.access_token) navigate("/");
-    }, []);
+    }, [cookies.access_token]);
     return (
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: "flex" }}>
