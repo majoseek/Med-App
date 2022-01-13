@@ -2,8 +2,10 @@ package com.example.backend.visit;
 
 import com.example.backend.doctor.Doctor;
 import com.example.backend.patient.Patient;
+import org.springframework.data.util.Pair;
 
 import javax.persistence.*;
+import javax.print.Doc;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -90,5 +92,9 @@ public class Visit {
 
     public void setPatientByPatientUserId(Patient PatientByPatientUserId) {
         this.patientByPatientUserId = PatientByPatientUserId;
+    }
+
+    public Pair<Doctor, LocalDateTime> returnPair() {
+        return Pair.of(this.doctorByDoctorUserId, this.date);
     }
 }

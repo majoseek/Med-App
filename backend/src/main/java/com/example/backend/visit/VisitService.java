@@ -8,15 +8,18 @@ import com.example.backend.patient.Patient;
 import com.example.backend.patient.PatientService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class VisitService {
@@ -127,5 +130,30 @@ public class VisitService {
             monthlyCount.add(visitRepository.getMonthlyVisitCount(i, doctorId));
         }
         return monthlyCount;
+    }
+
+    public List<VisitAvailableDto> getAvailableHours(LocalDateTime startDate, LocalDateTime endDate) {
+        List<Pair<Doctor, LocalDateTime>> occupiedHours = visitRepository.findAllByDate(startDate, endDate).stream().map(Visit::returnPair).collect(Collectors.toList());
+        endDate = endDate.plusHours(17);
+        startDate = startDate.plusHours(8);
+        // 8-16 wizyta trwa 15 min
+        List<Doctor> ids = doctorService.getAll();
+        List<Pair<Doctor, LocalDateTime>> availableHours = new ArrayList<>();
+        while(startDate.isBefore(endDate)) {
+            if (startDate.getHour() >= 17) {
+                startDate = startDate.plusDays(1).minusHours(9);
+            }
+            for (Doctor id : ids) {
+                if (!(occupiedHours.contains((Pair.of(id, startDate))))) {
+                    availableHours.add(Pair.of(id, startDate));
+                }
+            }
+            startDate = startDate.plusMinutes(15);
+        }
+        return availableHours.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    private VisitAvailableDto convertToDto(Pair<Doctor, LocalDateTime> e) {
+        return new VisitAvailableDto(e.getFirst().getName(), e.getFirst().getSurname(), e.getSecond(), e.getFirst().getUserId());
     }
 }
