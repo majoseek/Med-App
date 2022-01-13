@@ -5,9 +5,23 @@ import {
     TableHead,
     TableRow,
 } from "@mui/material";
-import React from "react";
+import { useCookies } from "react-cookie";
+
+import React, { useEffect, useState } from "react";
 import Title from "./Title";
-export default function Prescriptions(props) {
+import axios from "axios";
+export default function Prescriptions() {
+    const [prescriptions, setPrescriptions] = useState([]);
+    const [cookies, setCookie] = useCookies("access_token");
+    useEffect(() => {
+        axios
+            .get("/prescriptions/myPrescriptions", {
+                headers: { Authorization: `Bearer ${cookies.access_token}` },
+            })
+            .then((result) => {
+                console.log(result.data);
+            });
+    }, [prescriptions, cookies.access_token]);
     return (
         <React.Fragment>
             <Title>My prescriptions</Title>
@@ -22,7 +36,7 @@ export default function Prescriptions(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {props.data.map((row) => (
+                    {prescriptions.map((row) => (
                         <TableRow key={`patient_${row.id}`}>
                             <TableCell>{row.date}</TableCell>
                             <TableCell>{row.patient_name}</TableCell>

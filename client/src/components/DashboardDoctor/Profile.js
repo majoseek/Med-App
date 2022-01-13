@@ -10,6 +10,7 @@ export default function Profile() {
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [specialization, setSpecialization] = useState("");
+    const [pesel, setPesel] = useState("");
     const [cookies, setCookie] = useCookies(["access_token"]);
     useEffect(() => {
         axios
@@ -21,6 +22,7 @@ export default function Profile() {
                 setName(result.data.name);
                 setSurname(result.data.surname);
                 setSpecialization(result.data.specialization);
+                setPesel(result.data.pesel);
             });
     }, []);
     return (
@@ -48,7 +50,6 @@ export default function Profile() {
                             <TextField
                                 id="standard-read-only-input"
                                 label="Name"
-                                defaultValue={name}
                                 value={name}
                                 InputProps={{
                                     readOnly: true,
@@ -60,7 +61,6 @@ export default function Profile() {
                             <TextField
                                 id="standard-read-only-input"
                                 label="Surname"
-                                defaultValue={surname}
                                 value={surname}
                                 InputProps={{
                                     readOnly: true,
@@ -80,7 +80,6 @@ export default function Profile() {
                             <TextField
                                 id="standard-read-only-input"
                                 label="E-mail"
-                                defaultValue={email}
                                 value={email}
                                 InputProps={{
                                     readOnly: true,
@@ -91,8 +90,18 @@ export default function Profile() {
                         <Grid item>
                             <TextField
                                 id="standard-read-only-input"
+                                label="Pesel"
+                                value={pesel}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                variant="standard"
+                            />
+                        </Grid>
+                        <Grid item>
+                            <TextField
+                                id="standard-read-only-input"
                                 label="Specialization"
-                                defaultValue={specialization}
                                 value={specialization}
                                 InputProps={{
                                     readOnly: true,
