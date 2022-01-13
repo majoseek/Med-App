@@ -7,6 +7,7 @@ import com.example.backend.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.util.List;
 
 
@@ -45,5 +46,9 @@ public class DoctorService {
         doctor.setSpecialization(specialization);
         doctorRepository.save(doctor);
         return (UserDataDto.DoctorData) userService.getUserData(id);
+    }
+
+    public List<Doctor> getAll() {
+        return doctorRepository.getAllBy();
     }
 }

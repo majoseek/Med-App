@@ -188,4 +188,10 @@ public class VisitController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", invalidPrincipal.getLocalizedMessage()));
         }
     }
+
+    @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
+    @GetMapping(path="/available", produces = "application/json")
+    public ResponseEntity<?> getAvailableHours(@RequestParam String startDate, @RequestParam String endDate) {
+        return ResponseEntity.ok(service.getAvailableHours(LocalDateTime.parse(startDate), LocalDateTime.parse(endDate)));
+    }
 }
