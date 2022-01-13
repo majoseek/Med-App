@@ -23,8 +23,10 @@ export default function LoginPage() {
                 })
             )
             .then((response) => {
-                setCookie("role", response.data.role);
-                setCookie("access_token", response.data.access_token);
+                setCookie("role", response.data.role, { path: "/" });
+                setCookie("access_token", response.data.access_token, {
+                    path: "/",
+                });
                 if (response.data.role === "PATIENT")
                     navigate("/dashboard/patient");
                 else navigate("/dashboard/doctor");

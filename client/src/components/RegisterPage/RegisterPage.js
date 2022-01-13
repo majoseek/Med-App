@@ -15,7 +15,7 @@ export default function RegisterPage() {
     const navigate = useNavigate();
     function register() {
         setIsLoading(true);
-        if (asDoctor && specialization != "") {
+        if (asDoctor && specialization !== "") {
             axios
                 .post(
                     "/users/create/doctor",

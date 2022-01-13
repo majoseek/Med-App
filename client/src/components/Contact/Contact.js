@@ -1,10 +1,4 @@
-import { useState } from "react";
 import "./Contact.css";
-const initialState = {
-    name: "",
-    email: "",
-    message: "",
-};
 export const Contact = () => {
     return (
         <div>

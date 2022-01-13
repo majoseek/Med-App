@@ -15,8 +15,6 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { Grid, TextField } from "@mui/material";
-import axios from "axios";
-import { useCookies } from "react-cookie";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogContent-root": {
@@ -57,18 +55,12 @@ BootstrapDialogTitle.propTypes = {
 };
 export default function Patients(props) {
     const [open, setOpen] = React.useState(false);
-    const [cookies, setCookie] = useCookies("access_token");
     const handleClickOpen = () => {
         setOpen(true);
     };
     const handleClose = () => {
         setOpen(false);
     };
-    function delete_visit(id) {
-        axios.delete(`/visits/id/${id}`, {
-            headers: { Authorization: `Bearer ${cookies.access_token}` },
-        });
-    }
     return (
         <React.Fragment>
             <Title>My patients</Title>

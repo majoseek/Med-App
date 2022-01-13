@@ -29,7 +29,7 @@ export default function DashboardPatient() {
     }, [cookies.access_token]);
     return (
         <Grid container spacing={3}>
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item lg={12} xl={9}>
                 <Paper
                     sx={{
                         p: 2,
@@ -40,7 +40,7 @@ export default function DashboardPatient() {
                     <Visits data={myVisits} />
                 </Paper>
             </Grid>
-            <Grid item xs={12} md={4} lg={3}>
+            <Grid item lg={12} xl={3}>
                 <Paper
                     sx={{
                         p: 2,
