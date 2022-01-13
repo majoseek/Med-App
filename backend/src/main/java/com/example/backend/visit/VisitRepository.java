@@ -33,4 +33,7 @@ public interface VisitRepository extends CrudRepository<Visit, Long> {
 
     @Query(value = "select count(v) from Visit v where v.doctorByDoctorUserId.userId = :doctorId and year(v.date) = year(sysdate()) and month(v.date) = :month")
     Integer getMonthlyVisitCount(int month, Long doctorId);
+
+    @Query(value = "select v from Visit v where :startDate <= v.date and :endDate >= v.date order by v.date desc ")
+    List<Visit> findAllByDate(LocalDateTime startDate, LocalDateTime endDate);
 }
