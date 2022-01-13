@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VisitService {
@@ -111,5 +114,17 @@ public class VisitService {
 
     public Integer getVisitCountByMonth(Long doctorId) {
         return visitRepository.countVisitByMonthAndDoctor(doctorId);
+    }
+
+    public Visit getNextVisit(Long patientId) throws VisitNotFound {
+        return visitRepository.getNextVisit(patientId)
+                .orElseThrow(()-> new VisitNotFound("No upcomming visits"));}
+
+    public List<Integer> getMonthlyVisitCount(Long doctorId) {
+        List<Integer> monthlyCount = new ArrayList<>();
+        for(int i=1; i<= 12; i++) {
+            monthlyCount.add(visitRepository.getMonthlyVisitCount(i, doctorId));
+        }
+        return monthlyCount;
     }
 }

@@ -30,14 +30,12 @@ public class MedicationController {
     }
 
     @GetMapping(path="/all", produces = "application/json")
-    
     public ResponseEntity<?> getAll() {
         List<MedicationDto> medications = service.getAll().stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(medications);
     }
 
     @GetMapping(path="/id/{id}")
-    
     @Transactional
     public ResponseEntity<?> getById(@PathVariable Long id) {
         try {

@@ -167,7 +167,15 @@ public class UserService {
         return userRepository.deleteUserById(id);
     }
 
-    public ResponseEntity<String> logInUser(String username, String password) throws IOException, InterruptedException {
+    public User findMatchingUser(String email, String password) throws UserNotFound, InvalidCredentials {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFound("User not found"));
+        if (passEncoder.matches(password, user.getPassword())) {
+            return user;
+        }
+        throw new InvalidCredentials("Invalid password");
+    }
+
+    public ResponseEntity<Map> logInUser(String username, String password) throws IOException, InterruptedException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -180,7 +188,7 @@ public class UserService {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
         RestTemplate restTemplate=new RestTemplate();
-        ResponseEntity<String> response = restTemplate.postForEntity( "http://localhost:8080/auth/realms/clinic-spring/protocol/openid-connect/token", request , String.class );
+        ResponseEntity<Map> response = restTemplate.postForEntity( "http://localhost:8080/auth/realms/clinic-spring/protocol/openid-connect/token", request , Map.class );
         return response;
     }
 }
