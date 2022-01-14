@@ -28,7 +28,7 @@ export default function Visits(props) {
                 </TableHead>
                 <TableBody>
                     {props.data.map((row) => (
-                        <TableRow key={`myvisits_${row.id}`}>
+                        <TableRow key={`nextvisit_${row.id}`}>
                             <TableCell>{`${new Date(
                                 row.visitDate
                             ).getFullYear()}-${(

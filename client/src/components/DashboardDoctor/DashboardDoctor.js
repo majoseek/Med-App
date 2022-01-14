@@ -28,22 +28,6 @@ const months = [
     "Nov",
     "Dec",
 ];
-const data = [
-    {
-        id: 1,
-        date: "2020-12-09",
-        patient_name: "Jan Kowalski",
-        visit_len: "30",
-        price: 50,
-    },
-    {
-        id: 2,
-        date: "2020-12-10",
-        patient_name: "Adam Kowalski",
-        visit_len: "60",
-        price: 100,
-    },
-];
 export default function DashboardDoctor() {
     const [chartData, setChartData] = useState([]);
     const [myVisits, setMyVisits] = useState([]);
