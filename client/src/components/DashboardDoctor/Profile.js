@@ -10,7 +10,6 @@ export default function Profile() {
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [specialization, setSpecialization] = useState("");
-    const [pesel, setPesel] = useState("");
     const [cookies, setCookie] = useCookies(["access_token"]);
     useEffect(() => {
         axios
@@ -22,7 +21,6 @@ export default function Profile() {
                 setName(result.data.name);
                 setSurname(result.data.surname);
                 setSpecialization(result.data.specialization);
-                setPesel(result.data.pesel);
             });
     }, []);
     return (
@@ -51,9 +49,6 @@ export default function Profile() {
                                 id="standard-read-only-input"
                                 label="Name"
                                 value={name}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
                                 variant="standard"
                             />
                         </Grid>
@@ -62,9 +57,6 @@ export default function Profile() {
                                 id="standard-read-only-input"
                                 label="Surname"
                                 value={surname}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
                                 variant="standard"
                             />
                         </Grid>
@@ -81,20 +73,6 @@ export default function Profile() {
                                 id="standard-read-only-input"
                                 label="E-mail"
                                 value={email}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                variant="standard"
-                            />
-                        </Grid>
-                        <Grid item>
-                            <TextField
-                                id="standard-read-only-input"
-                                label="Pesel"
-                                value={pesel}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
                                 variant="standard"
                             />
                         </Grid>
@@ -103,9 +81,6 @@ export default function Profile() {
                                 id="standard-read-only-input"
                                 label="Specialization"
                                 value={specialization}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
                                 variant="standard"
                             />
                         </Grid>
