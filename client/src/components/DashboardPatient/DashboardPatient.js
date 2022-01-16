@@ -3,14 +3,11 @@ import Paper from "@mui/material/Paper";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 import Stats from "./Stats";
 import Visits from "./Visits";
 export default function DashboardPatient() {
     const [cookies, setCookie] = useCookies("access_token");
     const [nextVisit, setNextVisit] = useState(null);
-    const [myVisits, setMyVisits] = useState([]);
-    const navigate = useNavigate();
     useEffect(() => {
         axios
             .get("/nextVisit/1", {
@@ -18,13 +15,6 @@ export default function DashboardPatient() {
             })
             .then((result) => {
                 setNextVisit(result.data);
-            });
-        axios
-            .get("/myVisits", {
-                headers: { Authorization: `Bearer ${cookies.access_token}` },
-            })
-            .then((result) => {
-                setMyVisits(result.data);
             });
     }, [cookies.access_token]);
     return (
@@ -37,7 +27,7 @@ export default function DashboardPatient() {
                         flexDirection: "column",
                     }}
                 >
-                    <Visits data={myVisits} />
+                    <Visits />
                 </Paper>
             </Grid>
             <Grid item lg={12} xl={3}>

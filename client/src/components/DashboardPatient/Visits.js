@@ -5,13 +5,28 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Title from "./Title";
-
-const cancel_visit = (visit) => {
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import { useState, useEffect } from "react";
+const cancel_visit = (id) => {
     if (window.confirm("Do you really want to cancel the visit?")) {
-        console.log(`Cancelling visit with id ${visit}`);
+        console.log(`Cancelling visit with id ${id}`);
+        axios.delete("/visits/id").then();
     }
 };
-export default function Visits(props) {
+export default function Visits() {
+    const [cookies, setCookie] = useCookies("access_token");
+    const [myVisits, setMyVisits] = useState([]);
+    useEffect(() => {
+        axios
+            .get("/myVisits", {
+                headers: { Authorization: `Bearer ${cookies.access_token}` },
+            })
+            .then((result) => {
+                setMyVisits(result.data);
+                //TODO: refresh visits after cancel
+            });
+    }, [cookies.access_token]);
     return (
         <React.Fragment>
             <Title>My visits</Title>
@@ -27,7 +42,7 @@ export default function Visits(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {props.data.map((row) => (
+                    {myVisits.data.map((row) => (
                         <TableRow key={`nextvisit_${row.id}`}>
                             <TableCell>{`${new Date(
                                 row.visitDate
