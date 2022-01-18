@@ -1,6 +1,7 @@
 package com.example.backend.prescription;
 
 import com.example.backend.exceptions.InvalidPrincipal;
+import com.example.backend.exceptions.MedicationNotFound;
 import com.example.backend.exceptions.PrescriptionNotFound;
 import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.medication.Medication;
@@ -80,8 +81,8 @@ public class PrescriptionController {
         try {
             PrescriptionDto prescription = convertToDto(service.createPrescription(prescriptionDto));
             return ResponseEntity.ok(prescription);
-        }catch (UserNotFound userNotFound) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", userNotFound.getLocalizedMessage()));
+        } catch (UserNotFound | MedicationNotFound userNotFound) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body((userNotFound.getLocalizedMessage()));
         }
     }
 
@@ -91,8 +92,8 @@ public class PrescriptionController {
         try{
             PrescriptionDto prescription = convertToDto(service.createByPatientPesel(prescriptionDto));
             return ResponseEntity.ok(prescription);
-        } catch (UserNotFound userNotFound) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((userNotFound.getLocalizedMessage()));
+        } catch (UserNotFound | MedicationNotFound userNotFound) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body((userNotFound.getLocalizedMessage()));
         }
 
     }
