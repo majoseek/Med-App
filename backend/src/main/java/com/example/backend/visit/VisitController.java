@@ -196,13 +196,12 @@ public class VisitController {
     }
 
     @RolesAllowed("ROLE_patient")
-    @GetMapping(path="/visitHistory")
+    @GetMapping(path = "/visitHistory")
     public ResponseEntity<?> getVisitHistory(Principal principal) {
         try {
             Long patientId = Utilities.getUserDbIdFromPrincipal(principal);
             return ResponseEntity.ok(service.getVisitHistory(patientId).stream().map(this::convertToDto).collect(Collectors.toList()));
-        }
-        catch (InvalidPrincipal invalidPrincipal) {
+        } catch (InvalidPrincipal invalidPrincipal) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", invalidPrincipal.getLocalizedMessage()));
         }
     }
@@ -213,7 +212,7 @@ public class VisitController {
     public ResponseEntity<?> getUserVisits(Principal principal) {
         try {
             Long userId = Utilities.getUserDbIdFromPrincipal(principal);
-            return ResponseEntity.ok(service.getNextVisits(userId).stream().map(this::convertToDto).collect(Collectors.toList()));
+            return ResponseEntity.ok(service.getUserVisits(userId).stream().map(this::convertToDto).collect(Collectors.toList()));
         } catch (InvalidPrincipal invalidPrincipal) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", invalidPrincipal.getLocalizedMessage()));
         }
