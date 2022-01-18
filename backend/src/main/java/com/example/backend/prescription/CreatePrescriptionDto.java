@@ -1,17 +1,19 @@
 package com.example.backend.prescription;
 
+import java.util.List;
+
 public class CreatePrescriptionDto {
-    private String medicationName;
+    private List<Long> medications;
     private Long amount;
     private Long doctorId;
     private Long patientId;
 
-    public String getMedicationName() {
-        return medicationName;
+    public List<Long> getMedications() {
+        return medications;
     }
 
-    public void setMedicationName(String medicationName) {
-        this.medicationName = medicationName;
+    public void setMedications(List<Long> medications) {
+        this.medications = medications;
     }
 
     public Long getAmount() {

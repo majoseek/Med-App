@@ -7,16 +7,15 @@ import com.example.backend.patient.PatientSignUpDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -52,7 +51,8 @@ public class UserController {
             User user = userService.createUserAsPatient(patient);
             Response keycloak = userService.registerUserCredentials(patient.getEmail(), patient.getPassword(), user.getId(), UserRole.PATIENT);
             if (keycloak.getStatus() != 201) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to register user credentials(email may be used)"));
+                userService.removeUser(user.getId());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to register user credentials(email may be incorrect)"));
             }
             return ResponseEntity.status(HttpStatus.CREATED).body(new UserDataDto.PatientData(user));
         } catch (EmailAlreadyUsed emailUsed) {
@@ -70,21 +70,20 @@ public class UserController {
         }
     }
 
-    @PutMapping(path ="/edit/{id}", produces = "application/json")
-    ResponseEntity<?> editUserData(@PathVariable Long id,
-                                   @RequestParam(required = false) Optional<String> email,
+    @PutMapping(path ="/edit", produces = "application/json")
+    ResponseEntity<?> editUserData(@RequestParam(required = false) Optional<String> email,
                                    @RequestParam(required = false) Optional<String> password,
                                    @RequestParam(required = false) Optional<String> name,
-                                   @RequestParam(required = false) Optional<String> surname) {
+                                   @RequestParam(required = false) Optional<String> surname,
+                                   Principal principal) {
         try {
+            final Long id = Utilities.getUserDbIdFromPrincipal(principal);
             final UserDataDto.UserData editedUser = userService.editUserData(id, email, password, name, surname);
             return ResponseEntity.ok(editedUser);
-        } catch (UserNotFound userNotFound) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", userNotFound.getLocalizedMessage()));
-        } catch (InvalidRole error) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(Collections.singletonMap("error", error.getLocalizedMessage()));
+        } catch (InvalidRole | UserNotFound | InvalidPrincipal error) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", error.getLocalizedMessage()));
         } catch (DataIntegrityViolationException error) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(Collections.singletonMap("error", "Email is already used"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", "Email is already used"));
         }
     }
 
@@ -107,6 +106,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body(response.getBody());
         } catch (IOException | InterruptedException | UserNotFound | InvalidCredentials e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", e.getLocalizedMessage()));
+        } catch (NullPointerException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", "Unexpected error occurred"));
         }
     }
 }

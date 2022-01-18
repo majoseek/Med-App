@@ -7,6 +7,8 @@ public class CreateVisitDto {
     private String description;
     private String location;
     private Long doctor_id;
+    private Integer duration;
+
 
     public LocalDateTime getDate() {
         return date;
@@ -38,6 +40,14 @@ public class CreateVisitDto {
 
     public void setDoctor_id(Long doctor_id) {
         this.doctor_id = doctor_id;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
 }

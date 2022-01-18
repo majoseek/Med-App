@@ -8,18 +8,14 @@ import com.example.backend.patient.Patient;
 import com.example.backend.patient.PatientService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.print.Doc;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class VisitService {
@@ -97,7 +93,7 @@ public class VisitService {
         visitRepository.deleteById(visitId);
     }
 
-    public Visit createVisit(LocalDateTime date, String description, String location, Long doctorId, Long patientId) throws UserNotFound {
+    public Visit createVisit(LocalDateTime date, String description, String location, Long doctorId, Long patientId, Integer duration) throws UserNotFound {
         Visit newVisit = new Visit();
         Doctor doctor = doctorService.getDoctorById(doctorId);
         Patient patient = patientService.getPatientById(patientId);
@@ -106,6 +102,7 @@ public class VisitService {
         newVisit.setLocation(location);
         newVisit.setDoctorByDoctorUserId(doctor);
         newVisit.setPatientByPatientUserId(patient);
+        newVisit.setVisitDuration(duration);
         visitRepository.save(newVisit);
         return newVisit;
     }
@@ -119,9 +116,8 @@ public class VisitService {
         return visitRepository.countVisitByMonthAndDoctor(doctorId);
     }
 
-    public Visit getNextVisit(Long patientId) throws VisitNotFound {
-        return visitRepository.getNextVisit(patientId)
-                .orElseThrow(() -> new VisitNotFound("No upcoming visits"));
+    public List<Visit> getNextVisits(Long patientId)  {
+        return visitRepository.findNextVisits(patientId);
     }
 
     public List<Integer> getMonthlyVisitCount(Long doctorId) {
@@ -132,36 +128,43 @@ public class VisitService {
         return monthlyCount;
     }
 
-    public List<VisitAvailableDto> getAvailableHours(LocalDateTime startDate, LocalDateTime endDate, String spec) {
-        List<Pair<Doctor, LocalDateTime>> occupiedHours = visitRepository.findAllByDate(startDate, endDate).stream().map(Visit::returnPair).collect(Collectors.toList());
-        endDate = endDate.plusHours(17);
-        startDate = startDate.plusHours(8);
-        // 8-16 wizyta trwa 15 min
+    public Map<Doctor, List<LocalDateTime>> getAvailableHours(LocalDateTime startDate, LocalDateTime endDate, String spec) {
         List<Doctor> ids = doctorService.getAllDoctorsBySpecialization(spec);
-        List<Pair<Doctor, LocalDateTime>> availableHours = new ArrayList<>();
-        while (startDate.isBefore(endDate)) {
-            if (startDate.getHour() >= 17) {
-                startDate = startDate.plusDays(1).minusHours(9);
-            }
-            for (Doctor id : ids) {
-                if (!(occupiedHours.contains((Pair.of(id, startDate))))) {
-                    availableHours.add(Pair.of(id, startDate));
+        Map<Doctor, Map<LocalDateTime, Integer>> occupiedHours = visitRepository.findAllByDate(startDate, endDate, ids).stream()
+                .collect(Collectors.groupingBy(Visit::getDoctorByDoctorUserId,
+                        Collectors.toMap(Visit::getDate, Visit::getVisitDuration)));
+        Set<DayOfWeek> weekend = EnumSet.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
+        List<LocalDate> dates = startDate.toLocalDate().datesUntil(endDate.toLocalDate()).filter(d-> !weekend.contains(d.getDayOfWeek())).collect(Collectors.toList());
+        Map<Doctor, List<LocalDateTime>> availableDates = new HashMap<>();
+        for (Doctor dr: ids) {
+            List<LocalDateTime> availableHours = new ArrayList<>();
+            dates.forEach(date -> {
+                LocalDateTime start = date.atStartOfDay().plusHours(8);
+                LocalDateTime end = date.atStartOfDay().plusHours(17);
+                while (start.isBefore(end)) {
+                    if (!occupiedHours.containsKey(dr)) {
+                        availableHours.add(start);
+                        start = start.plusMinutes(15);
+                        continue;
+                    }
+                    Integer duration = occupiedHours.get(dr).getOrDefault(start, -1);
+                    if (duration != -1) {
+                        start = start.plusMinutes(duration);
+                    } else {
+                        availableHours.add(start);
+                        start = start.plusMinutes(15);
+                    }
                 }
-            }
-            startDate = startDate.plusMinutes(15);
+            });
+            availableDates.put(dr, availableHours);
         }
-        return availableHours.stream().map(this::convertToDto).collect(Collectors.toList());
-    }
-
-    private VisitAvailableDto convertToDto(Pair<Doctor, LocalDateTime> e) {
-        return new VisitAvailableDto(e.getFirst().getName(), e.getFirst().getSurname(), e.getSecond(), e.getFirst().getUserId());
+        return availableDates;
     }
 
     public Visit getNextNextVisit(Long patientId) throws VisitNotFound {
         List<Visit> visits = visitRepository.getNextNextVisit(patientId);
         try {
-            Visit visit = visits.get(1);
-            return visit;
+            return visits.get(1);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             throw new VisitNotFound("No upcoming visits");
         }

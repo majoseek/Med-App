@@ -5,7 +5,6 @@ import com.example.backend.patient.Patient;
 import org.springframework.data.util.Pair;
 
 import javax.persistence.*;
-import javax.print.Doc;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -18,6 +17,7 @@ public class Visit {
     private String location;
     private Doctor doctorByDoctorUserId;
     private Patient patientByPatientUserId;
+    private Integer visitDuration;
 
     @Id
     @Column(name = "VISIT_ID", nullable = false)
@@ -96,5 +96,15 @@ public class Visit {
 
     public Pair<Doctor, LocalDateTime> returnPair() {
         return Pair.of(this.doctorByDoctorUserId, this.date);
+    }
+
+    @Basic
+    @Column(name = "DURATION", scale = 4)
+    public Integer getVisitDuration() {
+        return visitDuration;
+    }
+
+    public void setVisitDuration(Integer visitDuration) {
+        this.visitDuration = visitDuration;
     }
 }

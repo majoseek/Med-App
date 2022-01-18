@@ -1,8 +1,10 @@
 package com.example.backend.prescription;
 
+import java.util.List;
+
 public class CreateByPeselPrescriptionDto {
     private String pesel;
-    private String medicationName;
+    private List<Long> medications;
     private Long amount;
     private Long doctorId;
 
@@ -14,12 +16,12 @@ public class CreateByPeselPrescriptionDto {
         this.pesel = pesel;
     }
 
-    public String getMedicationName() {
-        return medicationName;
+    public List<Long> getMedications() {
+        return medications;
     }
 
-    public void setMedicationName(String medicationName) {
-        this.medicationName = medicationName;
+    public void setMedications(List<Long> mediations) {
+        this.medications = mediations;
     }
 
     public Long getAmount() {
