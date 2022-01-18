@@ -1,6 +1,7 @@
 package com.example.backend.visit;
 
 import com.example.backend.Utilities;
+import com.example.backend.doctor.Doctor;
 import com.example.backend.exceptions.InvalidPrincipal;
 import com.example.backend.exceptions.UserNotFound;
 import com.example.backend.exceptions.VisitNotFound;
@@ -34,6 +35,10 @@ public class VisitController {
 
     public VisitDto convertToDto(Visit visit) {
         return modelMapper.map(visit, VisitDto.class);
+    }
+
+    private List<VisitAvailableDto> convertToVisitAvailableDto(Map<Doctor, List<LocalDateTime>> e) {
+        return e.entrySet().stream().map(a -> new VisitAvailableDto(a.getKey().getName(), a.getKey().getSurname(), a.getValue(), a.getKey().getUserId())).collect(Collectors.toList());
     }
 
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
@@ -149,7 +154,7 @@ public class VisitController {
             VisitDto visit = convertToDto(service.createVisit(createVisitDto.getDate(),
                     createVisitDto.getDescription(), createVisitDto.getLocation(),
                     createVisitDto.getDoctor_id(),
-                    patientId));
+                    patientId, createVisitDto.getDuration()));
             return ResponseEntity.ok(visit);
         } catch (UserNotFound | InvalidPrincipal userNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body((userNotFound.getLocalizedMessage()));
@@ -166,15 +171,13 @@ public class VisitController {
 
 
     @RolesAllowed("ROLE_patient")
-    @GetMapping(path = "/nextVisit/1")
-    public ResponseEntity<?> getNextVisit(Principal principal) {
+    @GetMapping(path = "/nextVisits")
+    public ResponseEntity<?> getNextVisits(Principal principal) {
         try {
             Long patientId = Utilities.getUserDbIdFromPrincipal(principal);
-            return ResponseEntity.ok(convertToDto(service.getNextVisit(patientId)));
+            return ResponseEntity.ok(service.getNextVisits(patientId).stream().map(this::convertToDto).collect(Collectors.toList()));
         } catch (InvalidPrincipal invalidPrincipal) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", invalidPrincipal.getLocalizedMessage()));
-        } catch (VisitNotFound visitNotFound) {
-            return ResponseEntity.ok(0);    //no visits found
         }
     }
 
@@ -219,6 +222,7 @@ public class VisitController {
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
     @GetMapping(path = "/available", produces = "application/json")
     public ResponseEntity<?> getAvailableHours(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String spec) {
-        return ResponseEntity.ok(service.getAvailableHours(LocalDateTime.parse(startDate), LocalDateTime.parse(endDate), spec));
+        return ResponseEntity.ok(convertToVisitAvailableDto(service.getAvailableHours(LocalDateTime.parse(startDate),
+                LocalDateTime.parse(endDate), spec)));
     }
 }
