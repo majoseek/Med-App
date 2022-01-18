@@ -2,8 +2,11 @@ package com.example.backend.prescription;
 
 import com.example.backend.doctor.Doctor;
 import com.example.backend.doctor.DoctorRepository;
+import com.example.backend.exceptions.MedicationNotFound;
 import com.example.backend.exceptions.PrescriptionNotFound;
 import com.example.backend.exceptions.UserNotFound;
+import com.example.backend.medication.Medication;
+import com.example.backend.medication.MedicationRepository;
 import com.example.backend.patient.Patient;
 import com.example.backend.patient.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +20,17 @@ public class PrescriptionService {
     private final PrescriptionRepository repository;
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
+    private final MedicationRepository medicationRepository;
 
     @Autowired
     PrescriptionService(PrescriptionRepository repository,
                         PatientRepository patientRepository,
-                        DoctorRepository doctorRepository) {
+                        DoctorRepository doctorRepository,
+                        MedicationRepository medicationRepository) {
         this.repository = repository;
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
+        this.medicationRepository = medicationRepository;
     }
 
     public List<Prescription> getPatientPrescription (Long patientId) {
@@ -53,10 +59,17 @@ public class PrescriptionService {
         }
     }
 
+    private List<Medication> getMedications(List<Long> ids) throws MedicationNotFound {
+        List<Medication> meds = new java.util.ArrayList<>();
+        for (Long id : ids) {
+            meds.add(medicationRepository.findById(id).orElseThrow(() -> new MedicationNotFound(String.format("Medication with id: %d not found", id))));
+        }
+        return meds;
+    }
 
-    public Prescription createPrescription(CreatePrescriptionDto prescriptionDto) throws UserNotFound {
+    public Prescription createPrescription(CreatePrescriptionDto prescriptionDto) throws UserNotFound, MedicationNotFound {
         final Prescription newPrescription = new Prescription();
-//        newPrescription.setMedicationName(prescriptionDto.getMedicationName()); #### Replace to setMedication
+        newPrescription.setMedicationsByPrescriptId(getMedications(prescriptionDto.getMedications()));
         newPrescription.setAmount(prescriptionDto.getAmount());
         newPrescription.setDoctorByDoctorUserId(doctorRepository.findById(prescriptionDto.getDoctorId()).orElseThrow(() -> new UserNotFound("Doctor with this id was not found")));
         newPrescription.setPatientByPatientUserId(patientRepository.findById(prescriptionDto.getPatientId()).orElseThrow(() -> new UserNotFound("Patient with this id was not found")));
@@ -65,17 +78,17 @@ public class PrescriptionService {
     }
 
     public Prescription createByPatientPesel(CreateByPeselPrescriptionDto prescriptionDto)
-            throws UserNotFound {
+            throws UserNotFound, MedicationNotFound {
         final Prescription newPrescription = new Prescription();
         final Patient newPatient = patientRepository.findPatientByPesel(prescriptionDto.getPesel())
                 .orElseThrow(() -> new UserNotFound(String.format("Patient with pesel %s doesn't exist", prescriptionDto.getPesel())));
         final Doctor newDoctor = doctorRepository.findById(prescriptionDto.getDoctorId())
                 .orElseThrow(() -> new UserNotFound(String.format("Doctor with id %d doesn't exist", prescriptionDto.getDoctorId())));
-
+        final List<Medication> medications = getMedications(prescriptionDto.getMedications());
         newPrescription.setPatientByPatientUserId(newPatient);
         newPrescription.setDoctorByDoctorUserId(newDoctor);
         newPrescription.setAmount(prescriptionDto.getAmount());
-//        newPrescription.setMedicationName(prescriptionDto.getMedicationName()); #### Replace to setMedication
+        newPrescription.setMedicationsByPrescriptId(medications);
         repository.save(newPrescription);
         return newPrescription;
     }

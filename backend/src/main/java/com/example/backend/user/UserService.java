@@ -5,7 +5,6 @@ import com.example.backend.doctor.DoctorSignUpDto;
 import com.example.backend.exceptions.*;
 import com.example.backend.patient.Patient;
 import com.example.backend.patient.PatientSignUpDto;
-import org.apache.http.util.EntityUtils;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
@@ -138,8 +137,8 @@ public class UserService {
     public UserDataDto.UserData editUserData(Long id, Optional<String> email, Optional<String> password, Optional<String> name, Optional<String> surname) throws UserNotFound, InvalidRole, DataIntegrityViolationException {
         final User user = userRepository.findById(id).orElseThrow(() -> new UserNotFound(String.format("User with id=%d does not exist", id)));
         if (password.isPresent()) {
-            password.ifPresent(user::setPassword);
-
+            String encodedPassword = passEncoder.encode(password.get());
+            user.setPassword(encodedPassword);
         }
         email.ifPresent(user::setEmail);
         if (Objects.equals(user.getRole(), "DOCTOR")) {

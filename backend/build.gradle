@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.example'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 sourceCompatibility = '11'
 
 repositories {
@@ -13,11 +13,11 @@ repositories {
 }
 
 ext {
-    springBootVersion = "2.6.1"
+    springBootVersion = '2.6.2'
     springSecurityTestVersion = "5.5.1"
     oracleDriverVersion = '21.4.0.0'
     modelMapperVersion = '2.4.5'
-    keycloakVersion = "15.0.2"
+    keycloakVersion = '16.0.0'
 }
 
 dependencies {

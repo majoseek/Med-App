@@ -1,17 +1,19 @@
 package com.example.backend.visit;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class VisitAvailableDto {
+    private Long id;
     private String doctorName;
     private String doctorSurname;
-    private LocalDateTime date;
-    private Long id;
+    private List<LocalDateTime> dates;
 
-    VisitAvailableDto(String doctorName, String doctorSurname, LocalDateTime date, Long id) {
+
+    VisitAvailableDto(String doctorName, String doctorSurname, List<LocalDateTime> dates, Long id) {
         this.doctorName = doctorName;
         this.doctorSurname = doctorSurname;
-        this.date = date;
+        this.dates = dates;
         this.id = id;
     }
 
@@ -31,12 +33,12 @@ public class VisitAvailableDto {
         this.doctorSurname = doctorSurname;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public List<LocalDateTime> getDates() {
+        return dates;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setDates(List<LocalDateTime> dates) {
+        this.dates = dates;
     }
 
     public Long getId() {
