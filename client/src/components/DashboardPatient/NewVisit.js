@@ -29,12 +29,12 @@ export default function NewVisit() {
             "0" +
             startDate.getMonth() +
             1
-        ).slice(-2)}-${startDate.getUTCDate()}T08:00:00`;
+        ).slice(-2)}-${startDate.getUTCDate() + 1}T08:00:00`;
         const resultDate2 = `${endDate.getFullYear()}-${(
             "0" +
             endDate.getMonth() +
             1
-        ).slice(-2)}-${endDate.getUTCDate()}T08:00:00`;
+        ).slice(-2)}-${endDate.getUTCDate() + 2}T00:00:00`;
         axios
             .get(
                 `/available?startDate=${resultDate}&endDate=${resultDate2}&spec=${spec}`,
@@ -124,7 +124,7 @@ export default function NewVisit() {
                                     row.dates.length > 0 ?
                                         <SingleVisit key={row.id} spec={spec} doctor_id={row.id} doctor_name={row.doctorName} doctor_surname={row.doctorSurname} dates={row.dates} />
                                         :
-                                        ""
+                                        <React.Fragment key={row.id}></React.Fragment>
                                 )}
                             </TableBody>
                         </Table>

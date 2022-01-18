@@ -19,7 +19,7 @@ export default function VisitsHistory() {
       const [myVisits, setMyVisits] = useState([]);
       useEffect(() => {
             axios
-                  .get("/myVisits", {
+                  .get("/visitHistory", {
                         headers: { Authorization: `Bearer ${cookies.access_token}` },
                   })
                   .then((result) => {
@@ -34,31 +34,17 @@ export default function VisitsHistory() {
                               <TableRow>
                                     <TableCell>Date</TableCell>
                                     <TableCell>Doctor</TableCell>
-                                    <TableCell>Visit length [min]</TableCell>
                                     <TableCell>Description</TableCell>
-                                    <TableCell>Room</TableCell>
-                                    <TableCell align="right">Action</TableCell>
                               </TableRow>
                         </TableHead>
                         <TableBody>
-                              {myVisits.map((row) => (
-                                    <TableRow key={`nextvisit_${row.id}`}>
+                              {myVisits.map((row, index) => (
+                                    <TableRow key={`nextvisit_${row.id}_${index}`}>
                                           <TableCell>{`${row.visitDate.slice(0, 10)} ${row.visitDate.slice(11, row.visitDate.length - 3)}`}</TableCell>
                                           <TableCell>
                                                 {row.doctorName} {row.doctorSurname}
                                           </TableCell>
-                                          <TableCell>15</TableCell>
                                           <TableCell>{row.description}</TableCell>
-                                          <TableCell>{row.location}</TableCell>
-                                          <TableCell align="right">
-                                                <button
-                                                      className="btn btn-primary text-uppercase rounded-pill"
-                                                      style={{ fontSize: "12px" }}
-                                                      onClick={() => cancel_visit(row.id)}
-                                                >
-                                                      Cancel
-                                                </button>
-                                          </TableCell>
                                     </TableRow>
                               ))}
                         </TableBody>

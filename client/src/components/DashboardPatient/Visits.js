@@ -8,13 +8,16 @@ import Title from "./Title";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useState, useEffect } from "react";
-const cancel_visit = (id) => {
-    if (window.confirm("Do you really want to cancel the visit?")) {
-        console.log(`Cancelling visit with id ${id}`);
-        //axios.delete("/visits/id").then();
-    }
-};
+import { useNavigate } from "react-router-dom";
 export default function Visits() {
+    const cancel_visit = (id) => {
+        if (window.confirm("Do you really want to cancel the visit?")) {
+            axios.delete(`/visits/id/${id}`, {
+                headers: { Authorization: `Bearer ${cookies.access_token}` },
+            }).then(() => { window.location.reload() })
+        }
+    };
+    const navigate = useNavigate();
     const [cookies, setCookie] = useCookies("access_token");
     const [myVisits, setMyVisits] = useState([]);
     useEffect(() => {
@@ -42,9 +45,9 @@ export default function Visits() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {myVisits.map((row) => (
-                        <TableRow key={`nextvisit_${row.id}`}>
-                            <TableCell>{`${row.visitDate.slice(0, 10)} ${row.visitDate.slice(11, row.visitDate.length-3)}`}</TableCell>
+                    {myVisits.map((row, index) => (
+                        <TableRow key={`nextvisit_${row.id}_${index}`}>
+                            <TableCell>{`${row.visitDate.slice(0, 10)} ${row.visitDate.slice(11, row.visitDate.length - 3)}`}</TableCell>
                             <TableCell>
                                 {row.doctorName} {row.doctorSurname}
                             </TableCell>
@@ -55,7 +58,7 @@ export default function Visits() {
                                 <button
                                     className="btn btn-primary text-uppercase rounded-pill"
                                     style={{ fontSize: "12px" }}
-                                    onClick={() => cancel_visit(row.id)}
+                                    onClick={() => cancel_visit(row.visitId)}
                                 >
                                     Cancel
                                 </button>

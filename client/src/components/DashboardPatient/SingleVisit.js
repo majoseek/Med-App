@@ -43,7 +43,7 @@ export default function SingleVisit({ spec, doctor_id, doctor_name, doctor_surna
             <TableCell>
                 <FormControl fullWidth>
                     <Select
-                        labelId={`selectday_${doctor_id}`}
+                        labelId={`selectday_label_${doctor_id}`}
                         id={`selectday_${doctor_id}`}
                         value={selectedDay}
                         label="Day"
@@ -51,8 +51,15 @@ export default function SingleVisit({ spec, doctor_id, doctor_name, doctor_surna
                         style={{ padding: "2px" }}
                     >
                         {
-                            dates.map((date) => {
-                                return <MenuItem key={`hour_${date}_${doctor_id}`} value={date.slice(0, 10)}>{date.slice(0, 10)}</MenuItem>
+                            dates.map((date, index) => {
+                                return (
+                                    index !== 0 ?
+                                        (
+                                            dates[index - 1].slice(0, 10) !== date.slice(0, 10) ?
+                                                <MenuItem key={`hour_${date}_${doctor_id}`} value={date.slice(0, 10)}>{date.slice(0, 10)}</MenuItem>
+                                                : ""
+                                        ) :
+                                        <MenuItem key={`hour_${date}_${doctor_id}`} value={date.slice(0, 10)}>{date.slice(0, 10)}</MenuItem>)
                             })
                         }
                     </Select>
@@ -60,8 +67,8 @@ export default function SingleVisit({ spec, doctor_id, doctor_name, doctor_surna
             </TableCell>
             <TableCell><FormControl fullWidth>
                 <Select
-                    labelId={`selecthour_${doctor_id}`}
-                    id={`selectday_${doctor_id}`}
+                    labelId={`selecthour_label_${doctor_id}`}
+                    id={`selecthour_${doctor_id}`}
                     value={selectedHour}
                     label="Hour"
                     disabled={selectedDay === ""}
