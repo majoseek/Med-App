@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 const cancel_visit = (id) => {
     if (window.confirm("Do you really want to cancel the visit?")) {
         console.log(`Cancelling visit with id ${id}`);
-        axios.delete("/visits/id").then();
+        //axios.delete("/visits/id").then();
     }
 };
 export default function Visits() {
@@ -23,7 +23,7 @@ export default function Visits() {
                 headers: { Authorization: `Bearer ${cookies.access_token}` },
             })
             .then((result) => {
-                setMyVisits(result.data);
+                //setMyVisits(result.data);
                 //TODO: refresh visits after cancel
             });
     }, [cookies.access_token]);
@@ -42,7 +42,7 @@ export default function Visits() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {myVisits.data.map((row) => (
+                    {myVisits.map((row) => (
                         <TableRow key={`nextvisit_${row.id}`}>
                             <TableCell>{`${new Date(
                                 row.visitDate

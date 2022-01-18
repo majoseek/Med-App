@@ -1,14 +1,15 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Title from "./Title";
-import PropTypes from "prop-types";
 
 export default function Stats({ next_visit_date }) {
     return (
         <React.Fragment>
             <Title>Next visit</Title>
             <Typography component="p" variant="h5">
-                {next_visit_date === null
+                {next_visit_date === null ||
+                next_visit_date === undefined ||
+                next_visit_date === 0
                     ? "No upcoming visits"
                     : `${new Date(next_visit_date.visitDate).getFullYear()}-${(
                           "0" +
@@ -17,7 +18,9 @@ export default function Stats({ next_visit_date }) {
                           next_visit_date.visitDate
                       ).getUTCDate()}`}
             </Typography>
-            {next_visit_date != null ? (
+            {next_visit_date !== null &&
+            next_visit_date !== undefined &&
+            next_visit_date !== 0 ? (
                 <React.Fragment>
                     <Typography color="text.secondary" sx={{ flex: 1 }}>
                         {next_visit_date.doctorName}{" "}
@@ -32,6 +35,3 @@ export default function Stats({ next_visit_date }) {
         </React.Fragment>
     );
 }
-Stats.propTypes = {
-    earnings: PropTypes.number,
-};
