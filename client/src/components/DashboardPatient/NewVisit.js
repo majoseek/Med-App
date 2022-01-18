@@ -14,6 +14,8 @@ import TableRow from "@mui/material/TableRow";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
+import SingleVisit from "./SingleVisit";
+
 export default function NewVisit() {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
@@ -21,28 +23,8 @@ export default function NewVisit() {
     const [cookies, setCookie] = useCookies("access_token");
     const [visits, setVisits] = useState([]);
     const navigate = useNavigate();
-    function add_visit(id, date) {
-        console.log(id, date);
-        axios
-            .post(
-                "/visits/create",
-                {
-                    date: "2022-04-14T02:20:00",
-                    description: "Wizyta",
-                    doctor_id: id,
-                    location: "103",
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${cookies.access_token}`,
-                    },
-                }
-            )
-            .then(() => {
-                navigate("/dashboard/patient");
-            });
-    }
-    function show_visits() {
+
+    const show_visits = () => {
         const resultDate = `${startDate.getFullYear()}-${(
             "0" +
             startDate.getMonth() +
@@ -94,7 +76,6 @@ export default function NewVisit() {
                                 />
                             </MuiPickersUtilsProvider>
                         </Grid>
-
                         <Grid item>
                             <TextField
                                 id="standard-read-only-input"
@@ -133,34 +114,18 @@ export default function NewVisit() {
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Doctor</TableCell>
-                                    <TableCell>Date</TableCell>
+                                    <TableCell>Day</TableCell>
+                                    <TableCell>Hour</TableCell>
                                     <TableCell>Action</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {visits.map((row, index) => (
-                                    <TableRow
-                                        key={`vis_${
-                                            row.id
-                                        }_${row.date.toString()}`}
-                                    >
-                                        <TableCell>
-                                            {row.doctorName} {row.doctorSurname}
-                                        </TableCell>
-                                        <TableCell>{row.date}</TableCell>
-                                        <TableCell align="right">
-                                            <button
-                                                className="btn btn-primary text-uppercase rounded-pill"
-                                                style={{ fontSize: "14px" }}
-                                                onClick={() =>
-                                                    add_visit(row.id, row.date)
-                                                }
-                                            >
-                                                Add visit
-                                            </button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                {visits.map((row) =>
+                                    row.dates.length > 0 ?
+                                        <SingleVisit key={row.id} spec={spec} doctor_id={row.id} doctor_name={row.doctorName} doctor_surname={row.doctorSurname} dates={row.dates} />
+                                        :
+                                        ""
+                                )}
                             </TableBody>
                         </Table>
                     </Paper>

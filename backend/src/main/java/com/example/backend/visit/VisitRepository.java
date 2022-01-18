@@ -31,7 +31,7 @@ public interface VisitRepository extends CrudRepository<Visit, Long> {
             "and v.date = (select min(v2.date) from Visit v2 where v2.date>sysdate())")
     Optional<Visit> getNextVisit(Long patientId);
 
-    @Query(value = "select v from Visit v where  v.patientByPatientUserId.userId = :patientId and v.date >sysdate() order by v.date")
+    @Query(value = "select v from Visit v where  v.patientByPatientUserId.userId = :patientId and v.date >sysdate() order by v.date fetch first 1 rows only")
     List<Visit> getNextNextVisit(Long patientId);
 
     @Query(value = "select count(v) from Visit v where v.doctorByDoctorUserId.userId = :doctorId and year(v.date) = year(sysdate()) and month(v.date) = :month")

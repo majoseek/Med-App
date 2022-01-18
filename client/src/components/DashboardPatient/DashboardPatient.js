@@ -1,22 +1,9 @@
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
 import Stats from "./Stats";
 import Visits from "./Visits";
 export default function DashboardPatient() {
-    const [cookies, setCookie] = useCookies("access_token");
-    const [nextVisit, setNextVisit] = useState(null);
-    useEffect(() => {
-        axios
-            .get("/nextVisit/1", {
-                headers: { Authorization: `Bearer ${cookies.access_token}` },
-            })
-            .then((result) => {
-                setNextVisit(result.data);
-            });
-    }, [cookies.access_token]);
+
     return (
         <Grid container spacing={3}>
             <Grid item lg={12} xl={9}>
@@ -41,7 +28,7 @@ export default function DashboardPatient() {
                         height: 240,
                     }}
                 >
-                    <Stats next_visit_date={nextVisit} />
+                    <Stats />
                 </Paper>
             </Grid>
         </Grid>

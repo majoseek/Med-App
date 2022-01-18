@@ -1,32 +1,46 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Title from "./Title";
+import { useCookies } from "react-cookie";
+import { useEffect, useState } from "react";
+import axios from "axios";
+export default function Stats() {
+    const [nextVisit, setNextVisit] = useState(null);
+    const [cookies, setCookie] = useCookies("access_token");
 
-export default function Stats({ next_visit_date }) {
+    useEffect(() => {
+        axios
+            .get("/nextVisit/1", {
+                headers: { Authorization: `Bearer ${cookies.access_token}` },
+            })
+            .then((result) => {
+                setNextVisit(result.data);
+            });
+    }, [cookies.access_token]);
     return (
         <React.Fragment>
             <Title>Next visit</Title>
             <Typography component="p" variant="h5">
-                {next_visit_date === null ||
-                next_visit_date === undefined ||
-                next_visit_date === 0
+                {nextVisit === null ||
+                    nextVisit === undefined ||
+                    nextVisit === 0
                     ? "No upcoming visits"
-                    : `${new Date(next_visit_date.visitDate).getFullYear()}-${(
-                          "0" +
-                          (new Date(next_visit_date.visitDate).getMonth() + 1)
-                      ).slice(-2)}-${new Date(
-                          next_visit_date.visitDate
-                      ).getUTCDate()}`}
+                    : `${new Date(nextVisit.visitDate).getFullYear()}-${(
+                        "0" +
+                        (new Date(nextVisit.visitDate).getMonth() + 1)
+                    ).slice(-2)}-${new Date(
+                        nextVisit.visitDate
+                    ).getUTCDate()}`}
             </Typography>
-            {next_visit_date !== null &&
-            next_visit_date !== undefined &&
-            next_visit_date !== 0 ? (
+            {nextVisit !== null &&
+                nextVisit !== undefined &&
+                nextVisit !== 0 ? (
                 <React.Fragment>
                     <Typography color="text.secondary" sx={{ flex: 1 }}>
-                        {next_visit_date.doctorName}{" "}
-                        {next_visit_date.doctorSurname}
+                        {nextVisit.doctorName}{" "}
+                        {nextVisit.doctorSurname}
                         <br />
-                        Room {next_visit_date.location}
+                        Room {nextVisit.location}
                     </Typography>
                 </React.Fragment>
             ) : (
