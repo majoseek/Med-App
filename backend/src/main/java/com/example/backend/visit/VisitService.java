@@ -164,7 +164,7 @@ public class VisitService {
     public Visit getNextNextVisit(Long patientId) throws VisitNotFound {
         List<Visit> visits = visitRepository.getNextNextVisit(patientId);
         try {
-            return visits.get(1);
+            return visits.get(0);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             throw new VisitNotFound("No upcoming visits");
         }

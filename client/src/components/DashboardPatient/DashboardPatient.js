@@ -2,21 +2,11 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Stats from "./Stats";
 import Visits from "./Visits";
+import VisitsHistory from "./VisitsHistory";
 export default function DashboardPatient() {
 
     return (
         <Grid container spacing={3}>
-            <Grid item lg={12} xl={9}>
-                <Paper
-                    sx={{
-                        p: 2,
-                        display: "flex",
-                        flexDirection: "column",
-                    }}
-                >
-                    <Visits />
-                </Paper>
-            </Grid>
             <Grid item lg={12} xl={3}>
                 <Paper
                     sx={{
@@ -29,6 +19,28 @@ export default function DashboardPatient() {
                     }}
                 >
                     <Stats />
+                </Paper>
+            </Grid>
+            <Grid item lg={12} xl={9}>
+                <Paper
+                    sx={{
+                        p: 2,
+                        display: "flex",
+                        flexDirection: "column",
+                    }}
+                >
+                    <Visits />
+                </Paper>
+            </Grid>
+            <Grid item lg={12} xl={9}>
+                <Paper
+                    sx={{
+                        p: 2,
+                        display: "flex",
+                        flexDirection: "column",
+                    }}
+                >
+                    <VisitsHistory />
                 </Paper>
             </Grid>
         </Grid>

@@ -10,7 +10,7 @@ export default function Stats() {
 
     useEffect(() => {
         axios
-            .get("/nextVisit/1", {
+            .get("/nextNextVisit", {
                 headers: { Authorization: `Bearer ${cookies.access_token}` },
             })
             .then((result) => {
@@ -36,7 +36,7 @@ export default function Stats() {
                 nextVisit !== undefined &&
                 nextVisit !== 0 ? (
                 <React.Fragment>
-                    <Typography color="text.secondary" sx={{ flex: 1 }}>
+                    <Typography color="text.secondary" sx={{ textAlign: "center", flex: 1 }}>
                         {nextVisit.doctorName}{" "}
                         {nextVisit.doctorSurname}
                         <br />

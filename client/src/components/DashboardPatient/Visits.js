@@ -23,7 +23,7 @@ export default function Visits() {
                 headers: { Authorization: `Bearer ${cookies.access_token}` },
             })
             .then((result) => {
-                //setMyVisits(result.data);
+                setMyVisits(result.data);
                 //TODO: refresh visits after cancel
             });
     }, [cookies.access_token]);
@@ -44,14 +44,7 @@ export default function Visits() {
                 <TableBody>
                     {myVisits.map((row) => (
                         <TableRow key={`nextvisit_${row.id}`}>
-                            <TableCell>{`${new Date(
-                                row.visitDate
-                            ).getFullYear()}-${(
-                                "0" +
-                                (new Date(row.visitDate).getMonth() + 1)
-                            ).slice(-2)}-${new Date(
-                                row.visitDate
-                            ).getUTCDate()}`}</TableCell>
+                            <TableCell>{`${row.visitDate.slice(0, 10)} ${row.visitDate.slice(11, row.visitDate.length-3)}`}</TableCell>
                             <TableCell>
                                 {row.doctorName} {row.doctorSurname}
                             </TableCell>

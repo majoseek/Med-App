@@ -154,7 +154,7 @@ public class VisitController {
             VisitDto visit = convertToDto(service.createVisit(createVisitDto.getDate(),
                     createVisitDto.getDescription(), createVisitDto.getLocation(),
                     createVisitDto.getDoctor_id(),
-                    patientId, createVisitDto.getDuration()));
+                    patientId, 15));    //hardcoded visit duration
             return ResponseEntity.ok(visit);
         } catch (UserNotFound | InvalidPrincipal userNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body((userNotFound.getLocalizedMessage()));
@@ -213,7 +213,7 @@ public class VisitController {
     public ResponseEntity<?> getUserVisits(Principal principal) {
         try {
             Long userId = Utilities.getUserDbIdFromPrincipal(principal);
-            return ResponseEntity.ok(service.getUserVisits(userId).stream().map(this::convertToDto).collect(Collectors.toList()));
+            return ResponseEntity.ok(service.getNextVisits(userId).stream().map(this::convertToDto).collect(Collectors.toList()));
         } catch (InvalidPrincipal invalidPrincipal) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", invalidPrincipal.getLocalizedMessage()));
         }
