@@ -55,3 +55,11 @@ services:
       - keycloak
     networks: 
       - local-network
+  web:
+    build:
+      context: ./client
+    networks:
+      - local-network
+    ports:
+      - 80:3000
+    
