@@ -78,11 +78,7 @@ export default function Patients(props) {
                     {props.data.map((row) => (
                         <TableRow key={`patient_${row.visitId}`}>
                             <TableCell>
-                                {new Date(row.visitDate).getFullYear()}-
-                                {new Date(row.visitDate).getMonth() + 1}-
-                                {new Date(row.visitDate).getDay()}{" "}
-                                {new Date(row.visitDate).getHours()}:
-                                {new Date(row.visitDate).getMinutes()}
+                                {`${row.visitDate.slice(0, 10)} ${row.visitDate.slice(11, row.visitDate.length - 3)}`}
                             </TableCell>
                             <TableCell>
                                 {row.doctorName} {row.doctorSurname}

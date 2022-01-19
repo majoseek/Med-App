@@ -29,18 +29,20 @@ export default function NewVisit() {
             "0" +
             startDate.getMonth() +
             1
-        ).slice(-2)}-${startDate.getUTCDate() + 1}T08:00:00`;
+        ).slice(-2)}-${startDate.getUTCDate()}T08:00:00`;
         const resultDate2 = `${endDate.getFullYear()}-${(
             "0" +
             endDate.getMonth() +
             1
-        ).slice(-2)}-${endDate.getUTCDate() + 2}T00:00:00`;
+        ).slice(-2)}-${endDate.getUTCDate()}T00:00:00`;
+        console.log(resultDate, endDate)
         axios
             .get(
                 `/available?startDate=${resultDate}&endDate=${resultDate2}&spec=${spec}`,
                 { headers: { Authorization: `Bearer ${cookies.access_token}` } }
             )
             .then((result) => {
+
                 setVisits(result.data);
             });
     }

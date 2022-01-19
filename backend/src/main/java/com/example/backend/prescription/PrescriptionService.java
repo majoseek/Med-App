@@ -72,8 +72,7 @@ public class PrescriptionService {
         newPrescription.setMedicationsByPrescriptId(getMedications(prescriptionDto.getMedications()));
         newPrescription.setAmount(prescriptionDto.getAmount());
         newPrescription.setDoctorByDoctorUserId(doctorRepository.findById(doctorId).orElseThrow(() -> new UserNotFound("Doctor with this id was not found")));
-        //Long patientId = patientRepository.findPatientsBySurnameAndName(prescriptionDto.getName(), prescriptionDto.getSurname());
-        //newPrescription.setPatientByPatientUserId(patientRepository.findPatientByUserId(patientId));
+        newPrescription.setPatientByPatientUserId(patientRepository.findById(prescriptionDto.getPatientId()).orElseThrow(() -> new UserNotFound("Patient with this id was not found")));
         repository.save(newPrescription);
         return newPrescription;
     }
