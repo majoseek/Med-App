@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @Transactional
-@RequestMapping(path="/prescriptions")
+@RequestMapping(path = "/prescriptions")
 public class PrescriptionController {
 
     private final PrescriptionService service;
@@ -48,14 +48,14 @@ public class PrescriptionController {
     }
 
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
-    @GetMapping(path="/allByPatient/{patientId}", produces="application/json")
+    @GetMapping(path = "/allByPatient/{patientId}", produces = "application/json")
     public ResponseEntity<?> getPatientPrescription(@PathVariable Long patientId) {
         List<PrescriptionDto> prescriptions = service.getPatientPrescription(patientId).stream().map(this::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(prescriptions);
     }
 
     @RolesAllowed({"ROLE_doctor"})
-    @GetMapping(path="/allByDoctor/{doctorId}", produces = "application/json")
+    @GetMapping(path = "/allByDoctor/{doctorId}", produces = "application/json")
     public ResponseEntity<?> getDoctorPrescription(@PathVariable Long doctorId) {
         try {
             List<PrescriptionDto> prescriptions = service.getDoctorPrescription(doctorId).stream().map(this::convertToDto).collect(Collectors.toList());
@@ -65,48 +65,50 @@ public class PrescriptionController {
         }
     }
 
-    @GetMapping(path="/id/{prescriptionId}", produces = "application/json")
+    @GetMapping(path = "/id/{prescriptionId}", produces = "application/json")
     public ResponseEntity<?> getPrescriptionById(@PathVariable Long prescriptionId) {
         try {
             PrescriptionDto prescription = convertToDto(service.getPrescriptionById(prescriptionId));
             return ResponseEntity.ok(prescription);
-        } catch (PrescriptionNotFound prescriptionNotFound){
+        } catch (PrescriptionNotFound prescriptionNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body((prescriptionNotFound.getLocalizedMessage()));
         }
     }
 
     @RolesAllowed("ROLE_doctor")
-    @PostMapping(path="/create", produces = "application/json")
-    public ResponseEntity<?> createPrescription(@RequestBody CreatePrescriptionDto prescriptionDto) {
+    @PostMapping(path = "/create", produces = "application/json")
+    public ResponseEntity<?> createPrescription(@RequestBody CreatePrescriptionDto prescriptionDto, Principal principal) {
         try {
-            PrescriptionDto prescription = convertToDto(service.createPrescription(prescriptionDto));
+            Long doctorId = Utilities.getUserDbIdFromPrincipal(principal);
+            PrescriptionDto prescription = convertToDto(service.createPrescription(prescriptionDto, doctorId));
             return ResponseEntity.ok(prescription);
-        } catch (UserNotFound | MedicationNotFound userNotFound) {
+        } catch (UserNotFound | MedicationNotFound | InvalidPrincipal userNotFound) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body((userNotFound.getLocalizedMessage()));
         }
     }
 
-    @RolesAllowed("ROLE_doctor")
-    @PostMapping(path="/createByPesel", produces = "application/json")
-    public ResponseEntity<?> createByPatientPesel(@RequestBody CreateByPeselPrescriptionDto prescriptionDto) {
-        try{
-            PrescriptionDto prescription = convertToDto(service.createByPatientPesel(prescriptionDto));
-            return ResponseEntity.ok(prescription);
-        } catch (UserNotFound | MedicationNotFound userNotFound) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body((userNotFound.getLocalizedMessage()));
-        }
+//    @RolesAllowed("ROLE_doctor")
+//    @PostMapping(path = "/createByPesel", produces = "application/json")
+//    public ResponseEntity<?> createByPatientPesel(@RequestBody CreateByPeselPrescriptionDto prescriptionDto) {
+//        try {
+//            PrescriptionDto prescription = convertToDto(service.createByPatientPesel(prescriptionDto));
+//            return ResponseEntity.ok(prescription);
+//        } catch (UserNotFound | MedicationNotFound userNotFound) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body((userNotFound.getLocalizedMessage()));
+//        }
+//
+//    }
 
-    }
-
     @RolesAllowed("ROLE_doctor")
-    @DeleteMapping(path="/{prescriptionId}", produces = "application/json")
+    @DeleteMapping(path = "/{prescriptionId}", produces = "application/json")
     public ResponseEntity<?> deletePrescription(
             @PathVariable Long prescriptionId) {
         service.delete(prescriptionId);
-        return ResponseEntity.ok(prescriptionId);}
+        return ResponseEntity.ok(prescriptionId);
+    }
 
     @RolesAllowed({"ROLE_doctor", "ROLE_patient"})
-    @GetMapping(path="/myPrescriptions", produces = "application/json")
+    @GetMapping(path = "/myPrescriptions", produces = "application/json")
     public ResponseEntity<?> getUserPrescriptions(Principal principal) {
         try {
             Long userId = Utilities.getUserDbIdFromPrincipal(principal);

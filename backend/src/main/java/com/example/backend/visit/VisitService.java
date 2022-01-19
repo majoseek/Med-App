@@ -97,6 +97,7 @@ public class VisitService {
         Visit newVisit = new Visit();
         Doctor doctor = doctorService.getDoctorById(doctorId);
         Patient patient = patientService.getPatientById(patientId);
+
         newVisit.setDate(date);
         newVisit.setDescription(description);
         newVisit.setLocation(location);

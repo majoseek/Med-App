@@ -15,7 +15,7 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { Grid, TextField } from "@mui/material";
-
+import axios from "axios";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogContent-root": {
         padding: theme.spacing(2),
@@ -59,6 +59,7 @@ export default function Patients(props) {
         setOpen(true);
     };
     const handleClose = () => {
+
         setOpen(false);
     };
     return (
@@ -116,10 +117,7 @@ export default function Patients(props) {
                                                 <TextField
                                                     id={`dialog_${row.id}`}
                                                     label="Name"
-                                                    defaultValue={`${row.patient_name}`}
-                                                    InputProps={{
-                                                        readOnly: true,
-                                                    }}
+                                                    value={`${row.patientName}`}
                                                     variant="standard"
                                                     fullWidth
                                                 />

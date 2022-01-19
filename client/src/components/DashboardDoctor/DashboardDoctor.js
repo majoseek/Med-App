@@ -33,18 +33,13 @@ export default function DashboardDoctor() {
     const [myVisits, setMyVisits] = useState([]);
     const [numberOfPatients, setNumberOfPatients] = useState(0);
     const [cookies, setCookie] = useCookies(["access_token"]);
-    const [monthStats, setMonthStats] = useState(Array(12).fill(0));
     useEffect(() => {
-        setChartData(
-            monthStats.map((num, index) => {
-                return { month: months[index], number: num };
-            })
-        );
         axios
             .get("/myVisits", {
                 headers: { Authorization: `Bearer ${cookies.access_token}` },
             })
             .then((result) => {
+                console.log(result.data)
                 setMyVisits(result.data);
             });
         axios
@@ -59,7 +54,11 @@ export default function DashboardDoctor() {
                 headers: { Authorization: `Bearer ${cookies.access_token}` },
             })
             .then((result) => {
-                setMonthStats(result.data);
+                setChartData(
+                    result.data.map((num, index) => {
+                        return { month: months[index], number: num };
+                    })
+                );
             });
     }, [cookies.access_token]);
     return (

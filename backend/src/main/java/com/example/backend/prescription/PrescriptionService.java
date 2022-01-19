@@ -33,11 +33,11 @@ public class PrescriptionService {
         this.medicationRepository = medicationRepository;
     }
 
-    public List<Prescription> getPatientPrescription (Long patientId) {
+    public List<Prescription> getPatientPrescription(Long patientId) {
         return repository.findAllByPatientId(patientId);
     }
 
-    public List<Prescription> getDoctorPrescription(Long doctorId) throws UserNotFound{
+    public List<Prescription> getDoctorPrescription(Long doctorId) throws UserNotFound {
         return repository.findAllByDoctorByDoctorUserId(doctorId);
     }
 
@@ -53,8 +53,8 @@ public class PrescriptionService {
         return repository.save(newPrescription);
     }
 
-    public void delete(Long prescriptionId){
-        if(repository.existsById(prescriptionId)) {
+    public void delete(Long prescriptionId) {
+        if (repository.existsById(prescriptionId)) {
             repository.deleteById(prescriptionId);
         }
     }
@@ -67,29 +67,30 @@ public class PrescriptionService {
         return meds;
     }
 
-    public Prescription createPrescription(CreatePrescriptionDto prescriptionDto) throws UserNotFound, MedicationNotFound {
+    public Prescription createPrescription(CreatePrescriptionDto prescriptionDto, Long doctorId) throws UserNotFound, MedicationNotFound {
         final Prescription newPrescription = new Prescription();
         newPrescription.setMedicationsByPrescriptId(getMedications(prescriptionDto.getMedications()));
         newPrescription.setAmount(prescriptionDto.getAmount());
-        newPrescription.setDoctorByDoctorUserId(doctorRepository.findById(prescriptionDto.getDoctorId()).orElseThrow(() -> new UserNotFound("Doctor with this id was not found")));
-        newPrescription.setPatientByPatientUserId(patientRepository.findById(prescriptionDto.getPatientId()).orElseThrow(() -> new UserNotFound("Patient with this id was not found")));
+        newPrescription.setDoctorByDoctorUserId(doctorRepository.findById(doctorId).orElseThrow(() -> new UserNotFound("Doctor with this id was not found")));
+        //Long patientId = patientRepository.findPatientsBySurnameAndName(prescriptionDto.getName(), prescriptionDto.getSurname());
+        //newPrescription.setPatientByPatientUserId(patientRepository.findPatientByUserId(patientId));
         repository.save(newPrescription);
         return newPrescription;
     }
 
-    public Prescription createByPatientPesel(CreateByPeselPrescriptionDto prescriptionDto)
-            throws UserNotFound, MedicationNotFound {
-        final Prescription newPrescription = new Prescription();
-        final Patient newPatient = patientRepository.findPatientByPesel(prescriptionDto.getPesel())
-                .orElseThrow(() -> new UserNotFound(String.format("Patient with pesel %s doesn't exist", prescriptionDto.getPesel())));
-        final Doctor newDoctor = doctorRepository.findById(prescriptionDto.getDoctorId())
-                .orElseThrow(() -> new UserNotFound(String.format("Doctor with id %d doesn't exist", prescriptionDto.getDoctorId())));
-        final List<Medication> medications = getMedications(prescriptionDto.getMedications());
-        newPrescription.setPatientByPatientUserId(newPatient);
-        newPrescription.setDoctorByDoctorUserId(newDoctor);
-        newPrescription.setAmount(prescriptionDto.getAmount());
-        newPrescription.setMedicationsByPrescriptId(medications);
-        repository.save(newPrescription);
-        return newPrescription;
-    }
+//    public Prescription createByPatientPesel(CreateByPeselPrescriptionDto prescriptionDto)
+//            throws UserNotFound, MedicationNotFound {
+//        final Prescription newPrescription = new Prescription();
+//        final Patient newPatient = patientRepository.findPatientByPesel(prescriptionDto.getPesel())
+//                .orElseThrow(() -> new UserNotFound(String.format("Patient with pesel %s doesn't exist", prescriptionDto.getPesel())));
+//        final Doctor newDoctor = doctorRepository.findById(prescriptionDto.getDoctorId())
+//                .orElseThrow(() -> new UserNotFound(String.format("Doctor with id %d doesn't exist", prescriptionDto.getDoctorId())));
+//        final List<Medication> medications = getMedications(prescriptionDto.getMedications());
+//        newPrescription.setPatientByPatientUserId(newPatient);
+//        newPrescription.setDoctorByDoctorUserId(newDoctor);
+//        newPrescription.setAmount(prescriptionDto.getAmount());
+//        newPrescription.setMedicationsByPrescriptId(medications);
+//        repository.save(newPrescription);
+//        return newPrescription;
+//    }
 }

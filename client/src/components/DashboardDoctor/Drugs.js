@@ -27,7 +27,7 @@ export default function Drugs() {
                         alignItems: "center",
                     }}
                 >
-                    <Title>Avaible drugs</Title>
+                    <Title>Avaible meds</Title>
                     <Table size="small">
                         <TableHead>
                             <TableRow>

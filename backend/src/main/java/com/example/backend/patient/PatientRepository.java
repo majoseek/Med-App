@@ -18,5 +18,6 @@ public interface PatientRepository extends CrudRepository<Patient, Long> {
 
     Optional<Patient> findPatientByPesel(String pesel);
 
+
     List<Patient> getAllByIllnessesByUserIdIn(Collection<Illness> illnessesByUserId);
 }

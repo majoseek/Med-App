@@ -5,8 +5,8 @@ import java.util.List;
 public class CreatePrescriptionDto {
     private List<Long> medications;
     private Long amount;
-    private Long doctorId;
-    private Long patientId;
+    private String name;
+    private String surname;
 
     public List<Long> getMedications() {
         return medications;
@@ -24,21 +24,20 @@ public class CreatePrescriptionDto {
         this.amount = amount;
     }
 
-    public Long getDoctorId() {
-        return doctorId;
+
+    public String getName() {
+        return name;
     }
 
-    public void setDoctorId(Long doctorId) {
-        this.doctorId = doctorId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Long getPatientId() {
-        return patientId;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setPatientId(Long patientId) {
-        this.patientId = patientId;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
-
-
 }

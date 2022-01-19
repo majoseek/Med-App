@@ -28,7 +28,7 @@ export default function LeftButtons() {
                 <ListItemIcon>
                     <MedicalServicesIcon />
                 </ListItemIcon>
-                <ListItemText primary="Drugs" />
+                <ListItemText primary="Medications" />
             </ListItem>
             <ListItem
                 button
