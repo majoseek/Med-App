@@ -16,6 +16,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { Grid, TextField } from "@mui/material";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogContent-root": {
         padding: theme.spacing(2),
@@ -62,6 +63,14 @@ export default function Patients(props) {
 
         setOpen(false);
     };
+    const [cookies, setCookie] = useCookies("access_token");
+    const add_prescription = (patient_id, med_id, amount) => {
+        axios.post("/prescriptions/create", {
+            patientId: patient_id,
+            amount: amount,
+            medications: [1, 2, 3]
+        }, { headers: { Authorization: `Bearer ${cookies.access_token}` } }).then(() => console.log("DODALEM"))
+    }
     return (
         <React.Fragment>
             <Title>My patients</Title>
@@ -81,7 +90,7 @@ export default function Patients(props) {
                                 {`${row.visitDate.slice(0, 10)} ${row.visitDate.slice(11, row.visitDate.length - 3)}`}
                             </TableCell>
                             <TableCell>
-                                {row.doctorName} {row.doctorSurname}
+                                {row.patientName} {row.patientSurname}
                             </TableCell>
                             <TableCell>{row.description}</TableCell>
                             <TableCell align="right">
@@ -130,7 +139,10 @@ export default function Patients(props) {
                                         </Grid>
                                     </DialogContent>
                                     <DialogActions>
-                                        <Button autoFocus onClick={handleClose}>
+                                        <Button autoFocus onClick={() => {
+                                            handleClose();
+                                            add_prescription(row.patientId, 1, 10)
+                                        }}>
                                             Add
                                         </Button>
                                     </DialogActions>

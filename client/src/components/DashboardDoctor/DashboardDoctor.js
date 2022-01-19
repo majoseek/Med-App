@@ -39,7 +39,6 @@ export default function DashboardDoctor() {
                 headers: { Authorization: `Bearer ${cookies.access_token}` },
             })
             .then((result) => {
-                console.log(result.data)
                 setMyVisits(result.data);
             });
         axios

@@ -35,7 +35,6 @@ export default function NewVisit() {
             endDate.getMonth() +
             1
         ).slice(-2)}-${endDate.getUTCDate()}T00:00:00`;
-        console.log(resultDate, endDate)
         axios
             .get(
                 `/available?startDate=${resultDate}&endDate=${resultDate2}&spec=${spec}`,

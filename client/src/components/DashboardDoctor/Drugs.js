@@ -31,6 +31,7 @@ export default function Drugs() {
                     <Table size="small">
                         <TableHead>
                             <TableRow>
+                                <TableCell>ID</TableCell>
                                 <TableCell>Name</TableCell>
                                 <TableCell>Content</TableCell>
                             </TableRow>
@@ -38,6 +39,7 @@ export default function Drugs() {
                         <TableBody>
                             {drugs.map((row, index) => (
                                 <TableRow key={`drug_${index}`}>
+                                    <TableCell>{index}</TableCell>
                                     <TableCell>{row.medicationName}</TableCell>
                                     <TableCell>{row.dosage}</TableCell>
                                 </TableRow>

@@ -19,38 +19,30 @@ export default function Prescriptions() {
                 headers: { Authorization: `Bearer ${cookies.access_token}` },
             })
             .then((result) => {
-                //TODO
+                setPrescriptions(result.data);
             });
-    }, [prescriptions, cookies.access_token]);
+    }, [cookies.access_token]);
     return (
         <React.Fragment>
             <Title>My prescriptions</Title>
             <Table size="small">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Name</TableCell>
                         <TableCell>Doctor</TableCell>
-                        <TableCell>Visit length [min]</TableCell>
-                        <TableCell>Price</TableCell>
-                        <TableCell align="right">Action</TableCell>
+                        <TableCell>Description</TableCell>
+                        <TableCell>Amount</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {prescriptions.map((row) => (
-                        <TableRow key={`patient_${row.id}`}>
-                            <TableCell>{row.date}</TableCell>
-                            <TableCell>{row.patient_name}</TableCell>
-                            <TableCell>{row.visit_len}</TableCell>
-                            <TableCell>{`${row.price}$`}</TableCell>
-                            <TableCell align="right">
-                                <button
-                                    className="btn btn-primary text-uppercase rounded-pill"
-                                    style={{ fontSize: "14px" }}
-                                >
-                                    Cancel visit
-                                </button>
-                            </TableCell>
-                        </TableRow>
+                        row.medicationDto.map((med_row, index) => (
+                            <TableRow key={`prescript_${row.id}_${index}`}>
+                                <TableCell>{row.doctorName} {row.doctorSurname}</TableCell>
+                                <TableCell>{med_row.medicationName}</TableCell>
+                                <TableCell>{med_row.dosage}</TableCell>
+                            </TableRow>
+                        ))
+
                     ))}
                 </TableBody>
             </Table>
