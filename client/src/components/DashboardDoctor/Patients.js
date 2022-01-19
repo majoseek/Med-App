@@ -56,6 +56,8 @@ BootstrapDialogTitle.propTypes = {
 };
 export default function Patients(props) {
     const [open, setOpen] = React.useState(false);
+    const [meds, setMeds] = React.useState("");
+    const [amount, setAmount] = React.useState(0);
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -64,12 +66,14 @@ export default function Patients(props) {
         setOpen(false);
     };
     const [cookies, setCookie] = useCookies("access_token");
-    const add_prescription = (patient_id, med_id, amount) => {
+    const add_prescription = (visit_id, patient_id, meds, amount) => {
         axios.post("/prescriptions/create", {
             patientId: patient_id,
             amount: amount,
-            medications: [1, 2, 3]
-        }, { headers: { Authorization: `Bearer ${cookies.access_token}` } }).then(() => console.log("DODALEM"))
+            medications: meds.split(' ')
+        }, { headers: { Authorization: `Bearer ${cookies.access_token}` } }).then(() => {
+            axios.delete(`/visits/id/${visit_id}`, { headers: { Authorization: `Bearer ${cookies.access_token}` } }).then(() => window.location.reload())
+        })
     }
     return (
         <React.Fragment>
@@ -132,6 +136,17 @@ export default function Patients(props) {
                                                     id={`dialog_drugs__${row.id}`}
                                                     label="Drugs"
                                                     defaultValue=""
+                                                    onChange={(e) => { setMeds(e.target.value) }}
+                                                    variant="standard"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <TextField
+                                                    id={`dialog_amount__${row.id}`}
+                                                    label="Amount"
+                                                    defaultValue=""
+                                                    onChange={(e) => { setAmount(e.target.value) }}
                                                     variant="standard"
                                                     fullWidth
                                                 />
@@ -141,7 +156,7 @@ export default function Patients(props) {
                                     <DialogActions>
                                         <Button autoFocus onClick={() => {
                                             handleClose();
-                                            add_prescription(row.patientId, 1, 10)
+                                            add_prescription(row.visitId, row.patientId, meds, amount)
                                         }}>
                                             Add
                                         </Button>
