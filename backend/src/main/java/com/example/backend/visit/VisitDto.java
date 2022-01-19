@@ -4,12 +4,16 @@ import java.time.LocalDateTime;
 
 public class VisitDto {
     private Long visitId;
+    private Long patientId;
     private String patientName;
     private String patientSurname;
+    private Long doctorId;
     private String doctorName;
     private String doctorSurname;
     private LocalDateTime visitDate;
+    private Integer Duration;
     private String description;
+    private String location;
 
     public Long getVisitId() {
         return visitId;
@@ -74,6 +78,28 @@ public class VisitDto {
     public void setLocation(String location) {
         this.location = location;
     }
+    public Long getPatientId() {
+        return patientId;
+    }
 
-    private String location;
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
+    }
+
+    public Long getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(Long doctorId) {
+        this.doctorId = doctorId;
+    }
+
+
+    public Integer getDuration() {
+        return Duration;
+    }
+
+    public void setDuration(Integer duration) {
+        Duration = duration;
+    }
 }
